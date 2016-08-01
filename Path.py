@@ -4,4 +4,7 @@
 # Author   :zaber
 
 class Path(object):
-    tianchi_fresh_comp_train_item
+    tianchi_fresh_comp_train_item = 'tianchi_fresh_comp_train_item.csv'
+    tianchi_fresh_comp_train_user = 'tianchi_fresh_comp_train_user.csv'
+
+
