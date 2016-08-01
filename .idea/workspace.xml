@@ -22,7 +22,11 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="PropertiesComponent">
+<<<<<<< HEAD
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript.Linters.JSLint" />
+=======
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
+>>>>>>> 1dd796d1e5ae6c39bbc3034113fbf33771b3c594
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -30,10 +34,17 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< HEAD
       <created>1470068247795</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1470068247795</updated>
+=======
+      <created>1470019048970</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1470019048970</updated>
+>>>>>>> 1dd796d1e5ae6c39bbc3034113fbf33771b3c594
     </task>
     <servers />
   </component>
