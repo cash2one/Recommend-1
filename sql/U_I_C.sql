@@ -69,3 +69,14 @@ from tb_tianchi_user
 group by user_id,behavior_type
 order by rate desc,s4 desc,s3 desc,s2 desc,s1 desc; 
 select * from tb_conversion limit 10;
+
+
+-- 交互人数
+drop table tb_item_usernum;
+create table tb_item_usernum
+SELECT item_id, count(user_id)as alluser,count(distinct user_id)as actuser
+FROM tb_tianchi_user
+GROUP BY item_id
+ORDER BY actuser DESC,alluser DESC;
+
+select * from tb_item_usernum;
