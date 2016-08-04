@@ -1,12 +1,15 @@
+use recommend;
+ -- all predict
+select count(a.user_id) from (
+select user_id,item_id from tb_test_predict 
+where time >='2014-12-14'
+group by user_id,item_id 
+order by user_id
+)as a
+;
 
-drop table tb_turnhead;
-create table tb_turnhead as 
-select  item_category, 
-count(user_id)as alluser, 
-count(distinct user_id) as actuser, 
-count(distinct user_id) /count(user_id)as rate 
-from tb_tianchi_user 
-group by item_category 
-order by rate desc,actuser desc,alluser desc;
+-- 18 buy 
+create table tb_test_result as
+select * from tb_tianchi_user where
+(time>='2014-12-18 00' and time<='2014-12-18 24' and behavior_type ='4')
 
-select * from tb_turnhead;
