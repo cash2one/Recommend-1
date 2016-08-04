@@ -1,37 +1,44 @@
 use recommend;
-drop table tb_test_predict;
-create table tb_test_predict as
+
+-- create train 11-17 
+drop table tb_train_11_17;
+
+create table tb_train_11_17 as
 select * from tb_tianchi_user where
-(time>='2014-12-10 00' and time<='2014-12-16 24' and behavior_type!='1')
+(time>='2014-12-11 00' and time<='2014-12-16 24' and behavior_type!='1')
 or
 (time>='2014-12-17 00' and time<='2014-12-17 24');
 
-select * from tb_test_predict;
+select * from tb_train_11_17;
 
-create table tb_real_predict as
+-- create train 11-17 result
+drop table tb_train_11_17_result;
+
+create table tb_train_11_17_result as
 select * from tb_tianchi_user where
-(time>='2014-12-11 00' and time<='2014-12-17 24' and behavior_type!='1')
+(time >='2014-12-18 00' and time <='2014-12-18 24' and behavior_type='4')
+;
+select * from tb_train_11_17_result;
+
+
+
+-- 测试集
+drop table tb_test;
+
+create table tb_test as
+select * from tb_tianchi_user where
+(time>='2014-12-12 00' and time<='2014-12-17 24' and behavior_type!='1')
 or
 (time>='2014-12-18 00' and time<='2014-12-18 24');
 
+<<<<<<< HEAD
 select * from tb_real_predict;
 
 
- -- all predict
-select count(a.user_id) from (
-select user_id,item_id from tb_test_predict 
-where time >='2014-12-14'
-group by user_id,item_id 
-order by user_id
-)as a
-;
+ 
 
--- 18 buy 
-create table tb_test_result as
-select * from tb_tianchi_user where
-(time>='2014-12-18 00' and time<='2014-12-18 24' and behavior_type ='4')
-;
-
+-- data output csv
+>>>>>>> 44230e06b11d26736e9d5f958fecc9a06f79d99a
 select user_id,item_id from tb_tianchi_user where 
 (time >='2014-12-18 00' and time <='2014-12-18 24')
 group by user_id,item_id
@@ -40,3 +47,4 @@ into outfile 'D:/asd.csv'
 fields terminated by ','
 enclosed by '"'
 lines terminated by '\n'; 
+

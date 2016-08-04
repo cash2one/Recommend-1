@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-# Filename :Analysis
-
-# Date     :2016-08-02 01:40
+# Filename :Test
+# Date     :2016-08-04 16:21
 # Author   :zaber
 
 import MySQLdb
@@ -11,7 +10,7 @@ import csv
 from numpy import *
 
 
-def test():
+def testSQL():
     db = MySQLdb.connect("localhost", "root", "1234", "recommend")
     sql = "select count(*) from tb_tianchi_user"
     # 使用cursor()方法获取操作游标
@@ -26,7 +25,7 @@ def test():
     db.close()
 
 
-def count():
+def testCSV():
     reader = csv.reader(open(Path.tianchi_fresh_comp_train_item))
     item_id = []
     item_geo = []
@@ -154,4 +153,3 @@ def SqlToCsv():
         f_csv.writerow(headers)
         for i in range(shape(predict)[0]):
             f_csv.writerow(predict[i])
-
