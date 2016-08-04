@@ -31,14 +31,13 @@ select * from tb_tianchi_user where
 or
 (time>='2014-12-18 00' and time<='2014-12-18 24');
 
-<<<<<<< HEAD
-select * from tb_real_predict;
+select * from tb_test;
 
 
  
 
 -- data output csv
->>>>>>> 44230e06b11d26736e9d5f958fecc9a06f79d99a
+
 select user_id,item_id from tb_tianchi_user where 
 (time >='2014-12-18 00' and time <='2014-12-18 24')
 group by user_id,item_id
