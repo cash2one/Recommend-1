@@ -1,18 +1,14 @@
 use recommend;
-drop table tb_test_predict;
-create table tb_test_predict as
-select * from tb_tianchi_user where
-(time>='2014-12-10 00' and time<='2014-12-16 24' and behavior_type!='1')
-or
-(time>='2014-12-17 00' and time<='2014-12-17 24');
-
-select * from tb_test_predict;
 
 
-create table tb_real_predict as
-select * from tb_tianchi_user where
-(time>='2014-12-11 00' and time<='2014-12-17 24' and behavior_type!='1')
-or
-(time>='2014-12-18 00' and time<='2014-12-18 24');
-
-select * from tb_real_predict;
+-- train 11-17 7 day item_category  which showed in 8th day numbers 
+select count(distinct item_category ) from tb_train_11_17; 
+select count(distinct item_category ) from tb_train_11_17_result; 
+select count(a.item_category ) from (
+select distinct item_category  from tb_train_11_17 
+)as a
+where a.item_category  in (
+select distinct item_category 
+from tb_train_11_17_result
+)
+;
