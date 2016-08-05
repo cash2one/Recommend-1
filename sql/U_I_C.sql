@@ -1,95 +1,132 @@
-use recommend;
+USE recommend;
+CREATE TABLE tb_tianchi_user
+          (
+                    user_id       CHAR (20)
+                  , item_id       CHAR(20)
+                  , behavior_type CHAR(20)
+                  , user_geohash  CHAR(20)
+                  , item_category CHAR(20)
+                  ,               TIME CHAR(20)
+          )
+;
 
-create table tb_tianchi_user(
-user_id char (20),
-item_id char(20),
-behavior_type char(20),
-user_geohash char(20),
-item_category char(20),
-time char(20)
-);
-
-
-LOAD DATA INFILE 'E:/PycharmProjects/Recommend/tianchi_fresh_comp_train_user.csv'   
-INTO TABLE tb_tianchi_user   
-FIELDS TERMINATED BY ','   
-OPTIONALLY ENCLOSED BY '"'   
-LINES TERMINATED BY '\n'; 
-
+LOAD data INFILE 'E:/PycharmProjects/Recommend/tianchi_fresh_comp_train_user.csv' INTO TABLE tb_tianchi_user fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
 -- 用户活跃度
 DROP TABLE IF EXISTS `tb_liveness`;
-
-create table tb_liveness as (
-SELECT user_id, count( * ) AS count
-FROM tb_tianchi_user
-GROUP BY user_id
-ORDER BY count DESC);
-
-select count(*) from tb_liveness;
-
+CREATE TABLE tb_liveness AS
+(
+          SELECT
+                    user_id
+                  , COUNT( * ) AS COUNT
+          FROM
+                    tb_tianchi_user
+          GROUP BY
+                    user_id
+          ORDER BY
+                    COUNT DESC );
+SELECT
+          COUNT(*)
+FROM
+          tb_liveness
+;
 
 -- 商品热度
 DROP TABLE IF EXISTS `tb_heat_item`;
-
-create table tb_heat_item as (
-SELECT item_id, count( * ) AS count
-FROM tb_tianchi_user
-GROUP BY item_id
-ORDER BY count DESC);
-
-select count(*) from tb_heat_item;
-
+CREATE TABLE tb_heat_item AS
+(
+          SELECT
+                    item_id
+                  , COUNT( * ) AS COUNT
+          FROM
+                    tb_tianchi_user
+          GROUP BY
+                    item_id
+          ORDER BY
+                    COUNT DESC );
+SELECT
+          COUNT(*)
+FROM
+          tb_heat_item
+;
 
 -- 类别热度
 DROP TABLE IF EXISTS `tb_heat_category`;
-
-create table tb_heat_category as (
-SELECT item_category, count( * ) AS count
-FROM tb_tianchi_user
-GROUP BY item_category
-ORDER BY count DESC);
-
-select count(*) from tb_heat_category;
-
+CREATE TABLE tb_heat_category AS
+(
+          SELECT
+                    item_category
+                  , COUNT( * ) AS COUNT
+          FROM
+                    tb_tianchi_user
+          GROUP BY
+                    item_category
+          ORDER BY
+                    COUNT DESC );
+SELECT COUNT(*) FROM tb_heat_category;
 
 -- 转化率
 DROP TABLE IF EXISTS `tb_conversion`;
-create table tb_conversion
-select user_id,
-sum(case when behavior_type='1' then 1 else 0 end)as s1,
-sum(case when behavior_type='2' then 1 else 0 end)as s2,
-sum(case when behavior_type='3' then 1 else 0 end)as s3,
-sum(case when behavior_type='4' then 1 else 0 end)as s4,
-sum(case when behavior_type='4' then 1 else 0 end)/(
-sum(case when behavior_type='1' then 1 else 0 end)+
-sum(case when behavior_type='2' then 1 else 0 end)+
-sum(case when behavior_type='3' then 1 else 0 end)+
-sum(case when behavior_type='4' then 1 else 0 end))as rate
-from tb_tianchi_user
-group by user_id,behavior_type
-order by rate desc,s4 desc,s3 desc,s2 desc,s1 desc; 
-select * from tb_conversion limit 10;
+CREATE TABLE tb_conversion
+SELECT
+          user_id
+        , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END)                                                                                                                                                                                                                      AS s1
+        , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END)                                                                                                                                                                                                                      AS s2
+        , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END)                                                                                                                                                                                                                      AS s3
+        , SUM( CASE WHEN behavior_type='4' THEN 1 ELSE 0 END)                                                                                                                                                                                                                      AS s4
+        , SUM( CASE WHEN behavior_type='4' THEN 1 ELSE 0 END)/
+        ( SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END)+ 
+          SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END)+ 
+          SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END)+ 
+          SUM( CASE WHEN behavior_type='4' THEN 1 ELSE 0 END))AS rate
+FROM
+          tb_tianchi_user
+GROUP BY
+          user_id
+        , behavior_type
+ORDER BY
+          rate DESC
+        , s4 DESC
+        , s3 DESC
+        , s2 DESC
+        , s1 DESC
+;
 
+SELECT * FROM tb_conversion LIMIT 10;
 
 -- 交互人数
-drop table tb_item_usernum;
-create table tb_item_usernum
-SELECT item_id, count(user_id)as alluser,count(distinct user_id)as actuser
-FROM tb_tianchi_user
-GROUP BY item_id
-ORDER BY actuser DESC,alluser DESC;
+DROP TABLE  tb_item_usernum;
+CREATE TABLE tb_item_usernum
+SELECT
+          item_id
+        , COUNT(user_id)         AS alluser
+        , COUNT(DISTINCT user_id)AS actuser
+FROM
+          tb_tianchi_user
+GROUP BY
+          item_id
+ORDER BY
+          actuser DESC
+        , alluser DESC
+;
 
-select * from tb_item_usernum;
+SELECT * FROM tb_item_usernum;
 
 -- 回头率
-drop table tb_turnhead;
-create table tb_turnhead as 
-select  item_category, 
-count(user_id)as alluser, 
-count(distinct user_id) as actuser, 
-count(distinct user_id) /count(user_id)as rate 
-from tb_tianchi_user 
-group by item_category 
-order by rate desc,actuser desc,alluser desc;
+DROP TABLE  tb_turnhead;
+CREATE TABLE tb_turnhead AS
+SELECT
+          item_category
+        , COUNT(user_id)                         AS alluser
+        , COUNT(DISTINCT user_id)                AS actuser
+        , COUNT(DISTINCT user_id) /COUNT(user_id)AS rate
+FROM
+          tb_tianchi_user
+GROUP BY
+          item_category
+ORDER BY
+          rate DESC
+        , actuser DESC
+        , alluser DESC
+;
 
-select * from tb_turnhead;
+SELECT * FROM tb_turnhead;
