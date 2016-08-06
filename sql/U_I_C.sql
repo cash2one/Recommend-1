@@ -82,51 +82,42 @@ SELECT COUNT(*) FROM tb_i_feature;
 
 SELECT * FROM tb_i_feature LIMIT 10;
 
--- 类别热度
-DROP TABLE IF EXISTS `tb_heat_category`;
-CREATE TABLE tb_heat_category AS
-(
-          SELECT
-                    item_category
-                  , COUNT( * ) AS COUNT
-          FROM
-                    tb_tianchi_user
-          GROUP BY
-                    item_category
-          ORDER BY
-                    COUNT DESC );
-SELECT COUNT(*) FROM tb_heat_category;
+-- c_feature
+DROP TABLE IF EXISTS `tb_c_feature`;
 
-SELECT * FROM tb_conversion LIMIT 10;
-
--- turnhead
-DROP TABLE IF EXISTS `tb_turnhead`;
-
-CREATE TABLE tb_turnhead AS
-SELECT
-          a.item_category
-        , SUM(CASE WHEN a.count>1 THEN 1 ELSE 0 END)               AS actuser
-        , COUNT(user_id)                                           AS alluser
-        , SUM(CASE WHEN a.count>1 THEN 1 ELSE 0 END)/COUNT(user_id)AS rate
-FROM
+CREATE TABLE tb_c_feature AS
           (
                     SELECT
-                              item_category
-                            , user_id
-                            , COUNT( user_id)AS COUNT
+                              a.item_category
+                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
+                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
+                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
+                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
+                            , SUM(a.alluser)                                                              AS allcount
+                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
+                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
+                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
+                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
+                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
+                            , SUM(a.actuser)                                                              AS actcount
+                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
                     FROM
-                              tb_tianchi_user
-                    WHERE 
-                              behavior_type='4'
+                              (
+                                        SELECT
+                                                  item_category
+                                                , behavior_type
+                                                , COUNT(user_id)         AS alluser
+                                                , COUNT(DISTINCT user_id)AS actuser
+                                        FROM
+                                                  tb_tianchi_user
+                                        GROUP BY
+                                                  item_category
+                                                , behavior_type) AS a
                     GROUP BY
-                              item_category
-                            , user_id)AS a
-GROUP BY
-          a.item_category
-ORDER BY
-          rate DESC
+                              a.item_category
+          )
 ;
+          
+ SELECT COUNT(*) FROM tb_c_feature ;
 
-SELECT COUNT(*) FROM tb_turnhead ;
-
-SELECT * FROM tb_turnhead limit 10 ;
+ SELECT * FROM tb_c_feature limit 10 ;
