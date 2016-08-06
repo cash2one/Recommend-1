@@ -1,20 +1,25 @@
--- 用户活跃度 liveness_18_24_nov
-DROP TABLE IF EXISTS `tb_liveness`;
+-- 商品热度
+DROP TABLE IF EXISTS `tb_heat_item`;
 
-CREATE TABLE tb_liveness_18_24_nov AS
+CREATE TABLE tb_heat_item AS
           (
                     SELECT
-                              user_id
-                            , COUNT( * ) AS COUNT
+                              item_id
+                            , SUM(CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS c1
+                            , SUM(CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS c2
+                            , SUM(CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS c3
+                            , SUM(CASE WHEN behavior_type='4' THEN 1 ELSE 0 END) AS c4
+                            , COUNT(*)                                           AS COUNT
+                            , COUNT(user_id)                                     AS alluser
+                            , COUNT(DISTINCT user_id)                            AS actuser
                     FROM
-                              tb_train_18_24_nov
+                              tb_tianchi_user
                     GROUP BY
-                              user_id
+                              item_id
                     ORDER BY
-                              COUNT DESC
+                              c4 DESC
+                            , c3 DESC
+                            , c2 DESC
+                            , c1 DESC
           )
 ;
-
-SELECT COUNT(*) FROM tb_liveness_18_24_nov ;
-
-SELECT * FROM tb_liveness_18_24_nov limit 10 ;
