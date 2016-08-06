@@ -44,33 +44,43 @@ CREATE TABLE tb_u_featur AS
 
 -- SELECT * FROM tb_u_feature limit 10 ;
 
--- 商品热度
-DROP TABLE IF EXISTS `tb_heat_item`;
+-- i_feature
+DROP TABLE IF EXISTS `tb_i_feature`;
 
-CREATE TABLE tb_heat_item AS
+CREATE TABLE tb_i_feature AS
           (
                     SELECT
-                              item_id
-                            , SUM(CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS c1
-                            , SUM(CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS c2
-                            , SUM(CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS c3
-                            , SUM(CASE WHEN behavior_type='4' THEN 1 ELSE 0 END) AS c4
-                            , count(*)as count
+                              a.item_id
+                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)AS all1
+                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)AS all2
+                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)AS all3
+                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)AS all4
+                            , SUM(a.alluser)                                              AS allcount
+                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)AS act1
+                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)AS act2
+                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)AS act3
+                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)AS act4
+                            , SUM(a.actuser)                                              AS actcount
                     FROM
-                              tb_tianchi_user
+                              (
+                                        SELECT
+                                                  item_id
+                                                , behavior_type
+                                                , COUNT(user_id)         AS alluser
+                                                , COUNT(DISTINCT user_id)AS actuser
+                                        FROM
+                                                  tb_tianchi_user
+                                        GROUP BY
+                                                  item_id
+                                                , behavior_type) AS a
                     GROUP BY
-                              item_id
-                    ORDER BY
-                              c4 DESC
-                            , c3 DESC
-                            , c2 DESC
-                            , c1 DESC
+                              a.item_id
           )
 ;
 
-SELECT COUNT(*) FROM tb_heat_item ;
+SELECT COUNT(*) FROM tb_i_feature;
 
-SELECT * FROM tb_heat_item limit 10;
+SELECT * FROM tb_i_feature LIMIT 10;
 
 -- 类别热度
 DROP TABLE IF EXISTS `tb_heat_category`;
@@ -88,24 +98,6 @@ CREATE TABLE tb_heat_category AS
 SELECT COUNT(*) FROM tb_heat_category;
 
 SELECT * FROM tb_conversion LIMIT 10;
-
--- 交互人数
-DROP TABLE  tb_item_usernum;
-CREATE TABLE tb_item_usernum
-SELECT
-          item_id
-        , COUNT(user_id)         AS alluser
-        , COUNT(DISTINCT user_id)AS actuser
-FROM
-          tb_tianchi_user
-GROUP BY
-          item_id
-ORDER BY
-          actuser DESC
-        , alluser DESC
-;
-
-SELECT * FROM tb_item_usernum;
 
 -- turnhead
 DROP TABLE IF EXISTS `tb_turnhead`;
