@@ -1,20 +1,7 @@
-USE recommend;
-CREATE TABLE tb_tianchi_user
-          (
-                    user_id       CHAR (20)
-                  , item_id       CHAR(20)
-                  , behavior_type CHAR(20)
-                  , user_geohash  CHAR(20)
-                  , item_category CHAR(20)
-                  ,               TIME CHAR(20)
-          )
-;
+-- u_feature_test
+DROP TABLE IF EXISTS `tb_u_feature_test`;
 
-LOAD data INFILE 'E:/PycharmProjects/Recommend/tianchi_fresh_comp_train_user.csv' INTO TABLE tb_tianchi_user fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
--- u_feature
-DROP TABLE IF EXISTS `tb_u_feature`;
-
-CREATE TABLE tb_u_feature AS
+CREATE TABLE tb_u_feature_test AS
           (
                     SELECT
                               user_id
@@ -29,7 +16,7 @@ CREATE TABLE tb_u_feature AS
                               SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END)+ 
                               SUM( CASE WHEN behavior_type='4' THEN 1 ELSE 0 END))AS rate
                     FROM
-                              tb_tianchi_user
+                              tb_test
                     GROUP BY
                               user_id
                     ORDER BY
@@ -40,14 +27,14 @@ CREATE TABLE tb_u_feature AS
           )
 ;
 
--- SELECT COUNT(*) FROM tb_u_feature ;
+-- SELECT COUNT(*) FROM tb_u_feature_test ;
 
--- SELECT * FROM tb_u_feature limit 10 ;
+-- SELECT * FROM tb_u_feature_test limit 10 ;
 
--- i_feature
-DROP TABLE IF EXISTS `tb_i_feature`;
+-- i_feature_test
+DROP TABLE IF EXISTS `tb_i_feature_test`;
 
-CREATE TABLE tb_i_feature AS
+CREATE TABLE tb_i_feature_test AS
           (
                     SELECT
                               a.item_id
@@ -69,7 +56,7 @@ CREATE TABLE tb_i_feature AS
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
-                                                  tb_tianchi_user
+                                                  tb_test
                                         GROUP BY
                                                   item_id
                                                 , behavior_type) AS a
@@ -78,14 +65,14 @@ CREATE TABLE tb_i_feature AS
           )
 ;
 
-SELECT COUNT(*) FROM tb_i_feature;
+SELECT COUNT(*) FROM tb_i_feature_test;
 
-SELECT * FROM tb_i_feature LIMIT 10;
+SELECT * FROM tb_i_feature_test LIMIT 10;
 
--- c_feature
-DROP TABLE IF EXISTS `tb_c_feature`;
+-- c_feature_test
+DROP TABLE IF EXISTS `tb_c_feature_test`;
 
-CREATE TABLE tb_c_feature AS
+CREATE TABLE tb_c_feature_test AS
           (
                     SELECT
                               a.item_category
@@ -109,7 +96,7 @@ CREATE TABLE tb_c_feature AS
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
-                                                  tb_tianchi_user
+                                                  tb_test
                                         GROUP BY
                                                   item_category
                                                 , behavior_type) AS a
@@ -118,6 +105,6 @@ CREATE TABLE tb_c_feature AS
           )
 ;
           
- SELECT COUNT(*) FROM tb_c_feature ;
+ SELECT COUNT(*) FROM tb_c_feature_test ;
 
- SELECT * FROM tb_c_feature limit 10 ;
+ SELECT * FROM tb_c_feature_test limit 10 ;
