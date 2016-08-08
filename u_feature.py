@@ -14,9 +14,9 @@ from sklearn.linear_model import LogisticRegression
 def u_train():
     u_list = []
     db = MySQLdb.connect(
-        host=Path.host,
+        host='172.27.35.2',
         port=3306,
-        user="root",
+        user="zaber",
         passwd="1234",
         db="recommend"
     )
@@ -84,9 +84,9 @@ def u_train():
 
 def u_test():
     db = MySQLdb.connect(
-        host=Path.host,
+        host='172.27.35.2',
         port=3306,
-        user="root",
+        user="zaber",
         passwd="1234",
         db="recommend"
     )
@@ -189,11 +189,22 @@ if __name__ == '__main__':
     f.fit(train[:, :-1], train[:, -1])
     predict, u_id = u_test()
     h = f.predict(predict)
-    f = open('u_feature_predict.txt', 'w')
+    db = MySQLdb.connect(
+        host='172.27.35.2',
+        port=3306,
+        user="zaber",
+        passwd="1234",
+        db="recommend"
+    )
     for i in range(shape(h)[0]):
         if h[i] == 1:
-            f.write(str(u_id[i]))
-    f.close()
+
+            cursor = db.cursor()
+            sql = "insert into tb_u_feature_predict VALUE ("\
+                  +u_id[i] +")"
+            cursor.execute(sql)
+            db.commit()
+    db.close()
     print mean(h == 1)
     # 0.403978727595 6.38775510204 11.2857142857
     winsound.Beep(300, 1000)
