@@ -123,9 +123,7 @@ def SqlToCsv():
     # 打开数据库连接
     db = MySQLdb.connect("localhost", "root", "1234", "recommend")
 
-    # 使用cursor()方法获取操作游标
     cursor = db.cursor()
-    count = 0  # SQL 插入语句
     sql = "select user_id,item_id from tb_tianchi_user " \
           "where time>='2014-12-18 00' and time<='2014-12-18 24'" \
           "group by user_id,item_id order by user_id ;"

@@ -8,14 +8,15 @@ import MySQLdb
 from numpy import *
 from Path import *
 import winsound
+from sklearn.linear_model import LogisticRegression
 
 
 def u_train():
     u_list = []
     db = MySQLdb.connect(
-        host="172.27.35.2",
+        host=Path.host,
         port=3306,
-        user="zaber",
+        user="root",
         passwd="1234",
         db="recommend"
     )
@@ -83,9 +84,9 @@ def u_train():
 
 def u_test():
     db = MySQLdb.connect(
-        host="172.27.35.2",
+        host=Path.host,
         port=3306,
-        user="zaber",
+        user="root",
         passwd="1234",
         db="recommend"
     )
@@ -181,15 +182,18 @@ def train(u):
     print max_F1, max_w, max_c
 
 
-from sklearn.linear_model import LogisticRegression
-
 if __name__ == '__main__':
     train = u_train()
     f = LogisticRegression(class_weight={1: 6.38775510204}, C=11.2857142857)
     # class_weight={1:2}
     f.fit(train[:, :-1], train[:, -1])
-    predict, i_id = u_test()
+    predict, u_id = u_test()
     h = f.predict(predict)
-    print  mean(h==1)
+    f = open('u_feature_predict.txt', 'w')
+    for i in range(shape(h)[0]):
+        if h[i] == 1:
+            f.write(str(u_id[i]))
+    f.close()
+    print mean(h == 1)
     # 0.403978727595 6.38775510204 11.2857142857
     winsound.Beep(300, 1000)
