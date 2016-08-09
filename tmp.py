@@ -3,32 +3,14 @@
 # Date     :2016-08-02 17:28
 # Author   :zaber
 
-import MySQLdb
-import MySQLdb.cursors as cursors
-
-db = MySQLdb.connect(
-    host="localhost",
-    port=3306,
-    user="root",
-    passwd="1234",
-    db="recommend",
-    cursorclass=MySQLdb.cursors.SSCursor
-
-)
-cursor = db.cursor()
-sql = "select item_id,all1,all2,all3,all4,allcount,act1,act2,act3,act4,actcount from tb_i_feature "
+import csv
+f = file("tb_i_feature.csv", 'r')
+reader = csv.reader(f)
 i_all = {}
+for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
+    i_all[item_id] = {'all_all1': all1, 'all_all2': all2, 'all_all3': all3, 'all_all4': all4,
+                      'all_allcount': allcount, 'all_act1': act1, 'all_act2': act2, 'all_act3': act3,
+                      'all_act4': act4,
+                      'all_actcount': actcount}
 
-cursor.execute(sql)
-for row in cursor:
-    i_all[row[0]] = {'all_all1': row[1], 'all_all2': row[2], 'all_all3': row[3], 'all_all4': row[4],
-                     'all_allcount': row[5], 'all_act1': row[6], 'all_act2': row[2], 'all_act3': row[3],
-                     'all_act4': row[4],
-                     'all_actcount': row[5]}
-
-# print '\033[1;31;m'
-# print 'db.rollback()all'
-# print '\033[0m'
-# db.rollback()
-
-db.close()
+print 11

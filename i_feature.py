@@ -11,6 +11,7 @@ import winsound
 
 def i_train():
     i_list = []
+    reader = csv.reader(open(Path.tianchi_fresh_comp_train_user))
     db = MySQLdb.connect(
         host="172.27.35.2",
         port=3306,
