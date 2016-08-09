@@ -2,9 +2,9 @@
 # Filename :tmp
 # Date     :2016-08-02 17:28
 # Author   :zaber
-
+from Path import *
 import csv
-f = file("tb_i_feature.csv", 'r')
+f = file(Path.i_feature, 'r')
 reader = csv.reader(f)
 i_all = {}
 for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:

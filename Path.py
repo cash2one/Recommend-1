@@ -4,9 +4,11 @@
 # Author   :zaber
 
 class Path(object):
-    host = 'localhost'
-    tianchi_fresh_comp_train_item = 'tianchi_fresh_comp_train_item.csv'
-    tianchi_fresh_comp_train_user = 'tianchi_fresh_comp_train_user.csv'
+    host = '172.27.35.2'
+    user='zaber'
+    tianchi_fresh_comp_train_item = 'csv/tianchi_fresh_comp_train_item.csv'
+    tianchi_fresh_comp_train_user = 'csv/tianchi_fresh_comp_train_user.csv'
+    i_feature='csv/tb_i_feature.csv'
     tb_train = ['tb_train_18_24_nov'
         , 'tb_train_19_25_nov'
         , 'tb_train_20_26_nov'

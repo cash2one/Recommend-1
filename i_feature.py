@@ -7,34 +7,27 @@ import MySQLdb
 from numpy import *
 from Path import *
 import winsound
+import csv
 
 
 def i_train():
     i_list = []
-    reader = csv.reader(open(Path.tianchi_fresh_comp_train_user))
+    f = file(Path.i_feature, 'r')
+    reader = csv.reader(f)
+    i_all = {}
+    for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
+        i_all[item_id] = {'all_all1': all1, 'all_all2': all2, 'all_all3': all3, 'all_all4': all4,
+                          'all_allcount': allcount, 'all_act1': act1, 'all_act2': act2, 'all_act3': act3,
+                          'all_act4': act4,
+                          'all_actcount': actcount}
+    print i_all
     db = MySQLdb.connect(
-        host="172.27.35.2",
+        host=Path.host,
         port=3306,
-        user="zaber",
+        user=Path.user,
         passwd="1234",
         db="recommend"
     )
-    cursor = db.cursor()
-    sql = "select item_id,all1,all2,all3,all4,allcount,act1,act2,act3,act4,actcount from tb_i_feature "
-    i_all = {}
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        for row in results:
-            i_all[row[0]] = {'all_all1': row[1], 'all_all2': row[2], 'all_all3': row[3], 'all_all4': row[4],
-                             'all_allcount': row[5], 'all_act1': row[6], 'all_act2': row[2], 'all_act3': row[3],
-                             'all_act4': row[4],
-                             'all_actcount': row[5]}
-    except:
-        print '\033[1;31;m'
-        print 'db.rollback()all'
-        print '\033[0m'
-        db.rollback()
     for i in range(shape(Path.tb_train)[0]):
         cursor = db.cursor()
         sql = "select item_id,all1,all2,all3,all4,allcount,act1,act2,act3,act4,actcount from " + Path.tb_i_feature[i]
@@ -92,9 +85,9 @@ def i_train():
 
 def i_test():
     db = MySQLdb.connect(
-        host="172.27.35.2",
+        host=Path.host,
         port=3306,
-        user="zaber",
+        user=Path.user,
         passwd="1234",
         db="recommend"
     )
