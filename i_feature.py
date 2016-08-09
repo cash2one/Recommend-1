@@ -196,7 +196,7 @@ from sklearn.linear_model import LogisticRegression
 
 if __name__ == '__main__':
     data = i_train()
-    train(data)
+    # train(data)
     # f = LogisticRegression(class_weight={1: 6.38775510204}, C=11.2857142857)
     # class_weight={1:2}
     # f.fit(train[:, :-1], train[:, -1])
