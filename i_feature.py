@@ -8,77 +8,54 @@ from numpy import *
 from Path import *
 import winsound
 import csv
-
-
-def get_i_feature():
-    f = file(Path.i_feature, 'r')
-    reader = csv.reader(f)
-    i_all = {}
-    for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
-        i_all[item_id] = {'all_all1': all1, 'all_all2': all2, 'all_all3': all3, 'all_all4': all4,
-                          'all_allcount': allcount, 'all_act1': act1, 'all_act2': act2, 'all_act3': act3,
-                          'all_act4': act4,
-                          'all_actcount': actcount, 'result': 0}
-    return i_all
-
-
-def get_result(i):
-    db = MySQLdb.connect(
-        host=Path.host,
-        port=3306,
-        user=Path.user,
-        passwd="1234",
-        db="recommend"
-    )
-    cursor = db.cursor()
-    sql = "select DISTINCT item_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
-    i7_result = {}
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        for row in results:
-            i7_result[row[0]] = 1
-    except:
-        print '\033[1;31;m'
-        print 'db.rollback()7result'
-        print '\033[0m'
-        db.rollback()
-    db.close()
-    return i7_result
-
+import time
+from sklearn.linear_model import LogisticRegression
 
 def i_train():
+
+    f = file(Path.i_feature, 'r')
+    reader = csv.reader(f)
+    i_all = dict()
+
     i_list = []
-    i_all = get_i_feature()
-    for i in range(shape(Path.tb_feature_i)[0]):
+    for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
+        i_all[item_id] = [all1, all2, all3, all4, allcount, act1, act2, act3, act4, 0]
+
+    for i in range(0, 15):
+        print i
         f = file(Path.tb_feature_i[i], 'r')
         reader = csv.reader(f)
-        i7 = {}
+        i7 = dict()
         for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
-            i7[item_id] = {'all1': all1, 'all2': all2, 'all3': all3, 'all4': all4,
-                           'allcount': allcount, 'act1': act1, 'act2': act2, 'act3': act3,
-                           'act4': act4,
-                           'actcount': actcount}
+            i7[item_id] = [all1, all2, all3, all4, allcount, act1, act2, act3, act4]
         for item in i7:
-            i7[item] = dict(i7[item], **i_all[item])
-        i7_result = get_result(i)
+            i7[item] = i7[item] + i_all[item]
+        db = MySQLdb.connect(
+            host=Path.host,
+            port=3306,
+            user=Path.user,
+            passwd="1234",
+            db="recommend"
+        )
+        cursor = db.cursor()
+        sql = "select DISTINCT item_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
+        i7_result = {}
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                i7_result[row[0]] = 1
+        except:
+            print '\033[1;31;m'
+            print 'db.rollback()7result'
+            print '\033[0m'
+            db.rollback()
+        db.close()
         for item in i7_result:
             if i7.has_key(item):
-                i7[item]['result'] = 1
-
-        for item in i7:
-            i_list.append(
-                [int(i7[item]['all1']), int(i7[item]['all2']), int(i7[item]['all3']), int(i7[item]['all4']),
-                 int(i7[item]['allcount']), int(i7[item]['act1']), int(i7[item]['act2']), int(i7[item]['act3']),
-                 int(i7[item]['act4']),
-                 int(i7[item]['actcount']),
-                 int(i7[item]['all_all1']), int(i7[item]['all_all2']), int(i7[item]['all_all3']),
-                 int(i7[item]['all_all4']),
-                 int(i7[item]['all_allcount']), int(i7[item]['all_act1']), int(i7[item]['all_act2']),
-                 int(i7[item]['all_act3']),
-                 int(i7[item]['all_act4']),
-                 int(i7[item]['all_actcount']),
-                 int(i7[item]['result'])])
+                i7[item][-1] = 1
+        i_list.append(list(i7.values()))
+    print 'get train data',time.time() - start
     return array(i_list)
 
 
@@ -191,12 +168,13 @@ def train(i):
     print max_F1, max_w, max_c
 
 
-from sklearn.linear_model import LogisticRegression
+
 
 if __name__ == '__main__':
+    start = time.time()
     data = i_train()
     print shape(data)
-    # train(data)
+    train(data)
     # f = LogisticRegression(class_weight={1: 6.38775510204}, C=11.2857142857)
     # class_weight={1:2}
     # f.fit(train[:, :-1], train[:, -1])

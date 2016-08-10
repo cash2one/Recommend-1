@@ -8,6 +8,8 @@ from  numpy import *
 import csv
 import time
 
+
+
 start = time.time()
 f = file(Path.i_feature, 'r')
 reader = csv.reader(f)
@@ -17,7 +19,7 @@ i_list = []
 for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
     i_all[item_id] = [all1, all2, all3, all4, allcount, act1, act2, act3, act4, 0]
 
-for i in range(shape(Path.tb_feature_i)[0]):
+for i in range(0, 15):
     print i
     f = file(Path.tb_feature_i[i], 'r')
     reader = csv.reader(f)
@@ -50,6 +52,5 @@ for i in range(shape(Path.tb_feature_i)[0]):
     for item in i7_result:
         if i7.has_key(item):
             i7[item][-1] = 1
-    for item in i7:
-        i_list.append(i7[item])
+    i_list.append(list(i7.values()))
 print time.time() - start
