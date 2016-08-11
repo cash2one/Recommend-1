@@ -179,32 +179,32 @@ def i_cross_validation():
 #     return array(i_list), item_id
 
 
-def find_parameter(i, j):
+def find_parameter(train, cross_v):
     weight = linspace(1, 25, 50)
     c = linspace(1, 15, 50)
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for k in range(shape(weight)[0]):
-        for l in range(shape(c)[0]):
-            p = LogisticRegression(class_weight={1: weight[k]}, C=c[l])
+    for i in range(shape(weight)[0]):
+        for j in range(shape(c)[0]):
+            p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
             # class_weight={1:2}
-            p.fit(i[:, :-1], i[:, -1])
-            Z = p.predict(j[:, :-1])
+            p.fit(train[:, :-1], train[:, -1])
+            Z = p.predict(cross_v[:, :-1])
             TP = 0.0
             FP = 0.0
             FN = 0.0
             TN = 0.0
-            for i in range(shape(Z)[0]):
-                if Z[i] == 1 and j[i, -1] == 1:
+            for k in range(shape(Z)[0]):
+                if Z[k] == 1 and cross_v[k, -1] == 1:
                     TP += 1
-                elif Z[i] == 1 and j[i, -1] == 0:
+                elif Z[k] == 1 and cross_v[k, -1] == 0:
                     FP += 1
-                elif Z[i] == 0 and j[i, -1] == 1:
+                elif Z[k] == 0 and cross_v[k, -1] == 1:
                     FN += 1
                 else:
                     TN += 1
-            print weight[k], c[l], TP, FP, FN, TN
+            print weight[i], c[j], TP, FP, FN, TN
             precision = TP / (TP + FP)
             recall = TP / (TP + FN)
             F1 = (precision * recall) * 2 / (precision + recall)
@@ -213,8 +213,8 @@ def find_parameter(i, j):
             print 'F1 score:', F1
             if max_F1 < F1:
                 max_F1 = F1
-                max_w = weight[k]
-                max_c = c[l]
+                max_w = weight[i]
+                max_c = c[j]
                 print '\033[1;31;m'
                 print max_F1, max_w, max_c
                 print '\033[0m'
@@ -222,17 +222,15 @@ def find_parameter(i, j):
 
 
 if __name__ == '__main__':
-    import struct
-
-    print struct.calcsize("P")
     start = time.time()
-    train = i_train()
-    cross = i_cross_validation()
-    find_parameter(train, cross)
+    train1 = i_train()
+    print mean(train1[:, -1] == 1)
+    cross_v1 = i_cross_validation()
+    find_parameter(train1, cross_v1)
     # f = LogisticRegression(class_weight={1: 6.38775510204}, C=11.2857142857)
     # f.fit(data[:, :-1], data[:, -1])
     # predict, i_id = i_test()
     # h = f.predict(predict)
     # print  mean(h == 1)
-    # 0.403978727595 6.38775510204 11.2857142857
+    # 0.145275655472 2.95918367347 6.14285714286
     winsound.Beep(300, 1000)
