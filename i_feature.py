@@ -3,6 +3,7 @@
 # Date     :2016-08-08 16:04
 # Author   :zaber
 
+
 import MySQLdb
 from numpy import *
 from Path import *
@@ -22,8 +23,7 @@ def i_train():
         i_all[item_id] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(act1), float(act2),
                           float(act3), float(act4), float(actcount), float(0)]
 
-    for i in range(0, 15):
-        print i
+    for i in range(0, 1):
         f = file(Path.tb_feature_i[i], 'r')
         reader = csv.reader(f)
         i7 = dict()
@@ -73,8 +73,7 @@ def i_cross_validation():
         i_all[item_id] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(act1), float(act2),
                           float(act3), float(act4), float(actcount), float(0)]
 
-    for i in range(15, 22):
-        print i
+    for i in range(23, 24):
         f = file(Path.tb_feature_i[i], 'r')
         reader = csv.reader(f)
         i7 = dict()
@@ -110,85 +109,191 @@ def i_cross_validation():
                 i7[item][-1] = 1
         for item in i7:
             i_list.append(i7[item])
-    print 'get train data', time.time() - start
+    print 'get cross data', time.time() - start
     return array(i_list)
 
 
-# def i_test():
-#     db = MySQLdb.connect(
-#         host=Path.host,
-#         port=3306,
-#         user=Path.user,
-#         passwd="1234",
-#         db="recommend"
-#     )
-#     cursor = db.cursor()
-#
-#     sql = "select item_id,all1,all2,all3,all4,allcount,act1,act2,act3,act4,actcount from tb_i_feature "
-#     i_all = {}
-#     try:
-#         cursor.execute(sql)
-#         results = cursor.fetchall()
-#         for row in results:
-#             i_all[row[0]] = {'all_all1': row[1], 'all_all2': row[2], 'all_all3': row[3], 'all_all4': row[4],
-#                              'all_allcount': row[5], 'all_act1': row[6], 'all_act2': row[2], 'all_act3': row[3],
-#                              'all_act4': row[4],
-#                              'all_actcount': row[5]}
-#     except:
-#         print '\033[1;31;m'
-#         print 'db.rollback()all'
-#         print '\033[0m'
-#         db.rollback()
-#
-#     sql = "select item_id,all1,all2,all3,all4,allcount,act1,act2,act3,act4,actcount from tb_i_feature_test "
-#     i7 = {}
-#
-#     try:
-#         cursor.execute(sql)
-#         results = cursor.fetchall()
-#         for row in results:
-#             i7[row[0]] = {'all1': row[1], 'all2': row[2], 'all3': row[3], 'all4': row[4],
-#                           'allcount': row[5], 'act1': row[6], 'act2': row[2], 'act3': row[3],
-#                           'act4': row[4],
-#                           'actcount': row[5]}
-#     except:
-#         print '\033[1;31;m'
-#         print 'db.rollback()7'
-#         print '\033[0m'
-#         db.rollback()
-#     i_list = []
-#     item_id = []
-#     for item in i7:
-#         i7[item] = dict(i7[item], **i_all[item])
-#
-#     for item in i7:
-#         item_id.append(item)
-#         i_list.append(
-#             [int(i7[item]['all1']), int(i7[item]['all2']), int(i7[item]['all3']), int(i7[item]['all4']),
-#              int(i7[item]['allcount']), int(i7[item]['act1']), int(i7[item]['act2']), int(i7[item]['act3']),
-#              int(i7[item]['act4']),
-#              int(i7[item]['actcount']),
-#              int(i7[item]['all_all1']), int(i7[item]['all_all2']), int(i7[item]['all_all3']),
-#              int(i7[item]['all_all4']),
-#              int(i7[item]['all_allcount']), int(i7[item]['all_act1']), int(i7[item]['all_act2']),
-#              int(i7[item]['all_act3']),
-#              int(i7[item]['all_act4']),
-#              int(i7[item]['all_actcount']),
-#              int(i7[item]['result'])])
-#     db.close()
-#     return array(i_list), item_id
+def i_all_data():
+    f = file(Path.i_feature, 'r')
+    reader = csv.reader(f)
+    i_all = dict()
+
+    i_list = []
+    for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
+        i_all[item_id] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(act1), float(act2),
+                          float(act3), float(act4), float(actcount), float(0)]
+
+    for i in range(0, 24):
+        f = file(Path.tb_feature_i[i], 'r')
+        reader = csv.reader(f)
+        i7 = dict()
+        for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
+            i7[item_id] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(act1),
+                           float(act2),
+                           float(act3), float(act4), float(actcount)]
+        for item in i7:
+            i7[item] = i7[item] + i_all[item]
+        db = MySQLdb.connect(
+            host=Path.host,
+            port=3306,
+            user=Path.user,
+            passwd="1234",
+            db="recommend"
+        )
+        cursor = db.cursor()
+        sql = "select DISTINCT item_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
+        i7_result = {}
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                i7_result[row[0]] = 1
+        except:
+            print '\033[1;31;m'
+            print 'db.rollback()7result'
+            print '\033[0m'
+            db.rollback()
+        db.close()
+        for item in i7_result:
+            if i7.has_key(item):
+                i7[item][-1] = 1
+        for item in i7:
+            i_list.append(i7[item])
+    print 'get all data', time.time() - start
+    return array(i_list)
+
+
+def i_data():
+    f = file(Path.i_feature, 'r')
+    reader = csv.reader(f)
+    i_all = dict()
+
+    i_list = []
+    for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
+        i_all[item_id] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(act1), float(act2),
+                          float(act3), float(act4), float(actcount), float(0)]
+
+    for i in range(0, 22):
+        f = file(Path.tb_feature_i[i], 'r')
+        reader = csv.reader(f)
+        i7 = dict()
+        for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
+            i7[item_id] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(act1),
+                           float(act2),
+                           float(act3), float(act4), float(actcount)]
+        for item in i7:
+            i7[item] = i7[item] + i_all[item]
+        db = MySQLdb.connect(
+            host=Path.host,
+            port=3306,
+            user=Path.user,
+            passwd="1234",
+            db="recommend"
+        )
+        cursor = db.cursor()
+        sql = "select DISTINCT item_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
+        i7_result = {}
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                i7_result[row[0]] = 1
+        except:
+            print '\033[1;31;m'
+            print 'db.rollback()7result'
+            print '\033[0m'
+            db.rollback()
+        db.close()
+        for item in i7_result:
+            if i7.has_key(item):
+                i7[item][-1] = 1
+        for item in i7:
+            i_list.append(i7[item])
+    print 'get data', time.time() - start
+    return array(i_list)
+
+
+def i_test():
+    f = file(Path.i_feature, 'r')
+    reader = csv.reader(f)
+    i_all = dict()
+
+    i_list = []
+    for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
+        i_all[item_id] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(act1), float(act2),
+                          float(act3), float(act4), float(actcount), float(0)]
+
+    for i in range(22, 24):
+        f = file(Path.tb_feature_i[i], 'r')
+        reader = csv.reader(f)
+        i7 = dict()
+        for item_id, all1, all2, all3, all4, allcount, act1, act2, act3, act4, actcount in reader:
+            i7[item_id] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(act1),
+                           float(act2),
+                           float(act3), float(act4), float(actcount)]
+        for item in i7:
+            i7[item] = i7[item] + i_all[item]
+        db = MySQLdb.connect(
+            host=Path.host,
+            port=3306,
+            user=Path.user,
+            passwd="1234",
+            db="recommend"
+        )
+        cursor = db.cursor()
+        sql = "select DISTINCT item_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
+        i7_result = {}
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                i7_result[row[0]] = 1
+        except:
+            print '\033[1;31;m'
+            print 'db.rollback()7result'
+            print '\033[0m'
+            db.rollback()
+        db.close()
+        for item in i7_result:
+            if i7.has_key(item):
+                i7[item][-1] = 1
+        for item in i7:
+            i_list.append(i7[item])
+    print 'get test data', time.time() - start
+    return array(i_list)
+
+
+def i_predict():
+    f = file(Path.i_feature, 'r')
+    reader = csv.reader(f)
+    i_all = dict()
+    i_list = []
+    for item_id, c1, c2, c3, c4, count, c_rate in reader:
+        i_all[item_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+    f = file(Path.i_feature_test, 'r')
+    reader = csv.reader(f)
+    i7 = dict()
+    for item_id, c1, c2, c3, c4, count, c_rate in reader:
+        i7[item_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+    for item in i7:
+        i7[item] = i7[item] + i_all[item]
+    id_list = []
+    for item in i7:
+        id_list.append(item)
+        i_list.append(i7[item])
+    print 'get predict data', time.time() - start
+    return array(i_list), array(id_list)
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(1, 25, 50)
-    c = linspace(1, 15, 50)
+    weight = linspace(15, 30, 30)
+    c = linspace(1, 10, 20)
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
     for i in range(shape(weight)[0]):
         for j in range(shape(c)[0]):
             p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
-            # class_weight={1:2}
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
             TP = 0.0
@@ -224,13 +329,92 @@ def find_parameter(train, cross_v):
 if __name__ == '__main__':
     start = time.time()
     train1 = i_train()
-    print mean(train1[:, -1] == 1)
+    print 'train 1 mean:', mean(train1[:, -1] == 1)
     cross_v1 = i_cross_validation()
+    print 'cross 1 mean:', mean(cross_v1[:, -1] == 1)
+    # data = i_data()
+    # print 'data 1 mean:', mean(data[:, -1] == 1)
+    # all_data = i_all_data()
+    # print 'all data 1 mean:', mean(all_data[:, -1] == 1)
     find_parameter(train1, cross_v1)
-    # f = LogisticRegression(class_weight={1: 6.38775510204}, C=11.2857142857)
-    # f.fit(data[:, :-1], data[:, -1])
-    # predict, i_id = i_test()
-    # h = f.predict(predict)
-    # print  mean(h == 1)
-    # 0.145275655472 2.95918367347 6.14285714286
+    lr = LogisticRegression(class_weight={1: 6.38775510204}, C=4.42857142857)
+    lr.fit(train1[:, :-1], train1[:, -1])
+    predict = i_test()
+    z = lr.predict(predict[:, :-1])
+    tp = 0.0
+    fp = 0.0
+    fn = 0.0
+    tn = 0.0
+    for k in range(shape(z)[0]):
+        if z[k] == 1 and predict[k, -1] == 1:
+            tp += 1
+        elif z[k] == 1 and predict[k, -1] == 0:
+            fp += 1
+        elif z[k] == 0 and predict[k, -1] == 1:
+            fn += 1
+        else:
+            tn += 1
+    print  tp, fp, fn, tn
+    precision1 = tp / (tp + fp)
+    recall1 = tp / (tp + fn)
+    f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
+    print 'precision:', precision1
+    print 'recall:', recall1
+    print 'F1 score:', f1
+    ################################################
+    # lr.fit(data[:, :-1], data[:, -1])
+    # z = lr.predict(predict[:, :-1])
+    # tp = 0.0
+    # fp = 0.0
+    # fn = 0.0
+    # tn = 0.0
+    # for k in range(shape(z)[0]):
+    #     if z[k] == 1 and predict[k, -1] == 1:
+    #         tp += 1
+    #     elif z[k] == 1 and predict[k, -1] == 0:
+    #         fp += 1
+    #     elif z[k] == 0 and predict[k, -1] == 1:
+    #         fn += 1
+    #     else:
+    #         tn += 1
+    # print  tp, fp, fn, tn
+    # precision1 = tp / (tp + fp)
+    # recall1 = tp / (tp + fn)
+    # f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
+    # print 'precision:', precision1
+    # print 'recall:', recall1
+    # print 'F1 score:', f1
+    # print 'time cost:', time.time() - start
+    #####################################
+    # predict, i_id = i_predict()
+    # lr.fit(all_data[:, :-1], all_data[:, -1])
+    # z = lr.predict(predict)
+    #####################################
+    # db = MySQLdb.connect(
+    #     host='172.27.35.2',
+    #     port=3306,
+    #     user="zaber",
+    #     passwd="1234",
+    #     db="recommend"
+    # )
+    # sql = "insert into tb_i_feature_predict VALUES (%s)"
+    # values = []
+    # for i in range(shape(z)[0]):
+    #     if z[i] == 1:
+    #         values.append((str(i_id[i]),))
+    # try:
+    #     cursor = db.cursor()
+    #     cursor.executemany(sql, values)
+    #     db.commit()
+    # except:
+    #     print "insert error"
+    # db.close()
+    print mean(z == 1)
     winsound.Beep(300, 1000)
+    # 0.258880192655
+    # 23.275862069
+    # 1.0
+
+    # 214
+    # 785
+    # 214

@@ -4,11 +4,16 @@
 # Author   :zaber
 
 class Path(object):
-    host = 'localhost'
-    user = 'root'
+    host = '172.27.35.2'
+    user = 'zaber'
     tianchi_fresh_comp_train_item = 'csv/tianchi_fresh_comp_train_item.csv'
     tianchi_fresh_comp_train_user = 'csv/tianchi_fresh_comp_train_user.csv'
     i_feature = 'csv/tb_i_feature.csv'
+    u_feature = 'csv/tb_u_feature.csv'
+    c_feature = 'csv/tb_c_feature.csv'
+    i_feature_test = 'csv/tb_i_feature_test.csv'
+    u_feature_test = 'csv/tb_u_feature_test.csv'
+    c_feature_test = 'csv/tb_c_feature_test.csv'
     tb_train_result = ['tb_train_18_24_nov_result', 'tb_train_19_25_nov_result', 'tb_train_20_26_nov_result',
                        'tb_train_21_27_nov_result', 'tb_train_22_28_nov_result', 'tb_train_23_29_nov_result',
                        'tb_train_24_30_nov_result', 'tb_train_25_01_dec_result', 'tb_train_26_02_dec_result',
@@ -49,3 +54,19 @@ class Path(object):
                     'csv/tb_feature_i_08_14_dec.csv',
                     'csv/tb_feature_i_09_15_dec.csv', 'csv/tb_feature_i_10_16_dec.csv',
                     'csv/tb_feature_i_11_17_dec.csv']
+    tb_feature_c = ['csv/tb_feature_c_18_24_nov.csv', 'csv/tb_feature_c_19_25_nov.csv',
+                    'csv/tb_feature_c_20_26_nov.csv',
+                    'csv/tb_feature_c_21_27_nov.csv', 'csv/tb_feature_c_22_28_nov.csv',
+                    'csv/tb_feature_c_23_29_nov.csv',
+                    'csv/tb_feature_c_24_30_nov.csv', 'csv/tb_feature_c_25_01_dec.csv',
+                    'csv/tb_feature_c_26_02_dec.csv',
+                    'csv/tb_feature_c_27_03_dec.csv', 'csv/tb_feature_c_28_04_dec.csv',
+                    'csv/tb_feature_c_29_05_dec.csv',
+                    'csv/tb_feature_c_30_06_dec.csv', 'csv/tb_feature_c_01_07_dec.csv',
+                    'csv/tb_feature_c_02_08_dec.csv',
+                    'csv/tb_feature_c_03_09_dec.csv', 'csv/tb_feature_c_04_10_dec.csv',
+                    'csv/tb_feature_c_05_11_dec.csv',
+                    'csv/tb_feature_c_06_12_dec.csv', 'csv/tb_feature_c_07_13_dec.csv',
+                    'csv/tb_feature_c_08_14_dec.csv',
+                    'csv/tb_feature_c_09_15_dec.csv', 'csv/tb_feature_c_10_16_dec.csv',
+                    'csv/tb_feature_c_11_17_dec.csv']

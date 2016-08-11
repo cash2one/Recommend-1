@@ -1,59 +1,42 @@
 # -*- coding: utf-8 -*-
-# Filename :Analysis
-
-# Date     :2016-08-02 01:40
+# Filename :u_feature
+# Date     :2016-08-08 16:04
 # Author   :zaber
 
 import MySQLdb
 from numpy import *
 from Path import *
 import winsound
+import csv
+import time
 from sklearn.linear_model import LogisticRegression
 
 
 def u_train():
-    u_list = []
-    db = MySQLdb.connect(
-        host='172.27.35.2',
-        port=3306,
-        user="zaber",
-        passwd="1234",
-        db="recommend"
-    )
-    cursor = db.cursor()
-    sql = "select user_id,c1,c2,c3,c4,count,rate from tb_u_feature "
-    u_all = {}
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        for row in results:
-            u_all[row[0]] = {'all_c1': row[1], 'all_c2': row[2], 'all_c3': row[3], 'all_c4': row[4],
-                             'all_count': row[5],
-                             'all_rate': row[6]}
-    except:
-        print '\033[1;31;m'
-        print 'db.rollback()all'
-        print '\033[0m'
-        db.rollback()
-    for i in range(shape(Path.tb_train)[0]):
-        cursor = db.cursor()
-        sql = "select user_id,c1,c2,c3,c4,count,rate from " + Path.tb_u_feature[i]
-        u7 = {}
-        try:
-            cursor.execute(sql)
-            results = cursor.fetchall()
-            for row in results:
-                u7[row[0]] = {'c1': row[1], 'c2': row[2], 'c3': row[3], 'c4': row[4], 'count': row[5], 'rate': row[6],
-                              'result': 0}
-        except:
-            print '\033[1;31;m'
-            print Path.tb_u_feature[i]
-            print '\033[0m'
-            db.rollback()
-        for user in u7:
-            u7[user] = dict(u7[user], **u_all[user])
-        cursor = db.cursor()
+    f = file(Path.u_feature, 'r')
+    reader = csv.reader(f)
+    u_all = dict()
 
+    u_list = []
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
+
+    for i in range(0, 23):
+        f = file(Path.tb_feature_u[i], 'r')
+        reader = csv.reader(f)
+        u7 = dict()
+        for user_id, c1, c2, c3, c4, count, c_rate in reader:
+            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user in u7:
+            u7[user] = u7[user] + u_all[user]
+        db = MySQLdb.connect(
+            host=Path.host,
+            port=3306,
+            user=Path.user,
+            passwd="1234",
+            db="recommend"
+        )
+        cursor = db.cursor()
         sql = "select DISTINCT user_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
         u7_result = {}
         try:
@@ -66,106 +49,251 @@ def u_train():
             print 'db.rollback()7result'
             print '\033[0m'
             db.rollback()
-
+        db.close()
         for user in u7_result:
             if u7.has_key(user):
-                u7[user]['result'] = 1
-
+                u7[user][-1] = 1
         for user in u7:
-            u_list.append(
-                [int(u7[user]['c1']), int(u7[user]['c2']), int(u7[user]['c3']), int(u7[user]['c4']),
-                 int(u7[user]['count']),
-                 int(u7[user]['rate']), int(u7[user]['all_c1']), int(u7[user]['all_c2']), int(u7[user]['all_c3']),
-                 int(u7[user]['all_c4']), int(u7[user]['all_count']), int(u7[user]['all_rate']),
-                 int(u7[user]['result'])])
-    db.close()
+            u_list.append(u7[user])
+    print 'get train data', time.time() - start
+    return array(u_list)
+
+
+def u_cross_validation():
+    f = file(Path.u_feature, 'r')
+    reader = csv.reader(f)
+    u_all = dict()
+
+    u_list = []
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
+
+    for i in range(23, 24):
+        f = file(Path.tb_feature_u[i], 'r')
+        reader = csv.reader(f)
+        u7 = dict()
+        for user_id, c1, c2, c3, c4, count, c_rate in reader:
+            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user in u7:
+            u7[user] = u7[user] + u_all[user]
+        db = MySQLdb.connect(
+            host=Path.host,
+            port=3306,
+            user=Path.user,
+            passwd="1234",
+            db="recommend"
+        )
+        cursor = db.cursor()
+        sql = "select DISTINCT user_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
+        u7_result = {}
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                u7_result[row[0]] = 1
+        except:
+            print '\033[1;31;m'
+            print 'db.rollback()7result'
+            print '\033[0m'
+            db.rollback()
+        db.close()
+        for user in u7_result:
+            if u7.has_key(user):
+                u7[user][-1] = 1
+        for user in u7:
+            u_list.append(u7[user])
+    print 'get cross data', time.time() - start
+    return array(u_list)
+
+
+def u_all_data():
+    f = file(Path.u_feature, 'r')
+    reader = csv.reader(f)
+    u_all = dict()
+
+    u_list = []
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
+
+    for i in range(0, 24):
+        f = file(Path.tb_feature_u[i], 'r')
+        reader = csv.reader(f)
+        u7 = dict()
+        for user_id, c1, c2, c3, c4, count, c_rate in reader:
+            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user in u7:
+            u7[user] = u7[user] + u_all[user]
+        db = MySQLdb.connect(
+            host=Path.host,
+            port=3306,
+            user=Path.user,
+            passwd="1234",
+            db="recommend"
+        )
+        cursor = db.cursor()
+        sql = "select DISTINCT user_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
+        u7_result = {}
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                u7_result[row[0]] = 1
+        except:
+            print '\033[1;31;m'
+            print 'db.rollback()7result'
+            print '\033[0m'
+            db.rollback()
+        db.close()
+        for user in u7_result:
+            if u7.has_key(user):
+                u7[user][-1] = 1
+        for user in u7:
+            u_list.append(u7[user])
+    print 'get all data', time.time() - start
+    return array(u_list)
+
+
+def u_data():
+    f = file(Path.u_feature, 'r')
+    reader = csv.reader(f)
+    u_all = dict()
+
+    u_list = []
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
+
+    for i in range(0, 22):
+        f = file(Path.tb_feature_u[i], 'r')
+        reader = csv.reader(f)
+        u7 = dict()
+        for user_id, c1, c2, c3, c4, count, c_rate in reader:
+            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user in u7:
+            u7[user] = u7[user] + u_all[user]
+        db = MySQLdb.connect(
+            host=Path.host,
+            port=3306,
+            user=Path.user,
+            passwd="1234",
+            db="recommend"
+        )
+        cursor = db.cursor()
+        sql = "select DISTINCT user_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
+        u7_result = {}
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                u7_result[row[0]] = 1
+        except:
+            print '\033[1;31;m'
+            print 'db.rollback()7result'
+            print '\033[0m'
+            db.rollback()
+        db.close()
+        for user in u7_result:
+            if u7.has_key(user):
+                u7[user][-1] = 1
+        for user in u7:
+            u_list.append(u7[user])
+    print 'get data', time.time() - start
     return array(u_list)
 
 
 def u_test():
-    db = MySQLdb.connect(
-        host='172.27.35.2',
-        port=3306,
-        user="zaber",
-        passwd="1234",
-        db="recommend"
-    )
-    cursor = db.cursor()
+    f = file(Path.u_feature, 'r')
+    reader = csv.reader(f)
+    u_all = dict()
 
-    sql = "select user_id,c1,c2,c3,c4,count,rate from tb_u_feature "
-    u_all = {}
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        for row in results:
-            u_all[row[0]] = {'all_c1': row[1], 'all_c2': row[2], 'all_c3': row[3], 'all_c4': row[4],
-                             'all_count': row[5],
-                             'all_rate': row[6]}
-    except:
-        print '\033[1;31;m'
-        print 'db.rollback()all'
-        print '\033[0m'
-        db.rollback()
-
-    sql = "select user_id,c1,c2,c3,c4,count,rate from tb_u_feature_test "
-    u7 = {}
-
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        for row in results:
-            u7[row[0]] = {'c1': row[1], 'c2': row[2], 'c3': row[3], 'c4': row[4],
-                          'count': row[5],
-                          'rate': row[6]}
-    except:
-        print '\033[1;31;m'
-        print 'db.rollback()7'
-        print '\033[0m'
-        db.rollback()
     u_list = []
-    user_id = []
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
+
+    for i in range(22, 24):
+        f = file(Path.tb_feature_u[i], 'r')
+        reader = csv.reader(f)
+        u7 = dict()
+        for user_id, c1, c2, c3, c4, count, c_rate in reader:
+            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user in u7:
+            u7[user] = u7[user] + u_all[user]
+        db = MySQLdb.connect(
+            host=Path.host,
+            port=3306,
+            user=Path.user,
+            passwd="1234",
+            db="recommend"
+        )
+        cursor = db.cursor()
+        sql = "select DISTINCT user_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
+        u7_result = {}
+        try:
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            for row in results:
+                u7_result[row[0]] = 1
+        except:
+            print '\033[1;31;m'
+            print 'db.rollback()7result'
+            print '\033[0m'
+            db.rollback()
+        db.close()
+        for user in u7_result:
+            if u7.has_key(user):
+                u7[user][-1] = 1
+        for user in u7:
+            u_list.append(u7[user])
+    print 'get test data', time.time() - start
+    return array(u_list)
+
+
+def u_predict():
+    f = file(Path.u_feature, 'r')
+    reader = csv.reader(f)
+    u_all = dict()
+    u_list = []
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+    f = file(Path.u_feature_test, 'r')
+    reader = csv.reader(f)
+    u7 = dict()
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
     for user in u7:
-        u7[user] = dict(u7[user], **u_all[user])
-
+        u7[user] = u7[user] + u_all[user]
+    id_list = []
     for user in u7:
-        user_id.append(user)
-        u_list.append(
-            [int(u7[user]['c1']), int(u7[user]['c2']), int(u7[user]['c3']), int(u7[user]['c4']),
-             int(u7[user]['count']),
-             int(u7[user]['rate']), int(u7[user]['all_c1']), int(u7[user]['all_c2']), int(u7[user]['all_c3']),
-             int(u7[user]['all_c4']), int(u7[user]['all_count']), int(u7[user]['all_rate'])])
-    db.close()
-    return array(u_list), user_id
+        id_list.append(user)
+        u_list.append(u7[user])
+    print 'get predict data', time.time() - start
+    return array(u_list), array(id_list)
 
 
-def train(u):
-    weight = linspace(1, 25, 50)
-    c = linspace(1, 15, 50)
+def find_parameter(train, cross_v):
+    weight = linspace(1, 15, 30)
+    c = linspace(1, 15, 30)
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for k in range(shape(weight)[0]):
+    for i in range(shape(weight)[0]):
         for j in range(shape(c)[0]):
-            p = LogisticRegression(class_weight={1: weight[k]}, C=c[j])
-            # class_weight={1:2}
-            p.fit(u[:-17186, :-1], u[:-17186, -1])
-            test = u[-17186:, :-1]
-            result = u[-17186:, -1]
-            Z = p.predict(test)
+            p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
+            p.fit(train[:, :-1], train[:, -1])
+            Z = p.predict(cross_v[:, :-1])
             TP = 0.0
             FP = 0.0
             FN = 0.0
             TN = 0.0
-            for i in range(shape(Z)[0]):
-                if Z[i] == 1 and result[i] == 1:
+            for k in range(shape(Z)[0]):
+                if Z[k] == 1 and cross_v[k, -1] == 1:
                     TP += 1
-                elif Z[i] == 1 and result[i] == 0:
+                elif Z[k] == 1 and cross_v[k, -1] == 0:
                     FP += 1
-                elif Z[i] == 0 and result[i] == 1:
+                elif Z[k] == 0 and cross_v[k, -1] == 1:
                     FN += 1
                 else:
                     TN += 1
-            print weight[k], c[j], TP, FP, FN, TN
+            print weight[i], c[j], TP, FP, FN, TN
             precision = TP / (TP + FP)
             recall = TP / (TP + FN)
             F1 = (precision * recall) * 2 / (precision + recall)
@@ -174,7 +302,7 @@ def train(u):
             print 'F1 score:', F1
             if max_F1 < F1:
                 max_F1 = F1
-                max_w = weight[k]
+                max_w = weight[i]
                 max_c = c[j]
                 print '\033[1;31;m'
                 print max_F1, max_w, max_c
@@ -183,28 +311,89 @@ def train(u):
 
 
 if __name__ == '__main__':
-    train = u_train()
-    f = LogisticRegression(class_weight={1: 6.38775510204}, C=11.2857142857)
-    # class_weight={1:2}
-    f.fit(train[:, :-1], train[:, -1])
-    predict, u_id = u_test()
-    h = f.predict(predict)
-    db = MySQLdb.connect(
-        host='172.27.35.2',
-        port=3306,
-        user="zaber",
-        passwd="1234",
-        db="recommend"
-    )
-    for i in range(shape(h)[0]):
-        if h[i] == 1:
-
-            cursor = db.cursor()
-            sql = "insert into tb_u_feature_predict VALUE ("\
-                  +u_id[i] +")"
-            cursor.execute(sql)
-            db.commit()
-    db.close()
-    print mean(h == 1)
-    # 0.403978727595 6.38775510204 11.2857142857
+    start = time.time()
+    train1 = u_train()
+    print 'train 1 mean:', mean(train1[:, -1] == 1)
+    cross_v1 = u_cross_validation()
+    print 'cross 1 mean:', mean(cross_v1[:, -1] == 1)
+    data = u_data()
+    print 'data 1 mean:', mean(data[:, -1] == 1)
+    all_data = u_all_data()
+    print 'all data 1 mean:', mean(all_data[:, -1] == 1)
+    find_parameter(train1, cross_v1)
+    lr = LogisticRegression(class_weight={1: 6.38775510204}, C=4.42857142857)
+    lr.fit(train1[:, :-1], train1[:, -1])
+    predict = u_test()
+    z = lr.predict(predict[:, :-1])
+    tp = 0.0
+    fp = 0.0
+    fn = 0.0
+    tn = 0.0
+    for k in range(shape(z)[0]):
+        if z[k] == 1 and predict[k, -1] == 1:
+            tp += 1
+        elif z[k] == 1 and predict[k, -1] == 0:
+            fp += 1
+        elif z[k] == 0 and predict[k, -1] == 1:
+            fn += 1
+        else:
+            tn += 1
+    print  tp, fp, fn, tn
+    precision1 = tp / (tp + fp)
+    recall1 = tp / (tp + fn)
+    f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
+    print 'precision:', precision1
+    print 'recall:', recall1
+    print 'F1 score:', f1
+    ################################################
+    lr.fit(data[:, :-1], data[:, -1])
+    z = lr.predict(predict[:, :-1])
+    tp = 0.0
+    fp = 0.0
+    fn = 0.0
+    tn = 0.0
+    for k in range(shape(z)[0]):
+        if z[k] == 1 and predict[k, -1] == 1:
+            tp += 1
+        elif z[k] == 1 and predict[k, -1] == 0:
+            fp += 1
+        elif z[k] == 0 and predict[k, -1] == 1:
+            fn += 1
+        else:
+            tn += 1
+    print  tp, fp, fn, tn
+    precision1 = tp / (tp + fp)
+    recall1 = tp / (tp + fn)
+    f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
+    print 'precision:', precision1
+    print 'recall:', recall1
+    print 'F1 score:', f1
+    print 'time cost:', time.time() - start
+    #####################################
+    predict, u_id = u_predict()
+    lr.fit(all_data[:, :-1], all_data[:, -1])
+    z = lr.predict(predict)
+    #####################################
+    # db = MySQLdb.connect(
+    #     host='172.27.35.2',
+    #     port=3306,
+    #     user="zaber",
+    #     passwd="1234",
+    #     db="recommend"
+    # )
+    # sql = "insert into tb_u_feature_predict VALUES (%s)"
+    # values = []
+    # for i in range(shape(z)[0]):
+    #     if z[i] == 1:
+    #         values.append((str(u_id[i]),))
+    # try:
+    #     cursor = db.cursor()
+    #     cursor.executemany(sql, values)
+    #     db.commit()
+    # except:
+    #     print "insert error"
+    # db.close()
+    print mean(z == 1)
     winsound.Beep(300, 1000)
+    # 0.447880917924 6.38775510204 4.42857142857
+# 0.404652095448 6.31034482759 5.34482758621

@@ -1,5 +1,9 @@
 SELECT * FROM tb_i_feature INTO OUTFILE 'D:/tb_i_feature.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
-
+SELECT * FROM tb_u_feature INTO OUTFILE 'D:/tb_u_feature.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
+SELECT * FROM tb_c_feature INTO OUTFILE 'D:/tb_c_feature.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
+SELECT * FROM tb_i_feature_test INTO OUTFILE 'D:/tb_i_feature_test.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
+SELECT * FROM tb_u_feature_test INTO OUTFILE 'D:/tb_u_feature_test.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
+SELECT * FROM tb_c_feature_test INTO OUTFILE 'D:/tb_c_feature_test.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
 CREATE TABLE tb_tianchi_user
           (
                     user_id       CHAR (20)
