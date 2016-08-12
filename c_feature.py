@@ -62,7 +62,6 @@ def c_train():
                 c7[category][-1] = 1
         for category in c7:
             c_list.append(c7[category])
-    print 'get train data', time.time() - start
     return array(c_list)
 
 
@@ -114,7 +113,6 @@ def c_cross_validation():
                 c7[category][-1] = 1
         for category in c7:
             c_list.append(c7[category])
-    print 'get train data', time.time() - start
     return array(c_list)
 
 
@@ -166,7 +164,6 @@ def c_all_data():
                 c7[category][-1] = 1
         for category in c7:
             c_list.append(c7[category])
-    print 'get all data', time.time() - start
     return array(c_list)
 
 
@@ -218,7 +215,6 @@ def c_data():
                 c7[category][-1] = 1
         for category in c7:
             c_list.append(c7[category])
-    print 'get data', time.time() - start
     return array(c_list)
 
 
@@ -270,7 +266,6 @@ def c_test():
                 c7[category][-1] = 1
         for category in c7:
             c_list.append(c7[category])
-    print 'get train data', time.time() - start
     return array(c_list)
 
 
@@ -297,13 +292,12 @@ def c_predict():
     for category in c7:
         category_list.append(category)
         c_list.append(c7[category])
-    print 'get predict data', time.time() - start
     return array(c_list), array(category_list)
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(1, 15, 30)
-    c = linspace(1, 15, 30)
+    weight = linspace(1, 5, 10)
+    c = linspace(12, 15, 6)
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
@@ -352,8 +346,8 @@ if __name__ == '__main__':
     print 'data 1 mean:', mean(data[:, -1] == 1)
     all_data = c_all_data()
     print 'all data 1 mean:', mean(all_data[:, -1] == 1)
-    find_parameter(train1, cross_v1)
-    lr = LogisticRegression(class_weight={1: 4.42857142857}, C=8.42857142857)
+    # find_parameter(train1, cross_v1)
+    lr = LogisticRegression(class_weight={1: 3.41379310345}, C=13.0689655172)
     lr.fit(train1[:, :-1], train1[:, -1])
     predict = c_test()
     z = lr.predict(predict[:, :-1])
@@ -406,26 +400,39 @@ if __name__ == '__main__':
     lr.fit(all_data[:, :-1], all_data[:, -1])
     z = lr.predict(predict[:, :-1])
     #####################################
-    # db = MySQLdb.connect(
-    #     host='172.27.35.2',
-    #     port=3306,
-    #     user="zaber",
-    #     passwd="1234",
-    #     db="recommend"
-    # )
-    # sql = "insert into tb_c_feature_predict VALUES (%s)"
-    # values = []
-    # for i in range(shape(z)[0]):
-    #     if z[i] == 1:
-    #         values.append((str(c_id[i]),))
-    # try:
-    #     cursor = db.cursor()
-    #     cursor.executemany(sql, values)
-    #     db.commit()
-    # except:
-    #     print "insert error"
-    # db.close()
-    print mean(z == 1)
+    db = MySQLdb.connect(
+        host='172.27.35.2',
+        port=3306,
+        user="zaber",
+        passwd="1234",
+        db="recommend"
+    )
+    sql = "DELETE FROM tb_c_feature_predict"
+    try:
+        cursor = db.cursor()
+        # 执行SQL语句
+        cursor.execute(sql)
+        # 提交修改
+        db.commit()
+    except:
+        # 发生错误时回滚
+        print '发生错误时回滚'
+        db.rollback()
+    sql = "insert into tb_c_feature_predict VALUES (%s)"
+    values = []
+    for i in range(shape(z)[0]):
+        if z[i] == 1:
+            print c_id[i]
+            values.append((str(c_id[i]),))
+    try:
+        cursor = db.cursor()
+        cursor.executemany(sql, values)
+        db.commit()
+    except:
+        print "insert error"
+    db.close()
+    print 'predict mean',mean(z == 1)
+    print shape(z)[0]
     winsound.Beep(300, 1000)
     # 0.71872060207 4.42857142857 8.42857142857 15
     # 0.713114754098 3.41379310345 13.0689655172  23

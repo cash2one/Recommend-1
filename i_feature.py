@@ -59,7 +59,6 @@ def i_train():
                 i7[item][-1] = 1
         for item in i7:
             i_list.append(i7[item])
-    print 'get train data', time.time() - start
     return array(i_list)
 
 
@@ -109,7 +108,6 @@ def i_cross_validation():
                 i7[item][-1] = 1
         for item in i7:
             i_list.append(i7[item])
-    print 'get cross data', time.time() - start
     return array(i_list)
 
 
@@ -159,7 +157,6 @@ def i_all_data():
                 i7[item][-1] = 1
         for item in i7:
             i_list.append(i7[item])
-    print 'get all data', time.time() - start
     return array(i_list)
 
 
@@ -209,7 +206,6 @@ def i_data():
                 i7[item][-1] = 1
         for item in i7:
             i_list.append(i7[item])
-    print 'get data', time.time() - start
     return array(i_list)
 
 
@@ -259,7 +255,6 @@ def i_test():
                 i7[item][-1] = 1
         for item in i7:
             i_list.append(i7[item])
-    print 'get test data', time.time() - start
     return array(i_list)
 
 
@@ -281,7 +276,6 @@ def i_predict():
     for item in i7:
         id_list.append(item)
         i_list.append(i7[item])
-    print 'get predict data', time.time() - start
     return array(i_list), array(id_list)
 
 
@@ -330,14 +324,12 @@ if __name__ == '__main__':
     start = time.time()
     train1 = i_train()
     print 'train 1 mean:', mean(train1[:, -1] == 1)
-    cross_v1 = i_cross_validation()
-    print 'cross 1 mean:', mean(cross_v1[:, -1] == 1)
-    # data = i_data()
-    # print 'data 1 mean:', mean(data[:, -1] == 1)
-    # all_data = i_all_data()
-    # print 'all data 1 mean:', mean(all_data[:, -1] == 1)
-    find_parameter(train1, cross_v1)
-    lr = LogisticRegression(class_weight={1: 6.38775510204}, C=4.42857142857)
+    # cross_v1 = i_cross_validation()
+    # print 'cross 1 mean:', mean(cross_v1[:, -1] == 1)
+
+
+    # find_parameter(train1, cross_v1)
+    lr = LogisticRegression(class_weight={1: 24.2307692308}, C=1.88888888889)
     lr.fit(train1[:, :-1], train1[:, -1])
     predict = i_test()
     z = lr.predict(predict[:, :-1])
@@ -362,33 +354,37 @@ if __name__ == '__main__':
     print 'recall:', recall1
     print 'F1 score:', f1
     ################################################
-    # lr.fit(data[:, :-1], data[:, -1])
-    # z = lr.predict(predict[:, :-1])
-    # tp = 0.0
-    # fp = 0.0
-    # fn = 0.0
-    # tn = 0.0
-    # for k in range(shape(z)[0]):
-    #     if z[k] == 1 and predict[k, -1] == 1:
-    #         tp += 1
-    #     elif z[k] == 1 and predict[k, -1] == 0:
-    #         fp += 1
-    #     elif z[k] == 0 and predict[k, -1] == 1:
-    #         fn += 1
-    #     else:
-    #         tn += 1
-    # print  tp, fp, fn, tn
-    # precision1 = tp / (tp + fp)
-    # recall1 = tp / (tp + fn)
-    # f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
-    # print 'precision:', precision1
-    # print 'recall:', recall1
-    # print 'F1 score:', f1
-    # print 'time cost:', time.time() - start
+    data = i_data()
+    print 'data 1 mean:', mean(data[:, -1] == 1)
+    lr.fit(data[:, :-1], data[:, -1])
+    z = lr.predict(predict[:, :-1])
+    tp = 0.0
+    fp = 0.0
+    fn = 0.0
+    tn = 0.0
+    for k in range(shape(z)[0]):
+        if z[k] == 1 and predict[k, -1] == 1:
+            tp += 1
+        elif z[k] == 1 and predict[k, -1] == 0:
+            fp += 1
+        elif z[k] == 0 and predict[k, -1] == 1:
+            fn += 1
+        else:
+            tn += 1
+    print  tp, fp, fn, tn
+    precision1 = tp / (tp + fp)
+    recall1 = tp / (tp + fn)
+    f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
+    print 'precision:', precision1
+    print 'recall:', recall1
+    print 'F1 score:', f1
+    print 'time cost:', time.time() - start
     #####################################
-    # predict, i_id = i_predict()
-    # lr.fit(all_data[:, :-1], all_data[:, -1])
-    # z = lr.predict(predict)
+    all_data = i_all_data()
+    print 'all data 1 mean:', mean(all_data[:, -1] == 1)
+    predict, i_id = i_predict()
+    lr.fit(all_data[:, :-1], all_data[:, -1])
+    z = lr.predict(predict)
     #####################################
     # db = MySQLdb.connect(
     #     host='172.27.35.2',

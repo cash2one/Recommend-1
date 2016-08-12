@@ -55,7 +55,6 @@ def u_train():
                 u7[user][-1] = 1
         for user in u7:
             u_list.append(u7[user])
-    print 'get train data', time.time() - start
     return array(u_list)
 
 
@@ -102,7 +101,6 @@ def u_cross_validation():
                 u7[user][-1] = 1
         for user in u7:
             u_list.append(u7[user])
-    print 'get cross data', time.time() - start
     return array(u_list)
 
 
@@ -149,7 +147,6 @@ def u_all_data():
                 u7[user][-1] = 1
         for user in u7:
             u_list.append(u7[user])
-    print 'get all data', time.time() - start
     return array(u_list)
 
 
@@ -196,7 +193,6 @@ def u_data():
                 u7[user][-1] = 1
         for user in u7:
             u_list.append(u7[user])
-    print 'get data', time.time() - start
     return array(u_list)
 
 
@@ -243,7 +239,6 @@ def u_test():
                 u7[user][-1] = 1
         for user in u7:
             u_list.append(u7[user])
-    print 'get test data', time.time() - start
     return array(u_list)
 
 
@@ -265,13 +260,12 @@ def u_predict():
     for user in u7:
         id_list.append(user)
         u_list.append(u7[user])
-    print 'get predict data', time.time() - start
     return array(u_list), array(id_list)
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(1, 15, 30)
-    c = linspace(1, 15, 30)
+    weight = linspace(5, 7, 5)
+    c = linspace(3, 6, 10)
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
@@ -320,8 +314,8 @@ if __name__ == '__main__':
     print 'data 1 mean:', mean(data[:, -1] == 1)
     all_data = u_all_data()
     print 'all data 1 mean:', mean(all_data[:, -1] == 1)
-    find_parameter(train1, cross_v1)
-    lr = LogisticRegression(class_weight={1: 6.38775510204}, C=4.42857142857)
+    # find_parameter(train1, cross_v1)
+    lr = LogisticRegression(class_weight={1: 6.31034482759}, C=5.34482758621)
     lr.fit(train1[:, :-1], train1[:, -1])
     predict = u_test()
     z = lr.predict(predict[:, :-1])
@@ -374,26 +368,39 @@ if __name__ == '__main__':
     lr.fit(all_data[:, :-1], all_data[:, -1])
     z = lr.predict(predict)
     #####################################
-    # db = MySQLdb.connect(
-    #     host='172.27.35.2',
-    #     port=3306,
-    #     user="zaber",
-    #     passwd="1234",
-    #     db="recommend"
-    # )
-    # sql = "insert into tb_u_feature_predict VALUES (%s)"
-    # values = []
-    # for i in range(shape(z)[0]):
-    #     if z[i] == 1:
-    #         values.append((str(u_id[i]),))
-    # try:
-    #     cursor = db.cursor()
-    #     cursor.executemany(sql, values)
-    #     db.commit()
-    # except:
-    #     print "insert error"
-    # db.close()
-    print mean(z == 1)
+    db = MySQLdb.connect(
+        host=Path.host,
+        port=3306,
+        user=Path.user,
+        passwd="1234",
+        db="recommend"
+    )
+    sql = "DELETE FROM tb_u_feature_predict"
+    try:
+        cursor = db.cursor()
+        # 执行SQL语句
+        cursor.execute(sql)
+        # 提交修改
+        db.commit()
+    except:
+        # 发生错误时回滚
+        print '发生错误时回滚'
+        db.rollback()
+    sql = "insert into tb_u_feature_predict VALUES (%s)"
+    values = []
+    for i in range(shape(z)[0]):
+        if z[i] == 1:
+            print  u_id[i]
+            values.append((str(u_id[i]),))
+    try:
+        cursor = db.cursor()
+        cursor.executemany(sql, values)
+        db.commit()
+    except:
+        print "insert error"
+    db.close()
+    print 'predict mean', mean(z == 1)
+    print shape(z)[0]
     winsound.Beep(300, 1000)
     # 0.447880917924 6.38775510204 4.42857142857
-# 0.404652095448 6.31034482759 5.34482758621
+    # 0.404652095448 6.31034482759 5.34482758621
