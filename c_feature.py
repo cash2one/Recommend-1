@@ -401,9 +401,9 @@ if __name__ == '__main__':
     z = lr.predict(predict[:, :-1])
     #####################################
     db = MySQLdb.connect(
-        host='172.27.35.2',
+        host=Path.host,
         port=3306,
-        user="zaber",
+        user=Path.user,
         passwd="1234",
         db="recommend"
     )
@@ -431,7 +431,7 @@ if __name__ == '__main__':
     except:
         print "insert error"
     db.close()
-    print 'predict mean',mean(z == 1)
+    print 'predict mean', mean(z == 1)
     print shape(z)[0]
     winsound.Beep(300, 1000)
     # 0.71872060207 4.42857142857 8.42857142857 15
