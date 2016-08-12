@@ -1,24 +1,7 @@
-use recommend;
-
---
---
--- create table tb_train_22_28_nov
-drop table IF EXISTS tb_train_22_28_nov;
-
-create table tb_train_22_28_nov as
-select * from tb_tianchi_user where
-(time>='2014-11-22 00' and time<='2014-11-27 24' and behavior_type!='1')
-or
-(time>='2014-11-28 00' and time<='2014-11-28 24');
-
-select * from tb_train_22_28_nov;
-
--- create table tb_train_22_28_nov_result
-drop table IF EXISTS tb_train_22_28_nov_result;
-
-create table tb_train_22_28_nov_result as
-select * from tb_tianchi_user where
-(time >='2014-11-29 00' and time <='2014-11-29 24' and behavior_type='4')
-;
-select * from tb_train_22_28_nov_result;
-
+select item_category,all1 as call1,all2 as call2,all3 as call3,all4 as call4,allcount as callc,allturnrate callr,
+act1 as cact1,act2 as cact2,act3 as cact3,act4 as cact4,actcount as cactc,actturnrate as cactr
+from tb_c_feature;
+select item_id,all1 as iall1,all2 as iall2,all3 as iall3,all4 as iall4,allcount as iallc,
+act1 as iact1,act2 as iact2,act3 as iact3,act4 as iact4,actcount as iactc
+ from tb_i_feature;
+select user_id, c1,c2,c3,c4 ,count,rate from tb_u_feature;

@@ -1,12 +1,3 @@
-select * from tb_c_feature_predict
-;
-truncate table tb_c_feature_predict
-;
-insert into tb_u_feature_predict VALUES (32383738);
-;
-describe tb_u_feature_predict;
 
-create table tb_c_feature_predict(
-item_category char(20)
-
-)
+select count(*) from tb_u_feature_01_07_dec;
+select count(*) from tb_u_feature_02_08_dec;
