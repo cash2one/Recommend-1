@@ -23,7 +23,7 @@ def i_train():
         i_all[item_id] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(act1), float(act2),
                           float(act3), float(act4), float(actcount), float(0)]
 
-    for i in range(0, 1):
+    for i in range(0, 23):
         f = file(Path.tb_feature_i[i], 'r')
         reader = csv.reader(f)
         i7 = dict()
@@ -286,8 +286,8 @@ def i_predict():
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(15, 30, 30)
-    c = linspace(1, 10, 20)
+    weight = linspace(21, 28, 14)
+    c = linspace(1, 5, 10)
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
@@ -411,10 +411,4 @@ if __name__ == '__main__':
     # db.close()
     print mean(z == 1)
     winsound.Beep(300, 1000)
-    # 0.258880192655
-    # 23.275862069
-    # 1.0
-
-    # 214
-    # 785
-    # 214
+    # 0.257433742728 24.2307692308 1.88888888889
