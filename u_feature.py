@@ -323,12 +323,12 @@ if __name__ == '__main__':
     fp = 0.0
     fn = 0.0
     tn = 0.0
-    for k in range(shape(z)[0]):
-        if z[k] == 1 and predict[k, -1] == 1:
+    for k1 in range(shape(z)[0]):
+        if z[k1] == 1 and predict[k1, -1] == 1:
             tp += 1
-        elif z[k] == 1 and predict[k, -1] == 0:
+        elif z[k1] == 1 and predict[k1, -1] == 0:
             fp += 1
-        elif z[k] == 0 and predict[k, -1] == 1:
+        elif z[k1] == 0 and predict[k1, -1] == 1:
             fn += 1
         else:
             tn += 1
@@ -346,12 +346,12 @@ if __name__ == '__main__':
     fp = 0.0
     fn = 0.0
     tn = 0.0
-    for k in range(shape(z)[0]):
-        if z[k] == 1 and predict[k, -1] == 1:
+    for k1 in range(shape(z)[0]):
+        if z[k1] == 1 and predict[k1, -1] == 1:
             tp += 1
-        elif z[k] == 1 and predict[k, -1] == 0:
+        elif z[k1] == 1 and predict[k1, -1] == 0:
             fp += 1
-        elif z[k] == 0 and predict[k, -1] == 1:
+        elif z[k1] == 0 and predict[k1, -1] == 1:
             fn += 1
         else:
             tn += 1

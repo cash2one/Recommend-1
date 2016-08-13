@@ -13,19 +13,34 @@ from sklearn.linear_model import LogisticRegression
 
 
 def uc_train():
+    f = file(Path.c_feature, 'r')
+    reader = csv.reader(f)
+    c_all = dict()
+    for item_category, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
+        c_all[item_category] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(allturnrate),
+                                float(act1), float(act2), float(act3), float(act4), float(actcount), float(actturnrate),
+                                float(0)]
+    f = file(Path.u_feature, 'r')
+    reader = csv.reader(f)
+    u_all = dict()
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
     uc_list = []
     for i in range(0, 23):
         f = file(Path.tb_feature_uc[i], 'r')
         reader = csv.reader(f)
-        c7 = dict()
+        uc7 = dict()
         for user_id, item_category, c1, c2, c3, c4, count, c_rate, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
-            c7[user_id] = dict()
-            c7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
-                                          float(all1), float(all2), float(all3), float(all4), float(allcount),
-                                          float(allturnrate),
-                                          float(act1), float(act2), float(act3), float(act4), float(actcount),
-                                          float(actturnrate), float(0)]
+            uc7[user_id] = dict()
+            uc7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
+                                           float(all1), float(all2), float(all3), float(all4), float(allcount),
+                                           float(allturnrate),
+                                           float(act1), float(act2), float(act3), float(act4), float(actcount),
+                                           float(actturnrate)]
 
+        for user_id in uc7:
+            for category in uc7[user_id]:
+                uc7[user_id][category] = uc7[user_id][category] + u_all[user_id] + c_all[category]
         db = MySQLdb.connect(
             host=Path.host,
             port=3306,
@@ -36,44 +51,59 @@ def uc_train():
         cursor = db.cursor()
         sql = "select user_id,item_category from " + Path.tb_train_result[
             i] + " where behavior_type='4' group by user_id,item_category"
-        c7_result = {}
+        uc7_result = {}
         try:
             cursor.execute(sql)
             results = cursor.fetchall()
             for row in results:
-                c7_result[row[0]] = dict()
-                c7_result[row[0]][row[1]] = 1
+                uc7_result[row[0]] = dict()
+                uc7_result[row[0]][row[1]] = 1
         except:
             print '\033[1;31;m'
             print 'db.rollback()7result'
             print '\033[0m'
             db.rollback()
         db.close()
-        for user_id in c7_result:
-            if c7.has_key(user_id):
-                for category in c7_result[user_id]:
-                    if c7[user_id].has_key(category):
-                        c7[user_id][category][-1] = 1
-        for user_id in c7:
-            for category in c7[user_id]:
-                uc_list.append(c7[user_id][category])
+        for user_id in uc7_result:
+            if uc7.has_key(user_id):
+                for category in uc7_result[user_id]:
+                    if uc7[user_id].has_key(category):
+                        uc7[user_id][category][-1] = 1
+        for user_id in uc7:
+            for category in uc7[user_id]:
+                uc_list.append(uc7[user_id][category])
     return array(uc_list)
 
 
 def uc_cross_validation():
+    f = file(Path.c_feature, 'r')
+    reader = csv.reader(f)
+    c_all = dict()
+    for item_category, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
+        c_all[item_category] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(allturnrate),
+                                float(act1), float(act2), float(act3), float(act4), float(actcount), float(actturnrate),
+                                float(0)]
+    f = file(Path.u_feature, 'r')
+    reader = csv.reader(f)
+    u_all = dict()
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
     uc_list = []
     for i in range(23, 24):
         f = file(Path.tb_feature_uc[i], 'r')
         reader = csv.reader(f)
-        c7 = dict()
+        uc7 = dict()
         for user_id, item_category, c1, c2, c3, c4, count, c_rate, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
-            c7[user_id] = dict()
-            c7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
-                                          float(all1), float(all2), float(all3), float(all4), float(allcount),
-                                          float(allturnrate),
-                                          float(act1), float(act2), float(act3), float(act4), float(actcount),
-                                          float(actturnrate), float(0)]
+            uc7[user_id] = dict()
+            uc7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
+                                           float(all1), float(all2), float(all3), float(all4), float(allcount),
+                                           float(allturnrate),
+                                           float(act1), float(act2), float(act3), float(act4), float(actcount),
+                                           float(actturnrate)]
 
+        for user_id in uc7:
+            for category in uc7[user_id]:
+                uc7[user_id][category] = uc7[user_id][category] + u_all[user_id] + c_all[category]
         db = MySQLdb.connect(
             host=Path.host,
             port=3306,
@@ -84,27 +114,27 @@ def uc_cross_validation():
         cursor = db.cursor()
         sql = "select user_id,item_category from " + Path.tb_train_result[
             i] + " where behavior_type='4' group by user_id,item_category"
-        c7_result = {}
+        uc7_result = {}
         try:
             cursor.execute(sql)
             results = cursor.fetchall()
             for row in results:
-                c7_result[row[0]] = dict()
-                c7_result[row[0]][row[1]] = 1
+                uc7_result[row[0]] = dict()
+                uc7_result[row[0]][row[1]] = 1
         except:
             print '\033[1;31;m'
             print 'db.rollback()7result'
             print '\033[0m'
             db.rollback()
         db.close()
-        for user_id in c7_result:
-            if c7.has_key(user_id):
-                for category in c7_result[user_id]:
-                    if c7[user_id].has_key(category):
-                        c7[user_id][category][-1] = 1
-        for user_id in c7:
-            for category in c7[user_id]:
-                uc_list.append(c7[user_id][category])
+        for user_id in uc7_result:
+            if uc7.has_key(user_id):
+                for category in uc7_result[user_id]:
+                    if uc7[user_id].has_key(category):
+                        uc7[user_id][category][-1] = 1
+        for user_id in uc7:
+            for category in uc7[user_id]:
+                uc_list.append(uc7[user_id][category])
     return array(uc_list)
 
 
@@ -113,14 +143,14 @@ def uc_all_data():
     for i in range(0, 24):
         f = file(Path.tb_feature_uc[i], 'r')
         reader = csv.reader(f)
-        c7 = dict()
+        uc7 = dict()
         for user_id, item_category, c1, c2, c3, c4, count, c_rate, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
-            c7[user_id] = dict()
-            c7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
-                                          float(all1), float(all2), float(all3), float(all4), float(allcount),
-                                          float(allturnrate),
-                                          float(act1), float(act2), float(act3), float(act4), float(actcount),
-                                          float(actturnrate), float(0)]
+            uc7[user_id] = dict()
+            uc7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
+                                           float(all1), float(all2), float(all3), float(all4), float(allcount),
+                                           float(allturnrate),
+                                           float(act1), float(act2), float(act3), float(act4), float(actcount),
+                                           float(actturnrate), float(0)]
 
         db = MySQLdb.connect(
             host=Path.host,
@@ -132,27 +162,27 @@ def uc_all_data():
         cursor = db.cursor()
         sql = "select user_id,item_category from " + Path.tb_train_result[
             i] + " where behavior_type='4' group by user_id,item_category"
-        c7_result = {}
+        uc7_result = {}
         try:
             cursor.execute(sql)
             results = cursor.fetchall()
             for row in results:
-                c7_result[row[0]] = dict()
-                c7_result[row[0]][row[1]] = 1
+                uc7_result[row[0]] = dict()
+                uc7_result[row[0]][row[1]] = 1
         except:
             print '\033[1;31;m'
             print 'db.rollback()7result'
             print '\033[0m'
             db.rollback()
         db.close()
-        for user_id in c7_result:
-            if c7.has_key(user_id):
-                for category in c7_result[user_id]:
-                    if c7[user_id].has_key(category):
-                        c7[user_id][category][-1] = 1
-        for user_id in c7:
-            for category in c7[user_id]:
-                uc_list.append(c7[user_id][category])
+        for user_id in uc7_result:
+            if uc7.has_key(user_id):
+                for category in uc7_result[user_id]:
+                    if uc7[user_id].has_key(category):
+                        uc7[user_id][category][-1] = 1
+        for user_id in uc7:
+            for category in uc7[user_id]:
+                uc_list.append(uc7[user_id][category])
     return array(uc_list)
 
 
@@ -161,14 +191,14 @@ def uc_data():
     for i in range(0, 22):
         f = file(Path.tb_feature_uc[i], 'r')
         reader = csv.reader(f)
-        c7 = dict()
+        uc7 = dict()
         for user_id, item_category, c1, c2, c3, c4, count, c_rate, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
-            c7[user_id] = dict()
-            c7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
-                                          float(all1), float(all2), float(all3), float(all4), float(allcount),
-                                          float(allturnrate),
-                                          float(act1), float(act2), float(act3), float(act4), float(actcount),
-                                          float(actturnrate), float(0)]
+            uc7[user_id] = dict()
+            uc7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
+                                           float(all1), float(all2), float(all3), float(all4), float(allcount),
+                                           float(allturnrate),
+                                           float(act1), float(act2), float(act3), float(act4), float(actcount),
+                                           float(actturnrate), float(0)]
 
         db = MySQLdb.connect(
             host=Path.host,
@@ -180,27 +210,27 @@ def uc_data():
         cursor = db.cursor()
         sql = "select user_id,item_category from " + Path.tb_train_result[
             i] + " where behavior_type='4' group by user_id,item_category"
-        c7_result = {}
+        uc7_result = {}
         try:
             cursor.execute(sql)
             results = cursor.fetchall()
             for row in results:
-                c7_result[row[0]] = dict()
-                c7_result[row[0]][row[1]] = 1
+                uc7_result[row[0]] = dict()
+                uc7_result[row[0]][row[1]] = 1
         except:
             print '\033[1;31;m'
             print 'db.rollback()7result'
             print '\033[0m'
             db.rollback()
         db.close()
-        for user_id in c7_result:
-            if c7.has_key(user_id):
-                for category in c7_result[user_id]:
-                    if c7[user_id].has_key(category):
-                        c7[user_id][category][-1] = 1
-        for user_id in c7:
-            for category in c7[user_id]:
-                uc_list.append(c7[user_id][category])
+        for user_id in uc7_result:
+            if uc7.has_key(user_id):
+                for category in uc7_result[user_id]:
+                    if uc7[user_id].has_key(category):
+                        uc7[user_id][category][-1] = 1
+        for user_id in uc7:
+            for category in uc7[user_id]:
+                uc_list.append(uc7[user_id][category])
     return array(uc_list)
 
 
@@ -209,14 +239,14 @@ def uc_test():
     for i in range(22, 24):
         f = file(Path.tb_feature_uc[i], 'r')
         reader = csv.reader(f)
-        c7 = dict()
+        uc7 = dict()
         for user_id, item_category, c1, c2, c3, c4, count, c_rate, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
-            c7[user_id] = dict()
-            c7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
-                                          float(all1), float(all2), float(all3), float(all4), float(allcount),
-                                          float(allturnrate),
-                                          float(act1), float(act2), float(act3), float(act4), float(actcount),
-                                          float(actturnrate), float(0)]
+            uc7[user_id] = dict()
+            uc7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
+                                           float(all1), float(all2), float(all3), float(all4), float(allcount),
+                                           float(allturnrate),
+                                           float(act1), float(act2), float(act3), float(act4), float(actcount),
+                                           float(actturnrate), float(0)]
 
         db = MySQLdb.connect(
             host=Path.host,
@@ -228,27 +258,27 @@ def uc_test():
         cursor = db.cursor()
         sql = "select user_id,item_category from " + Path.tb_train_result[
             i] + " where behavior_type='4' group by user_id,item_category"
-        c7_result = {}
+        uc7_result = {}
         try:
             cursor.execute(sql)
             results = cursor.fetchall()
             for row in results:
-                c7_result[row[0]] = dict()
-                c7_result[row[0]][row[1]] = 1
+                uc7_result[row[0]] = dict()
+                uc7_result[row[0]][row[1]] = 1
         except:
             print '\033[1;31;m'
             print 'db.rollback()7result'
             print '\033[0m'
             db.rollback()
         db.close()
-        for user_id in c7_result:
-            if c7.has_key(user_id):
-                for category in c7_result[user_id]:
-                    if c7[user_id].has_key(category):
-                        c7[user_id][category][-1] = 1
-        for user_id in c7:
-            for category in c7[user_id]:
-                uc_list.append(c7[user_id][category])
+        for user_id in uc7_result:
+            if uc7.has_key(user_id):
+                for category in uc7_result[user_id]:
+                    if uc7[user_id].has_key(category):
+                        uc7[user_id][category][-1] = 1
+        for user_id in uc7:
+            for category in uc7[user_id]:
+                uc_list.append(uc7[user_id][category])
     return array(uc_list)
 
 
@@ -257,34 +287,34 @@ def uc_predict():
     for i in range(0, 23):
         f = file(Path.tb_feature_uc[i], 'r')
         reader = csv.reader(f)
-        c7 = dict()
+        uc7 = dict()
         for user_id, item_category, c1, c2, c3, c4, count, c_rate, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
-            c7[user_id] = dict()
-            c7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
-                                          float(all1), float(all2), float(all3), float(all4), float(allcount),
-                                          float(allturnrate),
-                                          float(act1), float(act2), float(act3), float(act4), float(actcount),
-                                          float(actturnrate), float(0)]
+            uc7[user_id] = dict()
+            uc7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
+                                           float(all1), float(all2), float(all3), float(all4), float(allcount),
+                                           float(allturnrate),
+                                           float(act1), float(act2), float(act3), float(act4), float(actcount),
+                                           float(actturnrate), float(0)]
         id_list = []
         category_list = []
-        for user_id in c7:
-            for category in c7[user_id]:
+        for user_id in uc7:
+            for category in uc7[user_id]:
                 id_list.append(user_id)
                 category_list.append(category)
-                uc_list.append(c7[user_id][category])
+                uc_list.append(uc7[user_id][category])
     return array(uc_list), array(id_list), array(category_list)
 
-    return array(uc_list), array(category_list)
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(10, 20, 30)
-    c = linspace(1, 25, 50)
+    weight = linspace(38, 46, 20)
+    c = linspace(1, 5, 20)
+    # 0.0552763819095 31.3103448276 1.25
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for i in range(shape(weight)[0]):
-        for j in range(shape(c)[0]):
+    for j in range(shape(c)[0]):
+        for i in range(shape(weight)[0]):
             p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
