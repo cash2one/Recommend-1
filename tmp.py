@@ -193,19 +193,19 @@ if __name__ == '__main__':
     print shape(c_pre)[0]
     #######################
     all_data = uc_data()
-    u_predict = {}
-    c_predict = {}
+    u_predict = dict()
+    c_predict = dict()
     for i in range(shape(u_pre)[0]):
         if u_pre[i] == 1:
-            u_predict[u_pre] = 1
+            u_predict[u_pre[i]] = 1
     for i in range(shape(c_pre)[0]):
         if c_pre[i] == 1:
             c_predict[c_pre[i]] = 1
     uc_predict=[]
-    for i in range(shape(uc_data)[0]):
-        if u_predict.has_key(uc_data[i][0]):
-            if c_predict.has_key(uc_data[i][1]):
-                c_predict[uc_data[i][1]] += 1
-                u_predict[uc_data[i][0]] += 1
-                uc_predict.append([uc_data[i][0],uc_data[i][1]])
+    for i in range(shape(all_data)[0]):
+        if u_predict.has_key(all_data[i][0]):
+            if c_predict.has_key(all_data[i][1]):
+                c_predict[all_data[i][1]] += 1
+                u_predict[all_data[i][0]] += 1
+                uc_predict.append([all_data[i][0],all_data[i][1]])
     winsound.Beep(300, 1000)
