@@ -21,12 +21,16 @@ def u_train():
     for user_id, c1, c2, c3, c4, count, c_rate in reader:
         u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
 
-    for i in range(0, 23):
+    for i in range(0, 24):
         f = file(Path.tb_feature_u[i], 'r')
         reader = csv.reader(f)
         u7 = dict()
-        for user_id, c1, c2, c3, c4, count, c_rate in reader:
-            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                           float(t7g1), float(t3g1), float(t1g1)
+                           ]
         for user in u7:
             u7[user] = u7[user] + u_all[user]
         db = MySQLdb.connect(
@@ -71,8 +75,12 @@ def u_cross_validation():
         f = file(Path.tb_feature_u[i], 'r')
         reader = csv.reader(f)
         u7 = dict()
-        for user_id, c1, c2, c3, c4, count, c_rate in reader:
-            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                           float(t7g1), float(t3g1), float(t1g1)
+                           ]
         for user in u7:
             u7[user] = u7[user] + u_all[user]
         db = MySQLdb.connect(
@@ -117,8 +125,12 @@ def u_all_data():
         f = file(Path.tb_feature_u[i], 'r')
         reader = csv.reader(f)
         u7 = dict()
-        for user_id, c1, c2, c3, c4, count, c_rate in reader:
-            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                           float(t7g1), float(t3g1), float(t1g1)
+                           ]
         for user in u7:
             u7[user] = u7[user] + u_all[user]
         db = MySQLdb.connect(
@@ -163,8 +175,12 @@ def u_data():
         f = file(Path.tb_feature_u[i], 'r')
         reader = csv.reader(f)
         u7 = dict()
-        for user_id, c1, c2, c3, c4, count, c_rate in reader:
-            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                           float(t7g1), float(t3g1), float(t1g1)
+                           ]
         for user in u7:
             u7[user] = u7[user] + u_all[user]
         db = MySQLdb.connect(
@@ -209,8 +225,12 @@ def u_test():
         f = file(Path.tb_feature_u[i], 'r')
         reader = csv.reader(f)
         u7 = dict()
-        for user_id, c1, c2, c3, c4, count, c_rate in reader:
-            u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                           float(t7g1), float(t3g1), float(t1g1)
+                           ]
         for user in u7:
             u7[user] = u7[user] + u_all[user]
         db = MySQLdb.connect(
@@ -252,8 +272,11 @@ def u_predict():
     f = file(Path.u_feature_test, 'r')
     reader = csv.reader(f)
     u7 = dict()
-    for user_id, c1, c2, c3, c4, count, c_rate in reader:
-        u7[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
+    for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+        u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                       float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                       float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                       float(t7g1), float(t3g1), float(t1g1)]
     for user in u7:
         u7[user] = u7[user] + u_all[user]
     id_list = []
@@ -264,13 +287,16 @@ def u_predict():
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(5, 7, 5)
-    c = linspace(3, 6, 10)
+    weight = linspace(2, 10, 30)
+    c = linspace(24, 30, 10)
+    # 0.406543125143 5.58620689655 19.9183673469
+    # 0.406339726657 5.58620689655 11.9591836735
+    # 0.406242827634 5.58620689655 26.6666666667
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for i in range(shape(weight)[0]):
-        for j in range(shape(c)[0]):
+    for j in range(shape(c)[0]):
+        for i in range(shape(weight)[0]):
             p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
@@ -315,7 +341,7 @@ if __name__ == '__main__':
     all_data = u_all_data()
     print 'all data 1 mean:', mean(all_data[:, -1] == 1)
     # find_parameter(train1, cross_v1)
-    lr = LogisticRegression(class_weight={1: 6.31034482759}, C=5.34482758621)
+    lr = LogisticRegression(class_weight={1: 5.58620689655}, C=11.9591836735)
     lr.fit(train1[:, :-1], train1[:, -1])
     predict = u_test()
     z = lr.predict(predict[:, :-1])
@@ -323,12 +349,12 @@ if __name__ == '__main__':
     fp = 0.0
     fn = 0.0
     tn = 0.0
-    for k1 in range(shape(z)[0]):
-        if z[k1] == 1 and predict[k1, -1] == 1:
+    for k in range(shape(z)[0]):
+        if z[k] == 1 and predict[k, -1] == 1:
             tp += 1
-        elif z[k1] == 1 and predict[k1, -1] == 0:
+        elif z[k] == 1 and predict[k, -1] == 0:
             fp += 1
-        elif z[k1] == 0 and predict[k1, -1] == 1:
+        elif z[k] == 0 and predict[k, -1] == 1:
             fn += 1
         else:
             tn += 1
@@ -346,12 +372,12 @@ if __name__ == '__main__':
     fp = 0.0
     fn = 0.0
     tn = 0.0
-    for k1 in range(shape(z)[0]):
-        if z[k1] == 1 and predict[k1, -1] == 1:
+    for k in range(shape(z)[0]):
+        if z[k] == 1 and predict[k, -1] == 1:
             tp += 1
-        elif z[k1] == 1 and predict[k1, -1] == 0:
+        elif z[k] == 1 and predict[k, -1] == 0:
             fp += 1
-        elif z[k1] == 0 and predict[k1, -1] == 1:
+        elif z[k] == 0 and predict[k, -1] == 1:
             fn += 1
         else:
             tn += 1
@@ -363,11 +389,11 @@ if __name__ == '__main__':
     print 'recall:', recall1
     print 'F1 score:', f1
     print 'time cost:', time.time() - start
-    #####################################
+    # #####################################
     predict, u_id = u_predict()
     lr.fit(all_data[:, :-1], all_data[:, -1])
     z = lr.predict(predict)
-    #####################################
+    # #####################################
     db = MySQLdb.connect(
         host=Path.host,
         port=3306,
@@ -404,3 +430,4 @@ if __name__ == '__main__':
     winsound.Beep(300, 1000)
     # 0.447880917924 6.38775510204 4.42857142857
     # 0.404652095448 6.31034482759 5.34482758621
+    # 0.408609459077 5.83333333333 19.6551724138
