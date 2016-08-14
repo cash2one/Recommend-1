@@ -223,11 +223,7 @@ def uc_data():
             print '\033[0m'
             db.rollback()
         db.close()
-        for user_id in uc7_result:
-            if uc7.has_key(user_id):
-                for category in uc7_result[user_id]:
-                    if uc7[user_id].has_key(category):
-                        uc7[user_id][category][-1] = 1
+        c
         for user_id in uc7:
             for category in uc7[user_id]:
                 uc_list.append(uc7[user_id][category])

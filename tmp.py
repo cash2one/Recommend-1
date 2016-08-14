@@ -171,6 +171,33 @@ def uc_data():
     return array(uc7)
 
 
+def uc_result():
+    db = MySQLdb.connect(
+        host=Path.host,
+        port=3306,
+        user=Path.user,
+        passwd="1234",
+        db="recommend"
+    )
+    cursor = db.cursor()
+    sql = "select user_id,item_category from " + Path.tb_train_result[
+        23] + " where behavior_type='4' group by user_id,item_category"
+    uc7_result = {}
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        for row in results:
+            uc7_result[row[0]] = dict()
+            uc7_result[row[0]][row[1]] = 0
+    except:
+        print '\033[1;31;m'
+        print 'db.rollback()7result'
+        print '\033[0m'
+        db.rollback()
+    db.close()
+    return uc7_result
+
+
 if __name__ == '__main__':
     start = time.time()
     ########################
@@ -197,15 +224,22 @@ if __name__ == '__main__':
     c_predict = dict()
     for i in range(shape(u_pre)[0]):
         if u_pre[i] == 1:
-            u_predict[u_pre[i]] = 1
+            u_predict[u_id[i]] = 1
     for i in range(shape(c_pre)[0]):
         if c_pre[i] == 1:
-            c_predict[c_pre[i]] = 1
-    uc_predict=[]
+            c_predict[c_id[i]] = 1
+    uc_predict = []
     for i in range(shape(all_data)[0]):
         if u_predict.has_key(all_data[i][0]):
             if c_predict.has_key(all_data[i][1]):
                 c_predict[all_data[i][1]] += 1
                 u_predict[all_data[i][0]] += 1
-                uc_predict.append([all_data[i][0],all_data[i][1]])
+                uc_predict.append([all_data[i][0], all_data[i][1]])
+    result = uc_result()
+    TP = 0
+    for i in range(shape(uc_predict)[0]):
+        if result.has_key(uc_predict[i][0]):
+            if result[uc_predict[i][0]].has_key(uc_predict[i][1]):
+                TP += 1
+                result[uc_predict[i][0]][uc_predict[i][1]]  += 1
     winsound.Beep(300, 1000)
