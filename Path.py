@@ -4,8 +4,8 @@
 # Author   :zaber
 
 class Path(object):
-    host = '172.27.35.2'
-    user = 'zaber'
+    host = 'localhost'
+    user = 'root'
     tianchi_fresh_comp_train_item = 'csv/tianchi_fresh_comp_train_item.csv'
     tianchi_fresh_comp_train_user = 'csv/tianchi_fresh_comp_train_user.csv'
     i_feature = 'csv/tb_i_feature.csv'

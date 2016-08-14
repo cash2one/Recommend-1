@@ -5,7 +5,7 @@ CREATE TABLE tb_u_feature_18_24_nov AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
                             , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
                             , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
@@ -54,9 +54,9 @@ CREATE TABLE tb_u_feature_19_25_nov AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-11-23 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-11-25 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -103,9 +103,9 @@ CREATE TABLE tb_u_feature_20_26_nov AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-11-26 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -152,9 +152,9 @@ CREATE TABLE tb_u_feature_21_27_nov AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-11-25 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-11-27 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -201,9 +201,9 @@ CREATE TABLE tb_u_feature_22_28_nov AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-11-26 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-11-28 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -250,9 +250,9 @@ CREATE TABLE tb_u_feature_23_29_nov AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-11-27 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-11-29 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -299,9 +299,9 @@ CREATE TABLE tb_u_feature_24_30_nov AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-11-28 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-11-30 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -348,9 +348,9 @@ CREATE TABLE tb_u_feature_25_01_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-11-29 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-01 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -397,9 +397,9 @@ CREATE TABLE tb_u_feature_26_02_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-11-30 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-02 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -446,9 +446,9 @@ CREATE TABLE tb_u_feature_27_03_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-01 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-03 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -495,9 +495,9 @@ CREATE TABLE tb_u_feature_28_04_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-02 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-04 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -544,9 +544,9 @@ CREATE TABLE tb_u_feature_29_05_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-03 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-05 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -593,9 +593,9 @@ CREATE TABLE tb_u_feature_30_06_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-04 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-06 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -642,9 +642,9 @@ CREATE TABLE tb_u_feature_01_07_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-05 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-07 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -691,9 +691,9 @@ CREATE TABLE tb_u_feature_02_08_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-06 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-08 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -740,9 +740,9 @@ CREATE TABLE tb_u_feature_03_09_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-07 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-09 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -789,9 +789,9 @@ CREATE TABLE tb_u_feature_04_10_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-08 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-10 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -838,9 +838,9 @@ CREATE TABLE tb_u_feature_05_11_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-09 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-11 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -887,9 +887,9 @@ CREATE TABLE tb_u_feature_06_12_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-10 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-12 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -936,9 +936,9 @@ CREATE TABLE tb_u_feature_07_13_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-11 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-13 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -985,9 +985,9 @@ CREATE TABLE tb_u_feature_08_14_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-12 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-14 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -1034,9 +1034,9 @@ CREATE TABLE tb_u_feature_09_15_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-13 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-15 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -1083,9 +1083,9 @@ CREATE TABLE tb_u_feature_10_16_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-14 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-16 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
@@ -1132,9 +1132,9 @@ CREATE TABLE tb_u_feature_11_17_dec AS
           (
                     SELECT
                               user_id
-							, SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-11-22 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-11-24 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
+                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
+                            , SUM( CASE WHEN time >='2014-12-15 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
+                            , SUM( CASE WHEN time >='2014-12-17 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3

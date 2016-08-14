@@ -21,14 +21,15 @@ def u_train():
     for user_id, c1, c2, c3, c4, count, c_rate in reader:
         u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
 
-    for i in range(0, 23):
+    for i in range(0, 24):
         f = file(Path.tb_feature_u[i], 'r')
         reader = csv.reader(f)
         u7 = dict()
-        for user_id, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1,t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
             u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
                            float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
                            float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                           float(t7g1), float(t3g1), float(t1g1)
                            ]
         for user in u7:
             u7[user] = u7[user] + u_all[user]
@@ -74,10 +75,11 @@ def u_cross_validation():
         f = file(Path.tb_feature_u[i], 'r')
         reader = csv.reader(f)
         u7 = dict()
-        for user_id, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1,t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
             u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
                            float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
                            float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                           float(t7g1), float(t3g1), float(t1g1)
                            ]
         for user in u7:
             u7[user] = u7[user] + u_all[user]
@@ -270,14 +272,15 @@ def u_predict():
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(5, 15, 25)
-    c = linspace(10, 30, 30)
-    # 0.40 6.11 10.0
+    weight = linspace(2, 10, 30)
+    c = linspace(4, 30, 50)
+    # 0.406543125143 5.58620689655 19.9183673469
+    # 0.406339726657 5.58620689655 11.9591836735
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for i in range(shape(weight)[0]):
-        for j in range(shape(c)[0]):
+    for j in range(shape(c)[0]):
+        for i in range(shape(weight)[0]):
             p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
