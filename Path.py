@@ -4,13 +4,15 @@
 # Author   :zaber
 
 class Path(object):
-    host = 'localhost'
-    user = 'root'
+    host = '172.27.35.2'
+    user = 'zaber'
     tianchi_fresh_comp_train_item = 'csv/tianchi_fresh_comp_train_item.csv'
     tianchi_fresh_comp_train_user = 'csv/tianchi_fresh_comp_train_user.csv'
     i_feature = 'csv/tb_i_feature.csv'
     u_feature = 'csv/tb_u_feature.csv'
     c_feature = 'csv/tb_c_feature.csv'
+    uc_feature = 'csv/tb_feature_uc.csv'
+    uc_feature1 = 'csv/tb_feature_uc1.csv'
     i_feature_test = 'csv/tb_i_feature_test.csv'
     u_feature_test = 'csv/tb_u_feature_test.csv'
     c_feature_test = 'csv/tb_c_feature_test.csv'

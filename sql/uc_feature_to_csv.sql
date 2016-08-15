@@ -82,7 +82,6 @@
 		from tb_uc_feature_08_14_dec as a 
 		INTO OUTFILE 'D:/tb_feature_uc_08_14_dec.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
 
-
 		select  *
 		from tb_uc_feature_09_15_dec as a 
 		INTO OUTFILE 'D:/tb_feature_uc_09_15_dec.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
