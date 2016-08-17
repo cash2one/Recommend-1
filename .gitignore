@@ -1,4 +1,4 @@
-/tb_i_feature.csv
-/.idea/Recommend.iml
-/csv/*
+*.pkl
+*.iml
+*.csv
 
