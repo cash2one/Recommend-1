@@ -15,4 +15,13 @@ CREATE TABLE tb_tianchi_user
           )
 ;
 
+CREATE TABLE tb_tianchi_item
+          (
+                    item_id       CHAR(20)
+                  , item_geohash  CHAR(20)
+                  , item_category CHAR(20)
+          )
+;
+
 LOAD data INFILE 'E:/PycharmProjects/Recommend/tianchi_fresh_comp_train_user.csv' INTO TABLE tb_tianchi_user fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
+LOAD data local INFILE 'D:/PycharmProjects/Recommend/data/tianchi_mobile_recommend_train_item.csv' INTO TABLE tb_tianchi_item fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';

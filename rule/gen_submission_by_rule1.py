@@ -17,7 +17,7 @@ db = MySQLdb.connect(
     db="recommend"
 )
 cursor = db.cursor()
-sql = "select user_id from tb_u_feature where rate=0 and count >400"
+sql = "select user_id from tb_u_feature where user_id in (select user_id from tb_result)and rate=0 and count >500;"
 u7_all = []
 try:
     cursor.execute(sql)
@@ -34,7 +34,7 @@ db.close()
 for key in day:
     uid, iid = key
 
-    if uid not in u7_all and day[key][0][2] > 0 and day[key][0][3] == 0:
+    if uid not in u7_all and  item.has_key(iid) and  day[key][0][2] > 0 and day[key][0][3] == 0:
         rows = csv.reader(open("../data/user/" + key[0] + ".csv", "rb"))
         rows.next()
         for row in rows:
