@@ -1,4 +1,4 @@
 *.pkl
 *.iml
 *.csv
-
+*.pyc

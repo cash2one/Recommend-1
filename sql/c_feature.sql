@@ -5,23 +5,76 @@ CREATE TABLE tb_c_feature_18_24_nov AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-22 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-22 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-22 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -44,23 +97,76 @@ CREATE TABLE tb_c_feature_19_25_nov AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-23 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-23 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-23 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -83,23 +189,76 @@ CREATE TABLE tb_c_feature_20_26_nov AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-24 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -122,23 +281,76 @@ CREATE TABLE tb_c_feature_21_27_nov AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-25 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -161,23 +373,76 @@ CREATE TABLE tb_c_feature_22_28_nov AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-26 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -200,23 +465,76 @@ CREATE TABLE tb_c_feature_23_29_nov AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-27 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -239,23 +557,76 @@ CREATE TABLE tb_c_feature_24_30_nov AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-28 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -278,23 +649,76 @@ CREATE TABLE tb_c_feature_25_01_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-29 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -317,23 +741,76 @@ CREATE TABLE tb_c_feature_26_02_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-11-30 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -356,23 +833,76 @@ CREATE TABLE tb_c_feature_27_03_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-01 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -395,23 +925,76 @@ CREATE TABLE tb_c_feature_28_04_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-02 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -434,23 +1017,76 @@ CREATE TABLE tb_c_feature_29_05_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-03 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -473,23 +1109,76 @@ CREATE TABLE tb_c_feature_30_06_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-04 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -512,23 +1201,76 @@ CREATE TABLE tb_c_feature_01_07_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-05 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -551,23 +1293,76 @@ CREATE TABLE tb_c_feature_02_08_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-06 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -590,23 +1385,76 @@ CREATE TABLE tb_c_feature_03_09_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-07 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -629,23 +1477,76 @@ CREATE TABLE tb_c_feature_04_10_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-08 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -668,23 +1569,76 @@ CREATE TABLE tb_c_feature_05_11_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-09 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -707,23 +1661,76 @@ CREATE TABLE tb_c_feature_06_12_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-10 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -746,23 +1753,76 @@ CREATE TABLE tb_c_feature_07_13_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-11 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -785,23 +1845,76 @@ CREATE TABLE tb_c_feature_08_14_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-12 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -824,23 +1937,76 @@ CREATE TABLE tb_c_feature_09_15_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-13 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -863,23 +2029,76 @@ CREATE TABLE tb_c_feature_10_16_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-16 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-14 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-16 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-16 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM
@@ -902,23 +2121,76 @@ CREATE TABLE tb_c_feature_11_17_dec AS
           (
                     SELECT
                               a.item_category
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.alluser ELSE 0 END)                AS all1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.alluser ELSE 0 END)                AS all2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.alluser ELSE 0 END)                AS all3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)                AS all4
-                            , SUM(a.alluser)                                                              AS allcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.alluser ELSE 0 END)/SUM(a.alluser) AS allturnrate
-                            , SUM(CASE WHEN a.behavior_type='1' THEN a.actuser ELSE 0 END)                AS act1
-                            , SUM(CASE WHEN a.behavior_type='2' THEN a.actuser ELSE 0 END)                AS act2
-                            , SUM(CASE WHEN a.behavior_type='3' THEN a.actuser ELSE 0 END)                AS act3
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)                AS act4
-                            , SUM(a.actuser)                                                              AS actcount
-                            , SUM(CASE WHEN a.behavior_type='4' THEN a.actuser ELSE 0 END)/SUM(a.actuser) AS actturnrate
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END) AS t7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END) AS t7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END) AS t7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.alluser ELSE 0 END))AS t7r1
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t3b1
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t3b2
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t3b3
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.alluser ELSE 0 END))END)AS t3r1
+                            , SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='1' THEN a.alluser ELSE 0 END) AS t1b1
+                            , SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='2' THEN a.alluser ELSE 0 END) AS t1b2
+                            , SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='3' THEN a.alluser ELSE 0 END) AS t1b3
+                            , SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='4' THEN a.alluser ELSE 0 END) AS t1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-17 00' and behavior_type='4' THEN a.alluser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='4' THEN a.alluser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='1' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='2' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='3' THEN a.alluser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='4' THEN a.alluser ELSE 0 END)) END)AS t1r1
+
+
+
+                            , SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END) AS actt7b1
+                            , SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END) AS actt7b2
+                            , SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END) AS actt7b3
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END) AS actt7b4
+                            , SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN behavior_type='4' THEN a.actuser ELSE 0 END))AS actt7r1
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt3b1
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt3b2
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt3b3
+                            , SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt3b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-15 00' and behavior_type='4' THEN a.actuser ELSE 0 END))END)AS actt3r1
+                            , SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='1' THEN a.actuser ELSE 0 END) AS actt1b1
+                            , SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='2' THEN a.actuser ELSE 0 END) AS actt1b2
+                            , SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='3' THEN a.actuser ELSE 0 END) AS actt1b3
+                            , SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='4' THEN a.actuser ELSE 0 END) AS actt1b4
+                            , (CASE WHEN SUM(CASE WHEN a.time >='2014-12-17 00' and behavior_type='4' THEN a.actuser ELSE 0 END)=0 THEN 0 ELSE
+                              SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='4' THEN a.actuser ELSE 0 END)/
+                            ( SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='1' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='2' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='3' THEN a.actuser ELSE 0 END)+ 
+                              SUM( CASE WHEN a.time >='2014-12-17 00' and behavior_type='4' THEN a.actuser ELSE 0 END)) END)AS actt1r1
                     FROM
                               (
                                         SELECT
                                                   item_category
                                                 , behavior_type
+                                                , time
                                                 , COUNT(user_id)         AS alluser
                                                 , COUNT(DISTINCT user_id)AS actuser
                                         FROM

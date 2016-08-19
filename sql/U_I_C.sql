@@ -117,9 +117,6 @@ CREATE TABLE tb_uc_feature AS
                     SELECT
                               user_id
                             , item_category
-                            , SUM( CASE WHEN user_geohash!= "" THEN 1 ELSE 0 END) AS t7g1
-                            , SUM( CASE WHEN time >='2014-12-14 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t3g1
-                            , SUM( CASE WHEN time >='2014-12-16 00' and user_geohash!= "" THEN 1 ELSE 0 END) AS t1g1
                             , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
                             , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
                             , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
