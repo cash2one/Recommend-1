@@ -163,6 +163,7 @@ def u_data(start, end):
                 float(r3b41), float(r3b42), float(r3b43),
                 float(r1b41), float(r1b42), float(r1b43),
                 float(r71c), float(r72c), float(r73c),
+                float(r31c), float(r32c), float(r33c),
                 float(t7g1), float(t3g1), float(t1g1)
             ]
         for user in u7:
@@ -273,7 +274,7 @@ def find_parameter(train, cross_v):
 
 
 if __name__ == '__main__':
-    print "add 7b1 b2 b3 /count "
+    print "add 3b1 b2 b3 /count "
     train1 = u_data(0, 23)
     print 'train 1 mean:', mean(train1[:, -1] == 1)
     cross_v1 = u_data(23, 24)
