@@ -32,8 +32,9 @@ def u_data(start, end):
         else:
             r3 = float(c4) / float(c3)
         u_all[user_id] = [
-            float(c1), float(c2), float(c3), float(c4), float(count),
-            float(c1) / float(count), float(c2) / float(count), float(c3) / float(count),
+            float(c1), float(c2), float(c3), float(c4),
+            float(count),
+            # float(c1) / float(count), float(c2) / float(count), float(c3) / float(count),
             float(r1), float(r2), float(r3),
             float(c_rate), float(0)]
 
@@ -162,9 +163,9 @@ def u_data(start, end):
                 float(r7b41), float(r7b42), float(r7b43),
                 float(r3b41), float(r3b42), float(r3b43),
                 float(r1b41), float(r1b42), float(r1b43),
-                float(r71c), float(r72c), float(r73c),
-                float(r31c), float(r32c), float(r33c),
-                float(r11c), float(r12c), float(r13c),
+                # float(r71c), float(r72c), float(r73c),
+                # float(r31c), float(r32c), float(r33c),
+                # float(r11c), float(r12c), float(r13c),
                 float(t7g1), float(t3g1), float(t1g1)
             ]
         for user in u7:
@@ -236,6 +237,7 @@ def find_parameter(train, cross_v):
     # 0.406339726657 5.58620689655 11.9591836735
     # 0.406242827634 5.58620689655 26.6666666667
     # 0.414285714286 4.81818181818 28.8163265306
+    # 0.412428023033 5.09090909091 40.0
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
