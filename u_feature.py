@@ -135,6 +135,7 @@ def u_data(start, end):
             r72c = float(t7b2) / t7count
             r73c = float(t7b3) / t7count
             t3count = float(t3b1 + t3b2 + t3b3 + t3b4)
+            t1count = float(t1b1 + t1b2 + t1b3 + t1b4)
             if t3count == 0:
                 r31c = 0
                 r32c = 0
@@ -151,7 +152,6 @@ def u_data(start, end):
                 r11c = float(t1b1) / t1count
                 r12c = float(t1b2) / t1count
                 r13c = float(t1b3) / t1count
-            t1count = float(t1b1 + t1b2 + t1b3 + t1b4)
             u7[user_id] = [
                 float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
                 float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
