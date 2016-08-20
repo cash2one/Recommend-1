@@ -17,7 +17,7 @@ db = MySQLdb.connect(
     db="recommend"
 )
 cursor = db.cursor()
-sql = "select user_id from tb_u_feature where user_id in (select user_id from tb_result)and rate=0 and count >600;"
+sql = "select user_id from tb_u_feature where user_id in (select user_id from tb_result)and rate=0 and count >700;"
 u7_all = []
 try:
     cursor.execute(sql)

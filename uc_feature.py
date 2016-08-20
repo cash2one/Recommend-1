@@ -30,20 +30,19 @@ def uc_train():
         u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate)]
     uc_list = []
     for i in range(0, 23):
-        f = file(Path.tb_feature_uc[i], 'r')
+        f = file(Path.tb_feature_u[i], 'r')
         reader = csv.reader(f)
-        uc7 = dict()
-        for user_id, item_category, c1, c2, c3, c4, count, c_rate, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
-            uc7[user_id] = dict()
-            uc7[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate),
-                                           float(all1), float(all2), float(all3), float(all4), float(allcount),
-                                           float(allturnrate),
-                                           float(act1), float(act2), float(act3), float(act4), float(actcount),
-                                           float(actturnrate)]
+        u7 = dict()
+        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                           float(t7g1), float(t3g1), float(t1g1)
+                           ]
 
-        for user_id in uc7:
-            for category in uc7[user_id]:
-                uc7[user_id][category] = uc7[user_id][category] + u_all[user_id] + c_all[category]
+        # for user_id in uc7:
+        #     for category in uc7[user_id]:
+        #         uc7[user_id][category] = uc7[user_id][category] + u_all[user_id] + c_all[category]
         db = MySQLdb.connect(
             host=Path.host,
             port=3306,

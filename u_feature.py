@@ -12,225 +12,136 @@ import time
 from sklearn.linear_model import LogisticRegression
 
 
-def u_train():
+def u_data(start, end):
     f = file(Path.u_feature, 'r')
     reader = csv.reader(f)
     u_all = dict()
 
     u_list = []
     for user_id, c1, c2, c3, c4, count, c_rate in reader:
-        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
+        if float(c1) == 0:
+            r1 = 0
+        else:
+            r1 = float(c4) / float(c1)
+        if float(c2) == 0:
+            r2 = 0
+        else:
+            r2 = float(c4) / float(c2)
+        if float(c3) == 0:
+            r3 = 0
+        else:
+            r3 = float(c4) / float(c3)
+        u_all[user_id] = [
+            float(c1), float(c2), float(c3), float(c4), float(count),
+            float(c1) / float(count), float(c2) / float(count), float(c3) / float(count),
+            float(r1), float(r2), float(r3),
+            float(c_rate), float(0)]
 
-    for i in range(0, 24):
+    for i in range(start, end):
         f = file(Path.tb_feature_u[i], 'r')
         reader = csv.reader(f)
         u7 = dict()
         for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
-            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
-                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
-                           float(t7g1), float(t3g1), float(t1g1)
-                           ]
-        for user in u7:
-            u7[user] = u7[user] + u_all[user]
-        db = MySQLdb.connect(
-            host=Path.host,
-            port=3306,
-            user=Path.user,
-            passwd="1234",
-            db="recommend"
-        )
-        cursor = db.cursor()
-        sql = "select DISTINCT user_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
-        u7_result = {}
-        try:
-            cursor.execute(sql)
-            results = cursor.fetchall()
-            for row in results:
-                u7_result[row[0]] = 1
-        except:
-            print '\033[1;31;m'
-            print 'db.rollback()7result'
-            print '\033[0m'
-            db.rollback()
-        db.close()
-        for user in u7_result:
-            if u7.has_key(user):
-                u7[user][-1] = 1
-        for user in u7:
-            u_list.append(u7[user])
-    return array(u_list)
-
-
-def u_cross_validation():
-    f = file(Path.u_feature, 'r')
-    reader = csv.reader(f)
-    u_all = dict()
-
-    u_list = []
-    for user_id, c1, c2, c3, c4, count, c_rate in reader:
-        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
-
-    for i in range(23, 24):
-        f = file(Path.tb_feature_u[i], 'r')
-        reader = csv.reader(f)
-        u7 = dict()
-        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
-            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
-                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
-                           float(t7g1), float(t3g1), float(t1g1)
-                           ]
-        for user in u7:
-            u7[user] = u7[user] + u_all[user]
-        db = MySQLdb.connect(
-            host=Path.host,
-            port=3306,
-            user=Path.user,
-            passwd="1234",
-            db="recommend"
-        )
-        cursor = db.cursor()
-        sql = "select DISTINCT user_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
-        u7_result = {}
-        try:
-            cursor.execute(sql)
-            results = cursor.fetchall()
-            for row in results:
-                u7_result[row[0]] = 1
-        except:
-            print '\033[1;31;m'
-            print 'db.rollback()7result'
-            print '\033[0m'
-            db.rollback()
-        db.close()
-        for user in u7_result:
-            if u7.has_key(user):
-                u7[user][-1] = 1
-        for user in u7:
-            u_list.append(u7[user])
-    return array(u_list)
-
-
-def u_all_data():
-    f = file(Path.u_feature, 'r')
-    reader = csv.reader(f)
-    u_all = dict()
-
-    u_list = []
-    for user_id, c1, c2, c3, c4, count, c_rate in reader:
-        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
-
-    for i in range(0, 24):
-        f = file(Path.tb_feature_u[i], 'r')
-        reader = csv.reader(f)
-        u7 = dict()
-        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
-            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
-                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
-                           float(t7g1), float(t3g1), float(t1g1)
-                           ]
-        for user in u7:
-            u7[user] = u7[user] + u_all[user]
-        db = MySQLdb.connect(
-            host=Path.host,
-            port=3306,
-            user=Path.user,
-            passwd="1234",
-            db="recommend"
-        )
-        cursor = db.cursor()
-        sql = "select DISTINCT user_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
-        u7_result = {}
-        try:
-            cursor.execute(sql)
-            results = cursor.fetchall()
-            for row in results:
-                u7_result[row[0]] = 1
-        except:
-            print '\033[1;31;m'
-            print 'db.rollback()7result'
-            print '\033[0m'
-            db.rollback()
-        db.close()
-        for user in u7_result:
-            if u7.has_key(user):
-                u7[user][-1] = 1
-        for user in u7:
-            u_list.append(u7[user])
-    return array(u_list)
-
-
-def u_data():
-    f = file(Path.u_feature, 'r')
-    reader = csv.reader(f)
-    u_all = dict()
-
-    u_list = []
-    for user_id, c1, c2, c3, c4, count, c_rate in reader:
-        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
-
-    for i in range(0, 22):
-        f = file(Path.tb_feature_u[i], 'r')
-        reader = csv.reader(f)
-        u7 = dict()
-        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
-            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
-                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
-                           float(t7g1), float(t3g1), float(t1g1)
-                           ]
-        for user in u7:
-            u7[user] = u7[user] + u_all[user]
-        db = MySQLdb.connect(
-            host=Path.host,
-            port=3306,
-            user=Path.user,
-            passwd="1234",
-            db="recommend"
-        )
-        cursor = db.cursor()
-        sql = "select DISTINCT user_id from " + Path.tb_train_result[i] + " where behavior_type='4'"
-        u7_result = {}
-        try:
-            cursor.execute(sql)
-            results = cursor.fetchall()
-            for row in results:
-                u7_result[row[0]] = 1
-        except:
-            print '\033[1;31;m'
-            print 'db.rollback()7result'
-            print '\033[0m'
-            db.rollback()
-        db.close()
-        for user in u7_result:
-            if u7.has_key(user):
-                u7[user][-1] = 1
-        for user in u7:
-            u_list.append(u7[user])
-    return array(u_list)
-
-
-def u_test():
-    f = file(Path.u_feature, 'r')
-    reader = csv.reader(f)
-    u_all = dict()
-
-    u_list = []
-    for user_id, c1, c2, c3, c4, count, c_rate in reader:
-        u_all[user_id] = [float(c1), float(c2), float(c3), float(c4), float(count), float(c_rate), float(0)]
-
-    for i in range(22, 24):
-        f = file(Path.tb_feature_u[i], 'r')
-        reader = csv.reader(f)
-        u7 = dict()
-        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
-            u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                           float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
-                           float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
-                           float(t7g1), float(t3g1), float(t1g1)
-                           ]
+            if float(t7b1) == 0:
+                r7b41 = 0
+            else:
+                r7b41 = float(t7b4) / float(t7b1)
+            if float(t7b2) == 0:
+                r7b42 = 0
+            else:
+                r7b42 = float(t7b4) / float(t7b2)
+            if float(t7b3) == 0:
+                r7b43 = 0
+            else:
+                r7b43 = float(t7b4) / float(t7b3)
+            if float(t3b1) == 0:
+                r3b41 = 0
+            else:
+                r3b41 = float(t3b4) / float(t3b1)
+            if float(t3b2) == 0:
+                r3b42 = 0
+            else:
+                r3b42 = float(t3b4) / float(t3b2)
+            if float(t3b3) == 0:
+                r3b43 = 0
+            else:
+                r3b43 = float(t3b4) / float(t3b3)
+            if float(t1b1) == 0:
+                r1b41 = 0
+            else:
+                r1b41 = float(t1b4) / float(t1b1)
+            if float(t1b2) == 0:
+                r1b42 = 0
+            else:
+                r1b42 = float(t1b4) / float(t1b2)
+            if float(t1b3) == 0:
+                r1b43 = 0
+            else:
+                r1b43 = float(t1b4) / float(t1b3)
+            if u_all[user_id][0] == 0:
+                r371 = 0
+                r171 = 0
+                r7b1 = 0
+            else:
+                r7b1 = float(t7b1) / u_all[user_id][0]
+                if float(t7b1) == 0:
+                    r371 = 0
+                    r171 = 0
+                else:
+                    r371 = float(t3b1) / float(t7b1)
+                    r171 = float(t1b1) / float(t7b1)
+            if u_all[user_id][1] == 0:
+                r372 = 0
+                r172 = 0
+                r7b2 = 0
+            else:
+                r7b2 = float(t7b2) / u_all[user_id][1]
+                if float(t7b2) == 0:
+                    r372 = 0
+                    r172 = 0
+                else:
+                    r372 = float(t3b2) / float(t7b2)
+                    r172 = float(t1b2) / float(t7b2)
+            if u_all[user_id][2] == 0:
+                r373 = 0
+                r173 = 0
+                r7b3 = 0
+            else:
+                r7b3 = float(t7b3) / u_all[user_id][2]
+                if float(t7b3) == 0:
+                    r373 = 0
+                    r173 = 0
+                else:
+                    r373 = float(t3b3) / float(t7b3)
+                    r173 = float(t1b3) / float(t7b3)
+            if u_all[user_id][2] == 0:
+                r374 = 0
+                r174 = 0
+                r7b4 = 0
+            else:
+                r7b4 = float(t7b4) / u_all[user_id][2]
+                if float(t7b4) == 0:
+                    r374 = 0
+                    r174 = 0
+                else:
+                    r374 = float(t3b4) / float(t7b4)
+                    r174 = float(t1b4) / float(t7b4)
+            if u_all[user_id][4] == 0:
+                rc = 0
+            else:
+                rc = float(t7b1 + t7b2 + t7b3 + t7b4) / u_all[user_id][4]
+            u7[user_id] = [
+                float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                float(r7b1), float(r7b2), float(r7b3), float(r7b4), float(r371),
+                float(r372), float(r373), float(r374), float(r171),
+                float(r172), float(r173), float(r174), float(rc),
+                float(r7b41), float(r7b42), float(r7b43),
+                float(r3b41), float(r3b42), float(r3b43),
+                float(r1b41), float(r1b42), float(r1b43),
+                float(t7g1), float(t3g1), float(t1g1)
+            ]
         for user in u7:
             u7[user] = u7[user] + u_all[user]
         db = MySQLdb.connect(
@@ -276,7 +187,14 @@ def u_predict():
         u7[user_id] = [float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
                        float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
                        float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
-                       float(t7g1), float(t3g1), float(t1g1)]
+                       float(t7b1) / u_all[user_id][0], float(t7b2) / u_all[user_id][1],
+                       float(t7b3) / u_all[user_id][2], float(t7b4) / u_all[user_id][3],
+                       float(t3b1) / float(t7b1), float(t3b2) / float(t7b2), float(t3b3) / float(t7b3),
+                       float(t3b4) / float(t7b4),
+                       float(t1b1) / float(t7b1), float(t1b2) / float(t7b2), float(t1b3) / float(t7b3),
+                       float(t1b4) / float(t7b4),
+                       float(t7g1), float(t3g1), float(t1g1)
+                       ]
     for user in u7:
         u7[user] = u7[user] + u_all[user]
     id_list = []
@@ -287,11 +205,12 @@ def u_predict():
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(2, 10, 30)
-    c = linspace(24, 30, 10)
+    weight = linspace(4, 6, 12)
+    c = linspace(20, 30, 20)
     # 0.406543125143 5.58620689655 19.9183673469
     # 0.406339726657 5.58620689655 11.9591836735
     # 0.406242827634 5.58620689655 26.6666666667
+    # 0.414285714286 4.81818181818 28.8163265306
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
@@ -331,103 +250,103 @@ def find_parameter(train, cross_v):
 
 
 if __name__ == '__main__':
-    start = time.time()
-    train1 = u_train()
+    print "add c2 c3 c1 /count "
+    train1 = u_data(0, 23)
     print 'train 1 mean:', mean(train1[:, -1] == 1)
-    cross_v1 = u_cross_validation()
+    cross_v1 = u_data(23, 24)
     print 'cross 1 mean:', mean(cross_v1[:, -1] == 1)
-    data = u_data()
-    print 'data 1 mean:', mean(data[:, -1] == 1)
-    all_data = u_all_data()
-    print 'all data 1 mean:', mean(all_data[:, -1] == 1)
-    # find_parameter(train1, cross_v1)
+    # data = u_data()
+    # print 'data 1 mean:', mean(data[:, -1] == 1)
+    # all_data = u_all_data()
+    # print 'all data 1 mean:', mean(all_data[:, -1] == 1)
+    find_parameter(train1, cross_v1)
     lr = LogisticRegression(class_weight={1: 5.58620689655}, C=11.9591836735)
-    lr.fit(train1[:, :-1], train1[:, -1])
-    predict = u_test()
-    z = lr.predict(predict[:, :-1])
-    tp = 0.0
-    fp = 0.0
-    fn = 0.0
-    tn = 0.0
-    for k in range(shape(z)[0]):
-        if z[k] == 1 and predict[k, -1] == 1:
-            tp += 1
-        elif z[k] == 1 and predict[k, -1] == 0:
-            fp += 1
-        elif z[k] == 0 and predict[k, -1] == 1:
-            fn += 1
-        else:
-            tn += 1
-    print  tp, fp, fn, tn
-    precision1 = tp / (tp + fp)
-    recall1 = tp / (tp + fn)
-    f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
-    print 'precision:', precision1
-    print 'recall:', recall1
-    print 'F1 score:', f1
-    ################################################
-    lr.fit(data[:, :-1], data[:, -1])
-    z = lr.predict(predict[:, :-1])
-    tp = 0.0
-    fp = 0.0
-    fn = 0.0
-    tn = 0.0
-    for k in range(shape(z)[0]):
-        if z[k] == 1 and predict[k, -1] == 1:
-            tp += 1
-        elif z[k] == 1 and predict[k, -1] == 0:
-            fp += 1
-        elif z[k] == 0 and predict[k, -1] == 1:
-            fn += 1
-        else:
-            tn += 1
-    print  tp, fp, fn, tn
-    precision1 = tp / (tp + fp)
-    recall1 = tp / (tp + fn)
-    f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
-    print 'precision:', precision1
-    print 'recall:', recall1
-    print 'F1 score:', f1
-    print 'time cost:', time.time() - start
-    # #####################################
-    predict, u_id = u_predict()
-    lr.fit(all_data[:, :-1], all_data[:, -1])
-    z = lr.predict(predict)
-    # #####################################
-    db = MySQLdb.connect(
-        host=Path.host,
-        port=3306,
-        user=Path.user,
-        passwd="1234",
-        db="recommend"
-    )
-    sql = "DELETE FROM tb_u_feature_predict"
-    try:
-        cursor = db.cursor()
-        # 执行SQL语句
-        cursor.execute(sql)
-        # 提交修改
-        db.commit()
-    except:
-        # 发生错误时回滚
-        print '发生错误时回滚'
-        db.rollback()
-    sql = "insert into tb_u_feature_predict VALUES (%s)"
-    values = []
-    for i in range(shape(z)[0]):
-        if z[i] == 1:
-            print  u_id[i]
-            values.append((str(u_id[i]),))
-    try:
-        cursor = db.cursor()
-        cursor.executemany(sql, values)
-        db.commit()
-    except:
-        print "insert error"
-    db.close()
-    print 'predict mean', mean(z == 1)
-    print shape(z)[0]
-    winsound.Beep(300, 1000)
+    # lr.fit(train1[:, :-1], train1[:, -1])
+    # predict = u_test()
+    # z = lr.predict(predict[:, :-1])
+    # tp = 0.0
+    # fp = 0.0
+    # fn = 0.0
+    # tn = 0.0
+    # for k in range(shape(z)[0]):
+    #     if z[k] == 1 and predict[k, -1] == 1:
+    #         tp += 1
+    #     elif z[k] == 1 and predict[k, -1] == 0:
+    #         fp += 1
+    #     elif z[k] == 0 and predict[k, -1] == 1:
+    #         fn += 1
+    #     else:
+    #         tn += 1
+    # print  tp, fp, fn, tn
+    # precision1 = tp / (tp + fp)
+    # recall1 = tp / (tp + fn)
+    # f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
+    # print 'precision:', precision1
+    # print 'recall:', recall1
+    # print 'F1 score:', f1
+    # ################################################
+    # lr.fit(data[:, :-1], data[:, -1])
+    # z = lr.predict(predict[:, :-1])
+    # tp = 0.0
+    # fp = 0.0
+    # fn = 0.0
+    # tn = 0.0
+    # for k in range(shape(z)[0]):
+    #     if z[k] == 1 and predict[k, -1] == 1:
+    #         tp += 1
+    #     elif z[k] == 1 and predict[k, -1] == 0:
+    #         fp += 1
+    #     elif z[k] == 0 and predict[k, -1] == 1:
+    #         fn += 1
+    #     else:
+    #         tn += 1
+    # print  tp, fp, fn, tn
+    # precision1 = tp / (tp + fp)
+    # recall1 = tp / (tp + fn)
+    # f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
+    # print 'precision:', precision1
+    # print 'recall:', recall1
+    # print 'F1 score:', f1
+    # print 'time cost:', time.time() - start
+    # # #####################################
+    # predict, u_id = u_predict()
+    # lr.fit(all_data[:, :-1], all_data[:, -1])
+    # z = lr.predict(predict)
+    # # #####################################
+    # db = MySQLdb.connect(
+    #     host=Path.host,
+    #     port=3306,
+    #     user=Path.user,
+    #     passwd="1234",
+    #     db="recommend"
+    # )
+    # sql = "DELETE FROM tb_u_feature_predict"
+    # try:
+    #     cursor = db.cursor()
+    #     # 执行SQL语句
+    #     cursor.execute(sql)
+    #     # 提交修改
+    #     db.commit()
+    # except:
+    #     # 发生错误时回滚
+    #     print '发生错误时回滚'
+    #     db.rollback()
+    # sql = "insert into tb_u_feature_predict VALUES (%s)"
+    # values = []
+    # for i in range(shape(z)[0]):
+    #     if z[i] == 1:
+    #         print  u_id[i]
+    #         values.append((str(u_id[i]),))
+    # try:
+    #     cursor = db.cursor()
+    #     cursor.executemany(sql, values)
+    #     db.commit()
+    # except:
+    #     print "insert error"
+    # db.close()
+    # print 'predict mean', mean(z == 1)
+    # print shape(z)[0]
+    # winsound.Beep(300, 1000)
     # 0.447880917924 6.38775510204 4.42857142857
     # 0.404652095448 6.31034482759 5.34482758621
     # 0.408609459077 5.83333333333 19.6551724138
