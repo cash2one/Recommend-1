@@ -3,13 +3,6 @@
 # Date     :2016-08-12 20:57
 # Author   :zaber
 
-import MySQLdb
-from numpy import *
-from Path import *
-import winsound
-import csv
-import time
-from sklearn.linear_model import LogisticRegression
 
 
 import MySQLdb
@@ -21,14 +14,15 @@ import time
 from sklearn.linear_model import LogisticRegression
 
 
+
+#  float(0)
 def uc_train():
     f = file(Path.c_feature, 'r')
     reader = csv.reader(f)
     c_all = dict()
     for item_category, all1, all2, all3, all4, allcount, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
         c_all[item_category] = [float(all1), float(all2), float(all3), float(all4), float(allcount), float(allturnrate),
-                                float(act1), float(act2), float(act3), float(act4), float(actcount), float(actturnrate),
-                                float(0)]
+                                float(act1), float(act2), float(act3), float(act4), float(actcount), float(actturnrate)]
     f = file(Path.u_feature, 'r')
     reader = csv.reader(f)
     u_all = dict()
