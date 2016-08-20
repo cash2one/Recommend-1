@@ -130,6 +130,28 @@ def u_data(start, end):
                 rc = 0
             else:
                 rc = float(t7b1 + t7b2 + t7b3 + t7b4) / u_all[user_id][4]
+            t7count = float(t7b1 + t7b2 + t7b3 + t7b4)
+            r71c = float(t7b1) / t7count
+            r72c = float(t7b2) / t7count
+            r73c = float(t7b3) / t7count
+            t3count = float(t3b1 + t3b2 + t3b3 + t3b4)
+            if t3count == 0:
+                r31c = 0
+                r32c = 0
+                r33c = 0
+            else:
+                r31c = float(t3b1) / t3count
+                r32c = float(t3b2) / t3count
+                r33c = float(t3b3) / t3count
+            if t1count == 0:
+                r11c = 0
+                r12c = 0
+                r13c = 0
+            else:
+                r11c = float(t1b1) / t1count
+                r12c = float(t1b2) / t1count
+                r13c = float(t1b3) / t1count
+            t1count = float(t1b1 + t1b2 + t1b3 + t1b4)
             u7[user_id] = [
                 float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
                 float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
@@ -140,6 +162,7 @@ def u_data(start, end):
                 float(r7b41), float(r7b42), float(r7b43),
                 float(r3b41), float(r3b42), float(r3b43),
                 float(r1b41), float(r1b42), float(r1b43),
+                float(r71c), float(r72c), float(r73c),
                 float(t7g1), float(t3g1), float(t1g1)
             ]
         for user in u7:
@@ -250,7 +273,7 @@ def find_parameter(train, cross_v):
 
 
 if __name__ == '__main__':
-    print "add c2 c3 c1 /count "
+    print "add 7b1 b2 b3 /count "
     train1 = u_data(0, 23)
     print 'train 1 mean:', mean(train1[:, -1] == 1)
     cross_v1 = u_data(23, 24)
