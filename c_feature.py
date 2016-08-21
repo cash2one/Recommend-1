@@ -14,7 +14,7 @@ import time
 from sklearn.linear_model import LogisticRegression
 
 
-def c_data(start,end):
+def c_data(start, end):
     f = file(Path.c_feature, 'r')
     reader = csv.reader(f)
     c_all = dict()
@@ -28,8 +28,8 @@ def c_data(start,end):
         f = file(Path.tb_feature_c[i], 'r')
         reader = csv.reader(f)
         c7 = dict()
-        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1, \
-                actt7b1, actt7b2, actt7b3, actt7b4, actt7r1, actt3b1, actt3b2, actt3b3, actt3b4, actt3r1, actt1b1, actt1b2, actt1b3, actt1b4, actt1r1, \
+        for item_category, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1, \
+            actt7b1, actt7b2, actt7b3, actt7b4, actt7r1, actt3b1, actt3b2, actt3b3, actt3b4, actt3r1, actt1b1, actt1b2, actt1b3, actt1b4, actt1r1, \
                 in reader:
             if float(t7b1) == 0:
                 r7b41 = 0
@@ -67,58 +67,58 @@ def c_data(start,end):
                 r1b43 = 0
             else:
                 r1b43 = float(t1b4) / float(t1b3)
-            if c_all[user_id][0] == 0:
+            if c_all[item_category][0] == 0:
                 r371 = 0
                 r171 = 0
                 r7b1 = 0
             else:
-                r7b1 = float(t7b1) / c_all[user_id][0]
+                r7b1 = float(t7b1) / c_all[item_category][0]
                 if float(t7b1) == 0:
                     r371 = 0
                     r171 = 0
                 else:
                     r371 = float(t3b1) / float(t7b1)
                     r171 = float(t1b1) / float(t7b1)
-            if c_all[user_id][1] == 0:
+            if c_all[item_category][1] == 0:
                 r372 = 0
                 r172 = 0
                 r7b2 = 0
             else:
-                r7b2 = float(t7b2) / c_all[user_id][1]
+                r7b2 = float(t7b2) / c_all[item_category][1]
                 if float(t7b2) == 0:
                     r372 = 0
                     r172 = 0
                 else:
                     r372 = float(t3b2) / float(t7b2)
                     r172 = float(t1b2) / float(t7b2)
-            if c_all[user_id][2] == 0:
+            if c_all[item_category][2] == 0:
                 r373 = 0
                 r173 = 0
                 r7b3 = 0
             else:
-                r7b3 = float(t7b3) / c_all[user_id][2]
+                r7b3 = float(t7b3) / c_all[item_category][2]
                 if float(t7b3) == 0:
                     r373 = 0
                     r173 = 0
                 else:
                     r373 = float(t3b3) / float(t7b3)
                     r173 = float(t1b3) / float(t7b3)
-            if c_all[user_id][2] == 0:
+            if c_all[item_category][2] == 0:
                 r374 = 0
                 r174 = 0
                 r7b4 = 0
             else:
-                r7b4 = float(t7b4) / c_all[user_id][2]
+                r7b4 = float(t7b4) / c_all[item_category][2]
                 if float(t7b4) == 0:
                     r374 = 0
                     r174 = 0
                 else:
                     r374 = float(t3b4) / float(t7b4)
                     r174 = float(t1b4) / float(t7b4)
-            if c_all[user_id][4] == 0:
+            if c_all[item_category][4] == 0:
                 rc = 0
             else:
-                rc = float(t7b1 + t7b2 + t7b3 + t7b4) / c_all[user_id][4]
+                rc = float(t7b1 + t7b2 + t7b3 + t7b4) / c_all[item_category][4]
             t7count = float(t7b1 + t7b2 + t7b3 + t7b4)
             r71c = float(t7b1) / t7count
             r72c = float(t7b2) / t7count
@@ -141,20 +141,23 @@ def c_data(start,end):
                 r11c = float(t1b1) / t1count
                 r12c = float(t1b2) / t1count
                 r13c = float(t1b3) / t1count
-            c7[user_id] = [
+            c7[item_category] = [
                 float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
                 float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
                 float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
-                float(r7b1), float(r7b2), float(r7b3), float(r7b4), float(r371),
-                float(r372), float(r373), float(r374), float(r171),
-                float(r172), float(r173), float(r174), float(rc),
+                float(actt7b1), float(actt7b2), float(actt7b3), float(actt7b4), float(actt7r1),
+                float(actt3b1), float(actt3b2), float(actt3b3), float(actt3b4), float(actt3r1),
+                float(actt1b1), float(actt1b2), float(actt1b3), float(actt1b4), float(actt1r1),
+                # float(r7b1), float(r7b2), float(r7b3), float(r7b4), float(r371),
+                # float(r372), float(r373), float(r374), float(r171),
+                # float(r172), float(r173), float(r174), float(rc),
                 float(r7b41), float(r7b42), float(r7b43),
                 float(r3b41), float(r3b42), float(r3b43),
                 float(r1b41), float(r1b42), float(r1b43),
                 float(r71c), float(r72c), float(r73c),
                 float(r31c), float(r32c), float(r33c),
-                float(r11c), float(r12c), float(r13c),
-                float(t7g1), float(t3g1), float(t1g1)
+                float(r11c), float(r12c), float(r13c)
+
             ]
         for category in c7:
             c7[category] = c7[category] + c_all[category]
@@ -214,13 +217,13 @@ def c_predict():
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(1, 5, 10)
-    c = linspace(12, 15, 6)
+    weight = linspace(3, 6, 12)
+    c = linspace(10, 30, 50)
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for i in range(shape(weight)[0]):
-        for j in range(shape(c)[0]):
+    for j in range(shape(c)[0]):
+        for i in range(shape(weight) [0]):
             p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
@@ -255,9 +258,9 @@ def find_parameter(train, cross_v):
 
 
 if __name__ == '__main__':
-    train1 = c_data(0,23)
+    train1 = c_data(0, 23)
     print 'train 1 mean:', mean(train1[:, -1] == 1)
-    cross_v1 = c_data(23,24)
+    cross_v1 = c_data(23, 24)
     print 'cross 1 mean:', mean(cross_v1[:, -1] == 1)
     # data = c_data()
     # print 'data 1 mean:', mean(data[:, -1] == 1)
@@ -353,3 +356,4 @@ if __name__ == '__main__':
     # winsound.Beep(300, 1000)
     # 0.71872060207 4.42857142857 8.42857142857 15
     # 0.713114754098 3.41379310345 13.0689655172  23
+#     0.712457071495 3.6 20.0
