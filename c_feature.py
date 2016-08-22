@@ -195,8 +195,9 @@ def c_predict():
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(3, 5, 12)
-    c = linspace(20, 30, 15)
+    weight = linspace(2, 5, 15)
+    # 0.744797371303 2.42857142857 30.3448275862
+    c = linspace(20, 40, 30)
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
@@ -332,5 +333,4 @@ if __name__ == '__main__':
     # print 'predict mean', mean(z == 1)
     # print shape(z)[0]
     # winsound.Beep(300, 1000)
-    # 0.713114754098 3.41379310345 13.0689655172  23
-#     0.712457071495 3.6 20.0
+

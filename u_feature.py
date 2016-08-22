@@ -185,9 +185,9 @@ def u_predict():
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(4, 6, 12)
-    c = linspace(24, 34, 20)
-    # 0.432376250487 4.54545454545 25.5789473684
+    weight = linspace(3, 5, 12)
+    c = linspace(20, 30, 20)
+    # 0.508400292184 3.90909090909 24.2105263158
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0

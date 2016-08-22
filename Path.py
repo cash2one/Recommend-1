@@ -11,7 +11,7 @@ class Path(object):
     i_feature = 'csv/tb_i_feature.csv'
     u_feature = 'csv/tb_u_feature.csv'
     c_feature = 'csv/tb_c_feature.csv'
-    uc_feature = 'csv/tb_feature_uc.csv'
+    uc_feature = 'csv/tb_uc_feature.csv'
     uc_feature1 = 'csv/tb_feature_uc1.csv'
     i_feature_test = 'csv/tb_i_feature_test.csv'
     u_feature_test = 'csv/tb_u_feature_test.csv'

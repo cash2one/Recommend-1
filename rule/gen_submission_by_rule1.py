@@ -17,7 +17,7 @@ db = MySQLdb.connect(
     db="recommend"
 )
 cursor = db.cursor()
-sql = "select user_id from tb_u_feature where user_id in (select user_id from tb_result)and rate=0 and count >1080;"
+sql = "select user_id from tb_u_feature where user_id in (select user_id from tb_result)and rate=0 and count >1000;"
 u7_all = []
 try:
     cursor.execute(sql)
@@ -52,3 +52,6 @@ for key in result:
     total += 1
 print "generate submission file,total %d  (uid,iid)" % total
 f.close()
+
+
+# select * from tb_u_feature_test as z join tb_result as c  on z.user_id=c.user_id where t3b4=0 and t1b4=0 group by z.user_id order by z.t7b1 desc;

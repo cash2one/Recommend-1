@@ -117,15 +117,15 @@ CREATE TABLE tb_uc_feature AS
                     SELECT
                               user_id
                             , item_category
-                            , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS t7b1
-                            , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS t7b2
-                            , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS t7b3
-                            , SUM( CASE WHEN behavior_type='4' THEN 1 ELSE 0 END) AS t7b4
+                            , SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END) AS b1
+                            , SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END) AS b2
+                            , SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END) AS b3
+                            , SUM( CASE WHEN behavior_type='4' THEN 1 ELSE 0 END) AS b4
                             , SUM( CASE WHEN behavior_type='4' THEN 1 ELSE 0 END)/
                             ( SUM( CASE WHEN behavior_type='1' THEN 1 ELSE 0 END)+ 
                               SUM( CASE WHEN behavior_type='2' THEN 1 ELSE 0 END)+ 
                               SUM( CASE WHEN behavior_type='3' THEN 1 ELSE 0 END)+ 
-                              SUM( CASE WHEN behavior_type='4' THEN 1 ELSE 0 END))AS t7r1
+                              SUM( CASE WHEN behavior_type='4' THEN 1 ELSE 0 END))AS r1
                     FROM
                               tb_tianchi_user
                     GROUP BY
