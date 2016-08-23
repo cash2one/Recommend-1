@@ -246,47 +246,32 @@ def uc_data(start, end):
                 r12c = float(t1b2) / t1count
                 r13c = float(t1b3) / t1count
             c7[item_category] = [
-                float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
-                float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                # float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                # float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                # float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
                 float(r7b41), float(r7b42), float(r7b43),
                 float(r3b41), float(r3b42), float(r3b43),
                 float(r1b41), float(r1b42), float(r1b43),
                 float(r71c), float(r72c), float(r73c),
                 float(r31c), float(r32c), float(r33c),
                 float(r11c), float(r12c), float(r13c),
-                float(actt7b1), float(actt7b2), float(actt7b3), float(actt7b4), float(actt7r1),
-                float(actt3b1), float(actt3b2), float(actt3b3), float(actt3b4), float(actt3r1),
-                float(actt1b1), float(actt1b2), float(actt1b3), float(actt1b4), float(actt1r1),
+                # float(actt7b1), float(actt7b2), float(actt7b3), float(actt7b4), float(actt7r1),
+                # float(actt3b1), float(actt3b2), float(actt3b3), float(actt3b4), float(actt3r1),
+                # float(actt1b1), float(actt1b2), float(actt1b3), float(actt1b4), float(actt1r1),
             ]
 
         for user_id in uc7:
             for category in uc7[user_id]:
-                uc7[user_id][category] = uc7[user_id][category] + uc_all[user_id][category] + u_all[user_id] + c_all[
-                    category] + [float(0)]
-
-        # db = MySQLdb.connect(
-        #     host=Path.host,
-        #     port=3306,
-        #     user=Path.user,
-        #     passwd="1234",
-        #     db="recommend"
-        # )
-        # cursor = db.cursor()
-        # sql = "select user_id,item_category from " + Path.tb_train_result[
-        #     i] + " where behavior_type='4' group by user_id,item_category"
-        # uc7_result = dict()
-        # cursor.execute(sql)
-        # results = cursor.fetchall()
+                uc7[user_id][category] = uc7[user_id][category] + uc_all[user_id][category] + c7[category]+ [float(0)]
 
         f = file(Path.tb_feature_uc_result[i], 'r')
         reader = csv.reader(f)
         uc7_result = dict()
 
-        for row in reader:
+        for user_id, item_category in reader:
             if user_id not in uc7_result:
-                uc7_result[row[0]] = dict()
-            uc7_result[row[0]][row[1]] = 1
+                uc7_result[user_id] = dict()
+            uc7_result[user_id][item_category] = 1
 
         for user_id in uc7_result:
             if uc7.has_key(user_id):
@@ -296,7 +281,6 @@ def uc_data(start, end):
         for user_id in uc7:
             for category in uc7[user_id]:
                 uc_list.append(uc7[user_id][category])
-
 
     return array(uc_list)
 
@@ -375,7 +359,7 @@ def find_parameter(train, cross_v):
 
 
 if __name__ == '__main__':
-    train1 = uc_data(0, 5)
+    train1 = uc_data(0, 1)
     print shape(train1)
     print 'train 1 mean:', mean(train1[:, -1] == 1)
     cross_v1 = uc_data(23, 24)
