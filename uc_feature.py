@@ -534,18 +534,20 @@ def uc_data1(start, end):
                 r12c = float(t1b2) / t1count
                 r13c = float(t1b3) / t1count
             c7[item_category] = [
-                float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
-                float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                # float(t7b1), float(t7b2), float(t7b3), float(t7b4),
+                # float(t3b1), float(t3b2), float(t3b3), float(t3b4),
+                # float(t1b1), float(t1b2), float(t1b3), float(t1b4),
                 float(r7b41), float(r7b42), float(r7b43),
                 float(r3b41), float(r3b42), float(r3b43),
                 float(r1b41), float(r1b42), float(r1b43),
                 float(r71c), float(r72c), float(r73c),
                 float(r31c), float(r32c), float(r33c),
                 float(r11c), float(r12c), float(r13c),
-                # float(actt7b1), float(actt7b2), float(actt7b3), float(actt7b4), float(actt7r1),
-                # float(actt3b1), float(actt3b2), float(actt3b3), float(actt3b4), float(actt3r1),
-                # float(actt1b1), float(actt1b2), float(actt1b3), float(actt1b4), float(actt1r1),
+                float(t7r1), float(t3r1), float(t1r1),
+                float(actt7r1), float(actt3r1), float(actt1r1),
+                # float(actt7b1), float(actt7b2), float(actt7b3), float(actt7b4),
+                # float(actt3b1), float(actt3b2), float(actt3b3), float(actt3b4),
+                # float(actt1b1), float(actt1b2), float(actt1b3), float(actt1b4),
             ]
 
         for user_id in uc7:
@@ -613,7 +615,7 @@ def find_parameter(train, cross_v):
     max_w = 0.0
     max_c = 0.0
     for i in range(200, 201, 1):
-        for j in range(5, 7, 1):
+        for j in range(5, 6, 1):
             p = GradientBoostingClassifier(n_estimators=200, learning_rate=0.04, max_depth=j, random_state=0)
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
