@@ -34,12 +34,14 @@ CREATE TABLE tb_tianchi_item
 
 LOAD data INFILE 'E:/PycharmProjects/Recommend/tianchi_fresh_comp_train_user.csv' INTO TABLE tb_tianchi_user fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
 LOAD data local INFILE 'D:/PycharmProjects/Recommend/data/tianchi_mobile_recommend_train_item.csv' INTO TABLE tb_tianchi_item fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
-
-LOAD data local INFILE 'D:/PycharmProjects/Recommend/rule/0-1000.csv' INTO TABLE tb_result fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
+drop table tb_result;
+LOAD data INFILE 'D:/3064--120305341.csv' INTO TABLE tb_result fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
 
 
 select * from tb_result 
 where user_id not in ('136592694','115761083','112658053','135792408','120305341') 
 and 
-item_id+'\r' not in (select item_id from tb_i_feature where item_id in (select item_id from tmp  where item_category='3064\r' and all4=0) )
+item_id+'\r' not in (select item_id from tmp1 )
 INTO OUTFILE 'D:/3064-120305341.csv' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
+
+select * from tb_result INTO OUTFILE 'D:/6648-887-3064-120305341.csv' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
