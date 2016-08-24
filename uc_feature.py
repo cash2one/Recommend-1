@@ -46,12 +46,13 @@ def uc_data(start, end):
             rb43 = 0
         else:
             rb43 = float(act4) / float(act3)
-        c_all[item_category] = [float(c1), float(c2), float(c3), float(c4), float(count), float(allturnrate),
-                                float(rb41), float(rb42), float(rb43),
-                                float(act1), float(act2), float(act3), float(act4), float(actcount), float(actturnrate),
+        c_all[item_category] = [
+            # float(c1), float(c2), float(c3), float(c4), float(count), float(allturnrate),
+            #                     float(rb41), float(rb42), float(rb43),
+            #                     float(act1), float(act2), float(act3), float(act4), float(actcount), float(actturnrate),
                                 float(r1), float(r2), float(r3)
                                 ]
-    ###################u_feature##########################
+    ###################u_feature##########################ok
     print 'u_feature'
     f = file(Path.u_feature, 'r')
     reader = csv.reader(f)
@@ -70,11 +71,12 @@ def uc_data(start, end):
         else:
             r3 = float(c4) / float(c3)
         u_all[user_id] = [
-            float(c1), float(c2), float(c3), float(c4),
-            float(count),
+            # float(c1), float(c2), float(c3), float(c4),
+            # float(count),
             float(c1) / float(count), float(c2) / float(count), float(c3) / float(count),
             float(r1), float(r2), float(r3),
-            float(c_rate)]
+            float(c_rate)
+        ]
 
     ###################uc_feature##########################
     print 'uc_feature'
@@ -262,7 +264,12 @@ def uc_data(start, end):
 
         for user_id in uc7:
             for category in uc7[user_id]:
-                uc7[user_id][category] = uc7[user_id][category] + uc_all[user_id][category] + c7[category]+ [float(0)]
+                uc7[user_id][category] = \
+                    uc7[user_id][category] + \
+                    uc_all[user_id][category]+ \
+                    u_all[user_id] + \
+                    c_all[category]+\
+                    [float(0)]
 
         f = file(Path.tb_feature_uc_result[i], 'r')
         reader = csv.reader(f)
@@ -272,7 +279,6 @@ def uc_data(start, end):
             if user_id not in uc7_result:
                 uc7_result[user_id] = dict()
             uc7_result[user_id][item_category] = 1
-
         for user_id in uc7_result:
             if uc7.has_key(user_id):
                 for category in uc7_result[user_id]:
@@ -297,7 +303,7 @@ def uc_predict():
                                            float(all1), float(all2), float(all3), float(all4), float(allcount),
                                            float(allturnrate),
                                            float(act1), float(act2), float(act3), float(act4), float(actcount),
-                                           float(actturnrate), float(0)]
+                                           float(actturnrate)]
         id_list = []
         category_list = []
         for user_id in uc7:
@@ -309,14 +315,14 @@ def uc_predict():
 
 
 def find_parameter(train, cross_v):
-    weight = linspace(46, 58, 20)
-    c = linspace(1, 5, 10)
+    weight = linspace(28, 34, 10)
+    c = linspace(5, 9, 9)
     # 0.0552763819095 31.3103448276 1.25
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for j in range(shape(c)[0]):
-        for i in range(shape(weight)[0]):
+    for i in range(shape(weight)[0]):
+        for j in range(shape(c)[0]):
             p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
