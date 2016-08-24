@@ -5,13 +5,12 @@
 
 
 
-import MySQLdb
-from numpy import *
-from Path import *
-import winsound
 import csv
-import time
-from sklearn.linear_model import LogisticRegression
+import winsound
+
+from numpy import *
+
+from Path import *
 
 
 #  float(0)
@@ -21,7 +20,7 @@ def uc_data(start, end):
     f = file(Path.c_feature, 'r')
     reader = csv.reader(f)
     c_all = dict()
-    for item_category, c1, c2, c3, c4, count, allturnrate, act1, act2, act3, act4, actcount, actturnrate in reader:
+    for item_category, c1, c2, c3, c4, count, all_rate, act1, act2, act3, act4, act_count, act_rate in reader:
         if float(c1) == 0:
             r1 = 0
         else:
@@ -46,12 +45,15 @@ def uc_data(start, end):
             rb43 = 0
         else:
             rb43 = float(act4) / float(act3)
+
         c_all[item_category] = [
-            # float(c1), float(c2), float(c3), float(c4), float(count), float(allturnrate),
-            #                     float(rb41), float(rb42), float(rb43),
-            #                     float(act1), float(act2), float(act3), float(act4), float(actcount), float(actturnrate),
-                                float(r1), float(r2), float(r3)
-                                ]
+            float(rb41), float(rb42), float(rb43),
+            float(r1), float(r2), float(r3),
+            float(c1) / float(count), float(c2) / float(count),
+            float(c3) / float(count),float(all_rate),
+            float(act1) / float(act_count), float(act2) / float(act_count),
+            float(act3) / float(act_count),float(act_rate)
+        ]
     ###################u_feature##########################ok
     print 'u_feature'
     f = file(Path.u_feature, 'r')
@@ -266,9 +268,9 @@ def uc_data(start, end):
             for category in uc7[user_id]:
                 uc7[user_id][category] = \
                     uc7[user_id][category] + \
-                    uc_all[user_id][category]+ \
+                    uc_all[user_id][category] + \
                     u_all[user_id] + \
-                    c_all[category]+\
+                    c_all[category] + \
                     [float(0)]
 
         f = file(Path.tb_feature_uc_result[i], 'r')
@@ -314,16 +316,20 @@ def uc_predict():
     return array(uc_list), array(id_list), array(category_list)
 
 
+from sklearn.ensemble import GradientBoostingClassifier
+
+
+# lr0.32505399568 3.36842105263 39.5862068966
+# 0.45817545905 191 4
+# 0.458294573643 193 4
+# 0.458698940998 203 4
 def find_parameter(train, cross_v):
-    weight = linspace(28, 34, 10)
-    c = linspace(5, 9, 9)
-    # 0.0552763819095 31.3103448276 1.25
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for i in range(shape(weight)[0]):
-        for j in range(shape(c)[0]):
-            p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
+    for i in range(198, 203, 1):
+        for j in range(4, 6, 1):
+            p = GradientBoostingClassifier(n_estimators=i, learning_rate=0.04, max_depth=j, random_state=0)
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
             TP = 0.0
@@ -339,7 +345,7 @@ def find_parameter(train, cross_v):
                     FN += 1
                 else:
                     TN += 1
-            print weight[i], c[j], TP, FP, FN, TN
+            print i, j, TP, FP, FN, TN
             if TP == 0 and FP == 0:
                 precision = 0
             else:
@@ -356,16 +362,29 @@ def find_parameter(train, cross_v):
             print 'F1 score:', F1
             if max_F1 < F1:
                 max_F1 = F1
-                max_w = weight[i]
-                max_c = c[j]
+                max_w = i
+                max_c = j
                 print '\033[1;31;m'
                 print max_F1, max_w, max_c
                 print '\033[0m'
     print max_F1, max_w, max_c
 
 
+import random
+
 if __name__ == '__main__':
     train1 = uc_data(0, 1)
+    train1_p = train1[train1[:, -1] == 1]
+    train1_n = train1[train1[:, -1] == 0]
+    lp = len(train1_p)
+    ln = len(train1_n)
+    print lp
+    print ln
+    if float(ln) / lp > 12:
+        a = range(0, ln)
+        slice = random.sample(a, lp * 12)
+        train1_n = train1_n[slice]
+        train1 = concatenate((train1_p, train1_n))
     print shape(train1)
     print 'train 1 mean:', mean(train1[:, -1] == 1)
     cross_v1 = uc_data(23, 24)
@@ -462,4 +481,4 @@ if __name__ == '__main__':
     # db.close()
     # print 'predict mean', mean(z == 1)
     # print shape(z)[0]
-    winsound.Beep(300, 1000)
+    # winsound.Beep(300, 500)
