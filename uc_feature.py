@@ -273,6 +273,7 @@ def uc_data(start, end):
                     uc_all[user_id][category] + \
                     u_all[user_id] + \
                     c_all[category] + \
+                    c7[category] + \
                     [float(0)]
 
         f = file(Path.tb_feature_uc_result[i], 'r')
@@ -330,9 +331,9 @@ def uc_data1(start, end):
         c_all[item_category] = [
             float(rb41), float(rb42), float(rb43),
             float(r1), float(r2), float(r3),
-            float(c1) / float(count), float(c2) / float(count),
-            float(c3) / float(count),
-            float(all_rate),
+            # float(c1) / float(count), float(c2) / float(count),
+            # float(c3) / float(count),
+            # float(all_rate),
             # float(act1) / float(act_count), float(act2) / float(act_count),
             # float(act3) / float(act_count),
             # float(act_rate)
@@ -533,9 +534,9 @@ def uc_data1(start, end):
                 r12c = float(t1b2) / t1count
                 r13c = float(t1b3) / t1count
             c7[item_category] = [
-                # float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                # float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
-                # float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
                 float(r7b41), float(r7b42), float(r7b43),
                 float(r3b41), float(r3b42), float(r3b43),
                 float(r1b41), float(r1b42), float(r1b43),
@@ -554,6 +555,7 @@ def uc_data1(start, end):
                     uc_all[user_id][category] + \
                     u_all[user_id] + \
                     c_all[category] + \
+                    c7[category] + \
                     [float(0)]
 
         f = file(Path.tb_feature_uc_result[i], 'r')
@@ -611,7 +613,7 @@ def find_parameter(train, cross_v):
     max_w = 0.0
     max_c = 0.0
     for i in range(200, 201, 1):
-        for j in range(4, 6, 1):
+        for j in range(5, 7, 1):
             p = GradientBoostingClassifier(n_estimators=200, learning_rate=0.04, max_depth=j, random_state=0)
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
