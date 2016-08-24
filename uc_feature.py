@@ -49,10 +49,293 @@ def uc_data(start, end):
         c_all[item_category] = [
             float(rb41), float(rb42), float(rb43),
             float(r1), float(r2), float(r3),
+            # float(c1) / float(count), float(c2) / float(count),
+            # float(c3) / float(count),
+            # float(all_rate),
+            # float(act1) / float(act_count), float(act2) / float(act_count),
+            # float(act3) / float(act_count),
+            # float(act_rate)
+        ]
+    ###################u_feature##########################ok
+    print 'u_feature'
+    f = file(Path.u_feature, 'r')
+    reader = csv.reader(f)
+    u_all = dict()
+    for user_id, c1, c2, c3, c4, count, c_rate in reader:
+        if float(c1) == 0:
+            r1 = 0
+        else:
+            r1 = float(c4) / float(c1)
+        if float(c2) == 0:
+            r2 = 0
+        else:
+            r2 = float(c4) / float(c2)
+        if float(c3) == 0:
+            r3 = 0
+        else:
+            r3 = float(c4) / float(c3)
+        u_all[user_id] = [
+            # float(c1), float(c2), float(c3), float(c4),
+            # float(count),
+            float(c1) / float(count), float(c2) / float(count), float(c3) / float(count),
+            float(r1), float(r2), float(r3),
+            float(c_rate)
+        ]
+
+    ###################uc_feature##########################
+    print 'uc_feature'
+    f = file(Path.uc_feature, 'r')
+    reader = csv.reader(f)
+    uc_all = dict()
+    for user_id, item_category, c1, c2, c3, c4, r1 in reader:
+        if user_id not in uc_all:
+            uc_all[user_id] = dict()
+        uc_all[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(r1)]
+    uc_list = []
+
+    for i in range(start, end):
+        #################uc7####################
+        f = file(Path.tb_feature_uc[i], 'r')
+        reader = csv.reader(f)
+        uc7 = dict()
+        print 'uc7'
+        for user_id, item_category, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+            # print t7r1
+            if float(t7b1) >= 500:
+                continue
+            if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
+                continue
+            if float(t7b1) == 0:
+                r7b41 = 0
+            else:
+                r7b41 = float(t7b4) / float(t7b1)
+            if float(t7b2) == 0:
+                r7b42 = 0
+            else:
+                r7b42 = float(t7b4) / float(t7b2)
+            if float(t7b3) == 0:
+                r7b43 = 0
+            else:
+                r7b43 = float(t7b4) / float(t7b3)
+            if float(t3b1) == 0:
+                r3b41 = 0
+            else:
+                r3b41 = float(t3b4) / float(t3b1)
+            if float(t3b2) == 0:
+                r3b42 = 0
+            else:
+                r3b42 = float(t3b4) / float(t3b2)
+            if float(t3b3) == 0:
+                r3b43 = 0
+            else:
+                r3b43 = float(t3b4) / float(t3b3)
+            if float(t1b1) == 0:
+                r1b41 = 0
+            else:
+                r1b41 = float(t1b4) / float(t1b1)
+            if float(t1b2) == 0:
+                r1b42 = 0
+            else:
+                r1b42 = float(t1b4) / float(t1b2)
+            if float(t1b3) == 0:
+                r1b43 = 0
+            else:
+                r1b43 = float(t1b4) / float(t1b3)
+            t7count = float(t7b1 + t7b2 + t7b3 + t7b4)
+            r71c = float(t7b1) / t7count
+            r72c = float(t7b2) / t7count
+            r73c = float(t7b3) / t7count
+            t3count = float(t3b1 + t3b2 + t3b3 + t3b4)
+            t1count = float(t1b1 + t1b2 + t1b3 + t1b4)
+            if t3count == 0:
+                r31c = 0
+                r32c = 0
+                r33c = 0
+            else:
+                r31c = float(t3b1) / t3count
+                r32c = float(t3b2) / t3count
+                r33c = float(t3b3) / t3count
+            if t1count == 0:
+                r11c = 0
+                r12c = 0
+                r13c = 0
+            else:
+                r11c = float(t1b1) / t1count
+                r12c = float(t1b2) / t1count
+                r13c = float(t1b3) / t1count
+
+            if user_id not in uc7:
+                uc7[user_id] = dict()
+            uc7[user_id][item_category] = [
+                float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                float(r7b41), float(r7b42), float(r7b43),
+                float(r3b41), float(r3b42), float(r3b43),
+                float(r1b41), float(r1b42), float(r1b43),
+                float(r71c), float(r72c), float(r73c),
+                float(r31c), float(r32c), float(r33c),
+                float(r11c), float(r12c), float(r13c),
+                # float(t7g1), float(t3g1), float(t1g1)
+            ]
+
+        #################c7####################
+        f = file(Path.tb_feature_c[i], 'r')
+        reader = csv.reader(f)
+        c7 = dict()
+        print 'c7'
+        for item_category, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1, actt7b1, actt7b2, actt7b3, actt7b4, actt7r1, actt3b1, actt3b2, actt3b3, actt3b4, actt3r1, actt1b1, actt1b2, actt1b3, actt1b4, actt1r1 in reader:
+            # if float(t7b1) >= 20000 or float(t7r1) <= 0.001:
+            #     continue
+            # if float(t3r1) <= 0.001:
+            #     continue
+            # if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
+            #     continue
+            # if float(t3b2) == 0 and float(t3b3) == 0 and float(t3b4) == 0:
+            #     continue
+            if float(t7b1) == 0:
+                r7b41 = 0
+            else:
+                r7b41 = float(t7b4) / float(t7b1)
+            if float(t7b2) == 0:
+                r7b42 = 0
+            else:
+                r7b42 = float(t7b4) / float(t7b2)
+            if float(t7b3) == 0:
+                r7b43 = 0
+            else:
+                r7b43 = float(t7b4) / float(t7b3)
+            if float(t3b1) == 0:
+                r3b41 = 0
+            else:
+                r3b41 = float(t3b4) / float(t3b1)
+            if float(t3b2) == 0:
+                r3b42 = 0
+            else:
+                r3b42 = float(t3b4) / float(t3b2)
+            if float(t3b3) == 0:
+                r3b43 = 0
+            else:
+                r3b43 = float(t3b4) / float(t3b3)
+            if float(t1b1) == 0:
+                r1b41 = 0
+            else:
+                r1b41 = float(t1b4) / float(t1b1)
+            if float(t1b2) == 0:
+                r1b42 = 0
+            else:
+                r1b42 = float(t1b4) / float(t1b2)
+            if float(t1b3) == 0:
+                r1b43 = 0
+            else:
+                r1b43 = float(t1b4) / float(t1b3)
+            t7count = float(t7b1 + t7b2 + t7b3 + t7b4)
+            r71c = float(t7b1) / t7count
+            r72c = float(t7b2) / t7count
+            r73c = float(t7b3) / t7count
+            t3count = float(t3b1 + t3b2 + t3b3 + t3b4)
+            t1count = float(t1b1 + t1b2 + t1b3 + t1b4)
+            if t3count == 0:
+                r31c = 0
+                r32c = 0
+                r33c = 0
+            else:
+                r31c = float(t3b1) / t3count
+                r32c = float(t3b2) / t3count
+                r33c = float(t3b3) / t3count
+            if t1count == 0:
+                r11c = 0
+                r12c = 0
+                r13c = 0
+            else:
+                r11c = float(t1b1) / t1count
+                r12c = float(t1b2) / t1count
+                r13c = float(t1b3) / t1count
+            c7[item_category] = [
+                # float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                # float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                # float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                float(r7b41), float(r7b42), float(r7b43),
+                float(r3b41), float(r3b42), float(r3b43),
+                float(r1b41), float(r1b42), float(r1b43),
+                float(r71c), float(r72c), float(r73c),
+                float(r31c), float(r32c), float(r33c),
+                float(r11c), float(r12c), float(r13c),
+                # float(actt7b1), float(actt7b2), float(actt7b3), float(actt7b4), float(actt7r1),
+                # float(actt3b1), float(actt3b2), float(actt3b3), float(actt3b4), float(actt3r1),
+                # float(actt1b1), float(actt1b2), float(actt1b3), float(actt1b4), float(actt1r1),
+            ]
+
+        for user_id in uc7:
+            for category in uc7[user_id]:
+                uc7[user_id][category] = \
+                    uc7[user_id][category] + \
+                    uc_all[user_id][category] + \
+                    u_all[user_id] + \
+                    c_all[category] + \
+                    [float(0)]
+
+        f = file(Path.tb_feature_uc_result[i], 'r')
+        reader = csv.reader(f)
+        uc7_result = dict()
+
+        for user_id, item_category in reader:
+            if user_id not in uc7_result:
+                uc7_result[user_id] = dict()
+            uc7_result[user_id][item_category] = 1
+        for user_id in uc7_result:
+            if uc7.has_key(user_id):
+                for category in uc7_result[user_id]:
+                    if uc7[user_id].has_key(category):
+                        uc7[user_id][category][-1] = 1
+        for user_id in uc7:
+            for category in uc7[user_id]:
+                uc_list.append(uc7[user_id][category])
+
+    return array(uc_list)
+
+
+def uc_data1(start, end):
+    ###################c_feature##########################
+    print 'c_feature'
+    f = file(Path.c_feature, 'r')
+    reader = csv.reader(f)
+    c_all = dict()
+    for item_category, c1, c2, c3, c4, count, all_rate, act1, act2, act3, act4, act_count, act_rate in reader:
+        if float(c1) == 0:
+            r1 = 0
+        else:
+            r1 = float(c4) / float(c1)
+        if float(c2) == 0:
+            r2 = 0
+        else:
+            r2 = float(c4) / float(c2)
+        if float(c3) == 0:
+            r3 = 0
+        else:
+            r3 = float(c4) / float(c3)
+        if float(act1) == 0:
+            rb41 = 0
+        else:
+            rb41 = float(act4) / float(act1)
+        if float(act2) == 0:
+            rb42 = 0
+        else:
+            rb42 = float(act4) / float(act2)
+        if float(act3) == 0:
+            rb43 = 0
+        else:
+            rb43 = float(act4) / float(act3)
+
+        c_all[item_category] = [
+            float(rb41), float(rb42), float(rb43),
+            float(r1), float(r2), float(r3),
             float(c1) / float(count), float(c2) / float(count),
-            float(c3) / float(count),float(all_rate),
-            float(act1) / float(act_count), float(act2) / float(act_count),
-            float(act3) / float(act_count),float(act_rate)
+            float(c3) / float(count),
+            float(all_rate),
+            # float(act1) / float(act_count), float(act2) / float(act_count),
+            # float(act3) / float(act_count),
+            # float(act_rate)
         ]
     ###################u_feature##########################ok
     print 'u_feature'
@@ -327,9 +610,9 @@ def find_parameter(train, cross_v):
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for i in range(198, 203, 1):
+    for i in range(200, 201, 1):
         for j in range(4, 6, 1):
-            p = GradientBoostingClassifier(n_estimators=i, learning_rate=0.04, max_depth=j, random_state=0)
+            p = GradientBoostingClassifier(n_estimators=200, learning_rate=0.04, max_depth=j, random_state=0)
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
             TP = 0.0
@@ -395,6 +678,19 @@ if __name__ == '__main__':
     # all_data = uc_all_data()
     # print 'all data 1 mean:', mean(all_data[:, -1] == 1)
     find_parameter(train1, cross_v1)
+    print '#######################################################'
+    train2 = uc_data1(0, 1)
+    train2_p = train2[train2[:, -1] == 1]
+    train2_n = train2[train2[:, -1] == 0]
+    train2_n = train2_n[slice]
+    train2 = concatenate((train2_p, train2_n))
+    print shape(train2)
+    print 'train 1 mean:', mean(train2[:, -1] == 1)
+    cross_v2 = uc_data1(23, 24)
+    print shape(cross_v2)
+    print 'cross 1 mean:', mean(cross_v2[:, -1] == 1)
+
+    find_parameter(train2, cross_v2)
     # lr = LogisticRegression(class_weight={1: 3.41379310345}, C=13.0689655172)
     # lr.fit(train1[:, :-1], train1[:, -1])
     # predict = uc_test()
