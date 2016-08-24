@@ -467,14 +467,6 @@ def uc_data1(start, end):
         c7 = dict()
         print 'c7'
         for item_category, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1, actt7b1, actt7b2, actt7b3, actt7b4, actt7r1, actt3b1, actt3b2, actt3b3, actt3b4, actt3r1, actt1b1, actt1b2, actt1b3, actt1b4, actt1r1 in reader:
-            # if float(t7b1) >= 20000 or float(t7r1) <= 0.001:
-            #     continue
-            # if float(t3r1) <= 0.001:
-            #     continue
-            # if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
-            #     continue
-            # if float(t3b2) == 0 and float(t3b3) == 0 and float(t3b4) == 0:
-            #     continue
             if float(t7b1) == 0:
                 r7b41 = 0
             else:
@@ -543,11 +535,85 @@ def uc_data1(start, end):
                 float(r71c), float(r72c), float(r73c),
                 float(r31c), float(r32c), float(r33c),
                 float(r11c), float(r12c), float(r13c),
-                float(t7r1), float(t3r1), float(t1r1),
-                float(actt7r1), float(actt3r1), float(actt1r1),
+                # float(t7r1), float(t3r1), float(t1r1),
+                # float(actt7r1), float(actt3r1), float(actt1r1),
                 # float(actt7b1), float(actt7b2), float(actt7b3), float(actt7b4),
                 # float(actt3b1), float(actt3b2), float(actt3b3), float(actt3b4),
                 # float(actt1b1), float(actt1b2), float(actt1b3), float(actt1b4),
+            ]
+            f = file(Path.tb_feature_u[i], 'r')
+            reader = csv.reader(f)
+            u7 = dict()
+        for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
+            if float(t7b1) == 0:
+                r7b41 = 0
+            else:
+                r7b41 = float(t7b4) / float(t7b1)
+            if float(t7b2) == 0:
+                r7b42 = 0
+            else:
+                r7b42 = float(t7b4) / float(t7b2)
+            if float(t7b3) == 0:
+                r7b43 = 0
+            else:
+                r7b43 = float(t7b4) / float(t7b3)
+            if float(t3b1) == 0:
+                r3b41 = 0
+            else:
+                r3b41 = float(t3b4) / float(t3b1)
+            if float(t3b2) == 0:
+                r3b42 = 0
+            else:
+                r3b42 = float(t3b4) / float(t3b2)
+            if float(t3b3) == 0:
+                r3b43 = 0
+            else:
+                r3b43 = float(t3b4) / float(t3b3)
+            if float(t1b1) == 0:
+                r1b41 = 0
+            else:
+                r1b41 = float(t1b4) / float(t1b1)
+            if float(t1b2) == 0:
+                r1b42 = 0
+            else:
+                r1b42 = float(t1b4) / float(t1b2)
+            if float(t1b3) == 0:
+                r1b43 = 0
+            else:
+                r1b43 = float(t1b4) / float(t1b3)
+            t7count = float(t7b1 + t7b2 + t7b3 + t7b4)
+            r71c = float(t7b1) / t7count
+            r72c = float(t7b2) / t7count
+            r73c = float(t7b3) / t7count
+            t3count = float(t3b1 + t3b2 + t3b3 + t3b4)
+            t1count = float(t1b1 + t1b2 + t1b3 + t1b4)
+            if t3count == 0:
+                r31c = 0
+                r32c = 0
+                r33c = 0
+            else:
+                r31c = float(t3b1) / t3count
+                r32c = float(t3b2) / t3count
+                r33c = float(t3b3) / t3count
+            if t1count == 0:
+                r11c = 0
+                r12c = 0
+                r13c = 0
+            else:
+                r11c = float(t1b1) / t1count
+                r12c = float(t1b2) / t1count
+                r13c = float(t1b3) / t1count
+            u7[user_id] = [
+                # float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                # float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                # float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                # float(r7b41), float(r7b42), float(r7b43),
+                # float(r3b41), float(r3b42), float(r3b43),
+                # float(r1b41), float(r1b42), float(r1b43),
+                float(r71c), float(r72c), float(r73c),
+                float(r31c), float(r32c), float(r33c),
+                float(r11c), float(r12c), float(r13c),
+                # float(t7g1), float(t3g1), float(t1g1)
             ]
 
         for user_id in uc7:
@@ -556,6 +622,7 @@ def uc_data1(start, end):
                     uc7[user_id][category] + \
                     uc_all[user_id][category] + \
                     u_all[user_id] + \
+                    u7[user_id] + \
                     c_all[category] + \
                     c7[category] + \
                     [float(0)]
