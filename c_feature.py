@@ -193,7 +193,7 @@ def c_predict():
         c_list.append(c7[category])
     return array(c_list), array(category_list)
 
-
+from sklearn.ensemble import GradientBoostingClassifier
 def find_parameter(train, cross_v):
     weight = linspace(2, 5, 15)
     # 0.744797371303 2.42857142857 30.3448275862
@@ -201,9 +201,9 @@ def find_parameter(train, cross_v):
     max_F1 = 0.0
     max_w = 0.0
     max_c = 0.0
-    for i in range(shape(weight)[0]):
-        for j in range(shape(c)[0]):
-            p = LogisticRegression(class_weight={1: weight[i]}, C=c[j])
+    for i in range(1,2,1):
+        for j in range(199,200,1):
+            p = GradientBoostingClassifier(n_estimators=150, learning_rate=0.04, max_depth=7, random_state=0)
             p.fit(train[:, :-1], train[:, -1])
             Z = p.predict(cross_v[:, :-1])
             TP = 0.0
@@ -219,7 +219,7 @@ def find_parameter(train, cross_v):
                     FN += 1
                 else:
                     TN += 1
-            print weight[i], c[j], TP, FP, FN, TN
+            print i,j, TP, FP, FN, TN
             precision = TP / (TP + FP)
             recall = TP / (TP + FN)
             F1 = (precision * recall) * 2 / (precision + recall)
@@ -228,8 +228,8 @@ def find_parameter(train, cross_v):
             print 'F1 score:', F1
             if max_F1 < F1:
                 max_F1 = F1
-                max_w = weight[i]
-                max_c = c[j]
+                max_w =i
+                max_c = j
                 print '\033[1;31;m'
                 print max_F1, max_w, max_c
                 print '\033[0m'
@@ -237,15 +237,25 @@ def find_parameter(train, cross_v):
 
 
 if __name__ == '__main__':
-    train1 = c_data(0, 23)
-    print 'train 1 mean:', mean(train1[:, -1] == 1)
-    cross_v1 = c_data(23, 24)
-    print 'cross 1 mean:', mean(cross_v1[:, -1] == 1)
-    # data = c_data()
-    # print 'data 1 mean:', mean(data[:, -1] == 1)
-    # all_data = c_all_data()
-    # print 'all data 1 mean:', mean(all_data[:, -1] == 1)
-    find_parameter(train1, cross_v1)
+    if __name__ == '__main__':
+        train1 = c_data(0, 1)
+        print  shape(train1)
+        train1_p = train1[train1[:, -1] == 1]
+        train1_n = train1[train1[:, -1] == 0]
+        cross_v1 = c_data(23, 24)
+        lp = len(train1_p)
+        ln = len(train1_n)
+        train11=train1
+        for num in range(1,2,1):
+            if float(ln) / lp > 12:
+                a = range(0, ln)
+                slice = random.sample(a, lp * 12)
+                train11_n = train1_n[slice]
+                train11 = concatenate((train1_p, train11_n))
+            print 'train 1 mean:', mean(train11[:, -1] == 1)
+            print 'cross 1 mean:', mean(cross_v1[:, -1] == 1)
+            find_parameter(train11, cross_v1)
+            print '#######################################################'
     # lr = LogisticRegression(class_weight={1: 3.41379310345}, C=13.0689655172)
     # lr.fit(train1[:, :-1], train1[:, -1])
     # predict = c_test()

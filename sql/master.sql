@@ -18,7 +18,7 @@ select * from tb_c_feature_test where item_category+'\r' in (select item_categor
 
 
 SET SQL_SAFE_UPDATES = 0;
-
+use recommend;
 
 select count(*) from tb_result ;
 select * from tb_i_feature where item_id in (select item_id from tmp  where item_category='11236\r');
