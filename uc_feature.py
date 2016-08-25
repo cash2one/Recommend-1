@@ -604,15 +604,21 @@ def uc_data1(start, end):
                 r12c = float(t1b2) / t1count
                 r13c = float(t1b3) / t1count
             u7[user_id] = [
-                # float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                # float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                # float(t7b1), float(t7b2), float(t7b3), float(t7b4),
+                float(t7r1),
+                # float(t3b1), float(t3b2), float(t3b3), float(t3b4),
+                float(t3r1),
                 # float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
-                # float(r7b41), float(r7b42), float(r7b43),
-                # float(r3b41), float(r3b42), float(r3b43),
+                # float(r7b41),
+                float(r7b42), float(r7b43),
+                # float(r3b41),
+                float(r3b42), float(r3b43),
                 # float(r1b41), float(r1b42), float(r1b43),
-                float(r71c), float(r72c), float(r73c),
-                float(r31c), float(r32c), float(r33c),
-                float(r11c), float(r12c), float(r13c),
+                # float(r71c),
+                # float(r72c), float(r73c),
+                # float(r31c),
+                # float(r32c), float(r33c),
+                # float(r11c), float(r12c), float(r13c),
                 # float(t7g1), float(t3g1), float(t1g1)
             ]
 
