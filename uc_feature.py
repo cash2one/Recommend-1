@@ -21,7 +21,7 @@ def uc_data(start, end):
     reader = csv.reader(f)
     c_all = dict()
     for item_category, c1, c2, c3, c4, count, all_rate, act1, act2, act3, act4, act_count, act_rate in reader:
-        if float(c4)==0:
+        if float(all_rate)<=0.0005:
             continue
         if float(c1) == 0:
             r1 = 0
@@ -93,10 +93,12 @@ def uc_data(start, end):
     f = file(Path.uc_feature, 'r')
     reader = csv.reader(f)
     uc_all = dict()
-    for user_id, item_category, c1, c2, c3, c4, r1 in reader:
+    for user_id, item_category, c1, c2, c3, c4, rate1 in reader:
+        count=float(c1)+float(c2)+float(c3)+float(c4)
         if user_id not in uc_all:
             uc_all[user_id] = dict()
-        uc_all[user_id][item_category] = [float(c1), float(c2), float(c3), float(c4), float(r1)]
+        uc_all[user_id][item_category] = [
+            float(c1), float(c2), float(c3), float(c4), float(rate1),float(count)]
     uc_list = []
 
     for i in range(start, end):
