@@ -21,7 +21,7 @@ def uc_data(start, end):
     reader = csv.reader(f)
     c_all = dict()
     for item_category, c1, c2, c3, c4, count, all_rate, act1, act2, act3, act4, act_count, act_rate in reader:
-        if float(all_rate)<=0.0005:
+        if float(all_rate)<=0.0002:
             continue
         if float(c1) == 0:
             r1 = 0
