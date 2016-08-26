@@ -9,7 +9,7 @@ import csv
 import winsound
 
 from numpy import *
-
+from sklearn.ensemble import GradientBoostingClassifier
 from Path import *
 
 
@@ -21,7 +21,7 @@ def uc_data(start, end):
     reader = csv.reader(f)
     c_all = dict()
     for item_category, c1, c2, c3, c4, count, all_rate, act1, act2, act3, act4, act_count, act_rate in reader:
-        if float(all_rate)<=0.0002:
+        if float(all_rate) <= 0.004:
             continue
         if float(c1) == 0:
             r1 = 0
@@ -64,10 +64,14 @@ def uc_data(start, end):
     reader = csv.reader(f)
     u_all = dict()
     for user_id, c1, c2, c3, c4, count, c_rate in reader:
-        if float(c4) == 0:
-            continue
-        if float(c_rate) <= 0.0005:
-            continue
+        # if float(c_rate) <= 0.0003 and c4>0:
+        #     continue
+        # if float(c1) <= 5 and float(c2) == 0 and float(c3) == 0:
+        #     continue
+        # if float(c_rate) == 1:
+        #     continue
+        # if float(c1) <= 20:
+        #     continue
         if float(c1) == 0:
             r1 = 0
         else:
@@ -94,11 +98,13 @@ def uc_data(start, end):
     reader = csv.reader(f)
     uc_all = dict()
     for user_id, item_category, c1, c2, c3, c4, rate1 in reader:
-        count=float(c1)+float(c2)+float(c3)+float(c4)
+        if c1 <= 1 and c2 <= 1 and c3 <= 0:
+            continue
+        count = float(c1) + float(c2) + float(c3) + float(c4)
         if user_id not in uc_all:
             uc_all[user_id] = dict()
         uc_all[user_id][item_category] = [
-            float(c1), float(c2), float(c3), float(c4), float(rate1),float(count)]
+            float(c1), float(c2), float(c3), float(c4), float(rate1), float(count)]
     uc_list = []
 
     for i in range(start, end):
@@ -106,8 +112,8 @@ def uc_data(start, end):
         reader = csv.reader(f)
         u7 = dict()
         for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
-            if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
-                continue
+            # if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
+            #     continue
             if float(t7b1) == 0:
                 r7b41 = 0
             else:
@@ -184,14 +190,14 @@ def uc_data(start, end):
         c7 = dict()
         print 'c7'
         for item_category, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1, actt7b1, actt7b2, actt7b3, actt7b4, actt7r1, actt3b1, actt3b2, actt3b3, actt3b4, actt3r1, actt1b1, actt1b2, actt1b3, actt1b4, actt1r1 in reader:
-            if float(t7b1) >= 20000 or float(t7r1) <= 0.001:
-                continue
-            if float(t3r1) <= 0.001:
-                continue
-            if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
-                continue
-            if float(t3b2) == 0 and float(t3b3) == 0 and float(t3b4) == 0:
-                continue
+            # if float(t7b1) >= 20000 or float(t7r1) <= 0.001:
+            #     continue
+            # if float(t3r1) <= 0.001:
+            #     continue
+            # if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
+            #     continue
+            # if float(t3b2) == 0 and float(t3b3) == 0 and float(t3b4) == 0:
+            #     continue
             if float(t7b1) == 0:
                 r7b41 = 0
             else:
@@ -270,10 +276,10 @@ def uc_data(start, end):
         uc7 = dict()
         print 'uc7'
         for user_id, item_category, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
-            if float(t7b1) >= 500:
-                continue
-            if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
-                continue
+            # if float(t7b1) >= 500:
+            #     continue
+            # if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
+            #     continue
             if not u_all.has_key(user_id):
                 continue
             if not c_all.has_key(item_category):
@@ -386,9 +392,6 @@ def uc_data(start, end):
     return array(uc_list)
 
 
-from sklearn.ensemble import GradientBoostingClassifier
-
-
 # lr0.32505399568 3.36842105263 39.5862068966
 # 0.45817545905 191 4
 # 0.458294573643 193 4
@@ -444,106 +447,107 @@ import random
 
 if __name__ == '__main__':
     train1 = uc_data(0, 1)
-    print  shape(train1)
+    print shape(train1)
     train1_p = train1[train1[:, -1] == 1]
     train1_n = train1[train1[:, -1] == 0]
     cross_v1 = uc_data(23, 24)
     lp = len(train1_p)
     ln = len(train1_n)
+    train11 = train1
     for num in range(9):
         if float(ln) / lp > 12:
             a = range(0, ln)
-            slice = random.sample(a, lp * 12)
+            slice = random.sample(a, lp * 14)
             train11_n = train1_n[slice]
             train11 = concatenate((train1_p, train11_n))
         print 'train 1 mean:', mean(train11[:, -1] == 1)
         print 'cross 1 mean:', mean(cross_v1[:, -1] == 1)
         find_parameter(train11, cross_v1)
-        print '#######################################################'
-        # lr = LogisticRegression(class_weight={1: 3.41379310345}, C=13.0689655172)
-        # lr.fit(train1[:, :-1], train1[:, -1])
-        # predict = uc_test()
-        # z = lr.predict(predict[:, :-1])
-        # tp = 0.0
-        # fp = 0.0
-        # fn = 0.0
-        # tn = 0.0
-        # for k in range(shape(z)[0]):
-        #     if z[k] == 1 and predict[k, -1] == 1:
-        #         tp += 1
-        #     elif z[k] == 1 and predict[k, -1] == 0:
-        #         fp += 1
-        #     elif z[k] == 0 and predict[k, -1] == 1:
-        #         fn += 1
-        #     else:
-        #         tn += 1
-        # print  tp, fp, fn, tn
-        # precision1 = tp / (tp + fp)
-        # recall1 = tp / (tp + fn)
-        # f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
-        # print 'precision:', precision1
-        # print 'recall:', recall1
-        # print 'F1 score:', f1
-        # ################################################
-        # lr.fit(data[:, :-1], data[:, -1])
-        # z = lr.predict(predict[:, :-1])
-        # tp = 0.0
-        # fp = 0.0
-        # fn = 0.0
-        # tn = 0.0
-        # for k in range(shape(z)[0]):
-        #     if z[k] == 1 and predict[k, -1] == 1:
-        #         tp += 1
-        #     elif z[k] == 1 and predict[k, -1] == 0:
-        #         fp += 1
-        #     elif z[k] == 0 and predict[k, -1] == 1:
-        #         fn += 1
-        #     else:
-        #         tn += 1
-        # print  tp, fp, fn, tn
-        # precision1 = tp / (tp + fp)
-        # recall1 = tp / (tp + fn)
-        # f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
-        # print 'precision:', precision1
-        # print 'recall:', recall1
-        # print 'F1 score:', f1
-        # print 'time cost:', time.time() - start
-        # #####################################
-        # predict, uc_id = uc_predict()
-        # lr.fit(all_data[:, :-1], all_data[:, -1])
-        # z = lr.predict(predict[:, :-1])
-        # #####################################
-        # db = MySQLdb.connect(
-        #     host=Path.host,
-        #     port=3306,
-        #     user=Path.user,
-        #     passwd="1234",
-        #     db="recommend"
-        # )
-        # sql = "DELETE FROM tb_uc_feature_predict"
-        # try:
-        #     cursor = db.cursor()
-        #     # 执行SQL语句
-        #     cursor.execute(sql)
-        #     # 提交修改
-        #     db.commit()
-        # except:
-        #     # 发生错误时回滚
-        #     print '发生错误时回滚'
-        #     db.rollback()
-        # sql = "insert into tb_uc_feature_predict VALUES (%s)"
-        # values = []
-        # for i in range(shape(z)[0]):
-        #     if z[i] == 1:
-        #         print uc_id[i]
-        #         values.append((str(uc_id[i]),))
-        # try:
-        #     cursor = db.cursor()
-        #     cursor.executemany(sql, values)
-        #     db.commit()
-        # except:
-        #     print "insert error"
-        # db.close()
-        # print 'predict mean', mean(z == 1)
-        # print shape(z)[0]
-        # winsound.Beep(300, 500)
+    print '#######################################################'
+    # lr = LogisticRegression(class_weight={1: 3.41379310345}, C=13.0689655172)
+    # lr.fit(train1[:, :-1], train1[:, -1])
+    # predict = uc_test()
+    # z = lr.predict(predict[:, :-1])
+    # tp = 0.0
+    # fp = 0.0
+    # fn = 0.0
+    # tn = 0.0
+    # for k in range(shape(z)[0]):
+    #     if z[k] == 1 and predict[k, -1] == 1:
+    #         tp += 1
+    #     elif z[k] == 1 and predict[k, -1] == 0:
+    #         fp += 1
+    #     elif z[k] == 0 and predict[k, -1] == 1:
+    #         fn += 1
+    #     else:
+    #         tn += 1
+    # print  tp, fp, fn, tn
+    # precision1 = tp / (tp + fp)
+    # recall1 = tp / (tp + fn)
+    # f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
+    # print 'precision:', precision1
+    # print 'recall:', recall1
+    # print 'F1 score:', f1
+    # ################################################
+    # lr.fit(data[:, :-1], data[:, -1])
+    # z = lr.predict(predict[:, :-1])
+    # tp = 0.0
+    # fp = 0.0
+    # fn = 0.0
+    # tn = 0.0
+    # for k in range(shape(z)[0]):
+    #     if z[k] == 1 and predict[k, -1] == 1:
+    #         tp += 1
+    #     elif z[k] == 1 and predict[k, -1] == 0:
+    #         fp += 1
+    #     elif z[k] == 0 and predict[k, -1] == 1:
+    #         fn += 1
+    #     else:
+    #         tn += 1
+    # print  tp, fp, fn, tn
+    # precision1 = tp / (tp + fp)
+    # recall1 = tp / (tp + fn)
+    # f1 = (precision1 * recall1) * 2 / (precision1 + recall1)
+    # print 'precision:', precision1
+    # print 'recall:', recall1
+    # print 'F1 score:', f1
+    # print 'time cost:', time.time() - start
+    # #####################################
+    # predict, uc_id = uc_predict()
+    # lr.fit(all_data[:, :-1], all_data[:, -1])
+    # z = lr.predict(predict[:, :-1])
+    # #####################################
+    # db = MySQLdb.connect(
+    #     host=Path.host,
+    #     port=3306,
+    #     user=Path.user,
+    #     passwd="1234",
+    #     db="recommend"
+    # )
+    # sql = "DELETE FROM tb_uc_feature_predict"
+    # try:
+    #     cursor = db.cursor()
+    #     # 执行SQL语句
+    #     cursor.execute(sql)
+    #     # 提交修改
+    #     db.commit()
+    # except:
+    #     # 发生错误时回滚
+    #     print '发生错误时回滚'
+    #     db.rollback()
+    # sql = "insert into tb_uc_feature_predict VALUES (%s)"
+    # values = []
+    # for i in range(shape(z)[0]):
+    #     if z[i] == 1:
+    #         print uc_id[i]
+    #         values.append((str(uc_id[i]),))
+    # try:
+    #     cursor = db.cursor()
+    #     cursor.executemany(sql, values)
+    #     db.commit()
+    # except:
+    #     print "insert error"
+    # db.close()
+    # print 'predict mean', mean(z == 1)
+    # print shape(z)[0]
+    # winsound.Beep(300, 500)
