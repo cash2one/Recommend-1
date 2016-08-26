@@ -36,7 +36,7 @@ LOAD data INFILE 'E:/PycharmProjects/Recommend/tianchi_fresh_comp_train_user.csv
 LOAD data local INFILE 'D:/PycharmProjects/Recommend/data/tianchi_mobile_recommend_train_item.csv' INTO TABLE tb_tianchi_item fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
 truncate table tb_result; 
 
-LOAD data INFILE 'D:/3064--120305341.csv' INTO TABLE tb_result fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
+LOAD data INFILE 'D:/6648-3064-120305341.csv' INTO TABLE tb_result fields TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
 
 
 select * from tb_result 
