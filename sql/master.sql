@@ -15,21 +15,27 @@ select *from tb_c_feature as a join tmp as b on a.item_category+'\r'=b.item_cate
 
 select user_id ,count(user_id)as c from tb_result group by user_id having count(user_id)>1 order by c desc;
 
-select * from tb_c_feature_test where item_category+'\r' in (select item_category from tmp as a join tb_result as b on a.item_id+'\r' = b.item_id where  b.user_id='135567210');
+select * from tb_c_feature_test where item_category+'\r' in (select item_category from tmp as a join tb_result as b on a.item_id+'\r' = b.item_id where  b.user_id='115537643');
 
 
-truncate table tmp;
+select count(*) from  tmp;
 
-insert into tmp select a.item_id,a.item_category from tb_tianchi_item as a join tb_result as b  on  a.item_id = b.item_id;
+insert into tmp select a.item_id,a.item_category from tb_tianchi_item as a join tb_result as b  on  a.item_id+'\r' = b.item_id;
 SET SQL_SAFE_UPDATES = 0;
+SET SQL_MODE = '';
+
+select * from tb_uc_feature_test as a join tmp as s on a.item_category+'\r'=s.item_category ;
+select * from tb_uc_feature_test where item_category='4245' order by t7b1 desc;
+
+select * from tmp as s join tb_result as a on a.item_id=s.item_id+'\r'; 
 use recommend;
 
 select count(*) from tb_result ;
 select * from tb_i_feature where item_id in (select item_id from tmp  where item_category='11236\r');
 
-select *from tb_test  where user_id='35335282' and item_category='6648';
+select *from tb_test  where item_category='4245';
 
-select * from tb_result where item_id+'\r'  in (select item_id from tmp  where item_category='12732\r');
+select * from tb_result where item_id+'\r'  in (select item_id from tmp  where item_category='4245\r');
 
-delete from tb_result where item_id+'\r'  in (select item_id from tmp  where item_category='12732\r' )and user_id='135567210';
+delete from tb_result where item_id+'\r'  in (select item_id from tmp  where item_category='4245\r' );
 -- geo!!!!!!!!!!!!!!

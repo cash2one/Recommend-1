@@ -45,4 +45,4 @@ and
 item_id+'\r' not in (select item_id from tmp1 )
 INTO OUTFILE 'D:/3064-120305341.csv' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
 
-select * from tb_result INTO OUTFILE 'D:/6648-3064-120305341.csv' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
+select * from tb_result INTO OUTFILE 'D:/4245-11497.csv' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
