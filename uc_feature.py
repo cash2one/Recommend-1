@@ -21,7 +21,13 @@ def uc_data(start, end):
     reader = csv.reader(f)
     c_all = dict()
     for item_category, c1, c2, c3, c4, count, all_rate, act1, act2, act3, act4, act_count, act_rate in reader:
-        if float(all_rate) <= 0.004:
+        if float(all_rate) <= 0.002:
+            continue
+        if float(c1) == 0 :
+            continue
+        if float(c2) == 0 :
+            continue
+        if float(c3) == 0 :
             continue
         if float(c1) == 0:
             r1 = 0
@@ -64,14 +70,12 @@ def uc_data(start, end):
     reader = csv.reader(f)
     u_all = dict()
     for user_id, c1, c2, c3, c4, count, c_rate in reader:
-        # if float(c_rate) <= 0.0003 and c4>0:
-        #     continue
+        if float(c_rate) <= 0.01 and float(c1)>=5000 :
+            continue
         # if float(c1) <= 5 and float(c2) == 0 and float(c3) == 0:
         #     continue
-        # if float(c_rate) == 1:
-        #     continue
-        # if float(c1) <= 20:
-        #     continue
+        if float(c1) >= 20000:
+            continue
         if float(c1) == 0:
             r1 = 0
         else:
@@ -91,7 +95,6 @@ def uc_data(start, end):
             float(r1), float(r2), float(r3),
             float(c_rate)
         ]
-
     ###################uc_feature##########################
     print 'uc_feature'
     f = file(Path.uc_feature, 'r')
@@ -99,6 +102,8 @@ def uc_data(start, end):
     uc_all = dict()
     for user_id, item_category, c1, c2, c3, c4, rate1 in reader:
         if c1 <= 1 and c2 <= 1 and c3 <= 0:
+            continue
+        if rate1<=0.001:
             continue
         count = float(c1) + float(c2) + float(c3) + float(c4)
         if user_id not in uc_all:
@@ -112,8 +117,10 @@ def uc_data(start, end):
         reader = csv.reader(f)
         u7 = dict()
         for user_id, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
-            # if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
-            #     continue
+            if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
+                continue
+            if float(t3b2) == 0 and float(t3b3) == 0 and float(t3b4) == 0 :
+                continue
             if float(t7b1) == 0:
                 r7b41 = 0
             else:
@@ -190,14 +197,14 @@ def uc_data(start, end):
         c7 = dict()
         print 'c7'
         for item_category, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1, actt7b1, actt7b2, actt7b3, actt7b4, actt7r1, actt3b1, actt3b2, actt3b3, actt3b4, actt3r1, actt1b1, actt1b2, actt1b3, actt1b4, actt1r1 in reader:
-            # if float(t7b1) >= 20000 or float(t7r1) <= 0.001:
-            #     continue
+            if float(t7b1) >= 20000 or float(t7r1) <= 0.001:
+                continue
             # if float(t3r1) <= 0.001:
             #     continue
-            # if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
-            #     continue
-            # if float(t3b2) == 0 and float(t3b3) == 0 and float(t3b4) == 0:
-            #     continue
+            if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
+                continue
+            if float(t3b2) == 0 and float(t3b3) == 0 and float(t3b4) == 0:
+                continue
             if float(t7b1) == 0:
                 r7b41 = 0
             else:
@@ -257,9 +264,9 @@ def uc_data(start, end):
                 r12c = float(t1b2) / t1count
                 r13c = float(t1b3) / t1count
             c7[item_category] = [
-                # float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
-                # float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
-                # float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
+                float(t7b1), float(t7b2), float(t7b3), float(t7b4), float(t7r1),
+                float(t3b1), float(t3b2), float(t3b3), float(t3b4), float(t3r1),
+                float(t1b1), float(t1b2), float(t1b3), float(t1b4), float(t1r1),
                 float(r7b41), float(r7b42), float(r7b43),
                 float(r3b41), float(r3b42), float(r3b43),
                 float(r1b41), float(r1b42), float(r1b43),
@@ -276,10 +283,10 @@ def uc_data(start, end):
         uc7 = dict()
         print 'uc7'
         for user_id, item_category, t7g1, t3g1, t1g1, t7b1, t7b2, t7b3, t7b4, t7r1, t3b1, t3b2, t3b3, t3b4, t3r1, t1b1, t1b2, t1b3, t1b4, t1r1 in reader:
-            # if float(t7b1) >= 500:
-            #     continue
-            # if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
-            #     continue
+            if float(t7b1) >= 500:
+                continue
+            if float(t7b2) == 0 and float(t7b3) == 0 and float(t7b4) == 0:
+                continue
             if not u_all.has_key(user_id):
                 continue
             if not c_all.has_key(item_category):
@@ -391,7 +398,6 @@ def uc_data(start, end):
 
     return array(uc_list)
 
-
 # lr0.32505399568 3.36842105263 39.5862068966
 # 0.45817545905 191 4
 # 0.458294573643 193 4
@@ -446,7 +452,7 @@ def find_parameter(train, cross_v):
 import random
 
 if __name__ == '__main__':
-    train1 = uc_data(0, 1)
+    train1 = uc_data(0, 5)
     print shape(train1)
     train1_p = train1[train1[:, -1] == 1]
     train1_n = train1[train1[:, -1] == 0]

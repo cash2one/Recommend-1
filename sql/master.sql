@@ -15,7 +15,7 @@ select *from tb_c_feature as a join tmp as b on a.item_category+'\r'=b.item_cate
 
 select user_id ,count(user_id)as c from tb_result group by user_id having count(user_id)>1 order by c desc;
 
-select * from tb_c_feature_test where item_category+'\r' in (select item_category from tmp as a join tb_result as b on a.item_id+'\r' = b.item_id where  b.user_id='115537643');
+select * from tb_uc_feature_test where item_category+'\r' in (select item_category from tmp as a join tb_result as b on a.item_id+'\r' = b.item_id where  b.user_id='39329021') and user_id='39329021';
 
 
 select count(*) from  tmp;
@@ -33,9 +33,11 @@ use recommend;
 select count(*) from tb_result ;
 select * from tb_i_feature where item_id in (select item_id from tmp  where item_category='11236\r');
 
-select *from tb_test  where item_category='4245';
+select *from tb_test  where item_category='9017';
 
-select * from tb_result where item_id+'\r'  in (select item_id from tmp  where item_category='4245\r');
+select * from tb_i_feature_test  as s join tb_result as a on a.item_id=s.item_id+'\r';
 
-delete from tb_result where item_id+'\r'  in (select item_id from tmp  where item_category='4245\r' );
+delete from tb_result where item_id+'\r'  in (select item_id from tmp  where item_category+'\r' in ('887'))and user_id ='39329021';
+
+delete from tb_result where item_category in ('10412','11497','3660','8792') and ;
 -- geo!!!!!!!!!!!!!!
