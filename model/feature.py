@@ -15,6 +15,7 @@ def fillinf(x):
 """
 1.前十天,五天,三天,一天的购买量 输入为十天的DF（U I B CU CI T） 输出为U  Fx Fx为x天的购买量 
 """
+
 def buy_sum10(df,i):
     df_buy_sum10 = df[["user_id","behavior_type","time"]]
     df_2 = df_buy_sum10[df_buy_sum10.behavior_type==4][["user_id","time"]]
